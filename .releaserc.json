@@ -1,5 +1,13 @@
 {
-  "branches": ["main"],
+  "branches": [
+    "main",
+    {
+      "name": "preview",
+      "prerelease": true,
+      "channel": "beta"
+    }
+  ],
+  "repositoryUrl": "https://github.com/erbilnas/baklavue",
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
