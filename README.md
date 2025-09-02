@@ -1,4 +1,4 @@
-# Baklavue
+# BaklaVue
 
 A Vue 3 wrapper library for [Trendyol Baklava](https://github.com/Trendyol/baklava) design system components, providing a seamless integration between Vue 3 and Baklava's web components.
 
