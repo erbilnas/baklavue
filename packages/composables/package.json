@@ -1,0 +1,16 @@
+{
+  "name": "@baklavue/composables",
+  "version": "0.0.0-development",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "release": "semantic-release",
+    "release:dry-run": "semantic-release --dry-run"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

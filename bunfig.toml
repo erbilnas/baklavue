@@ -1,0 +1,18 @@
+# Workspace settings
+link-workspace-packages = true
+prefer-workspace-packages = true
+recursive-install = true
+
+# Package management
+cache = true
+frozen-lockfile = true
+
+# Development settings
+development = true
+install-peer-dependencies = true
+
+# Security
+trust-registry = "https://registry.npmjs.org"
+
+# Performance
+parallel = true
