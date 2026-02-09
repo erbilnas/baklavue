@@ -1,6 +1,6 @@
 {
   "name": "@baklavue/composables",
-  "version": "0.0.0",
+  "version": "1.0.0-preview.1",
   "description": "Vue 3 composables for Trendyol Baklava Design System",
   "author": "erbilnas",
   "license": "MIT",
