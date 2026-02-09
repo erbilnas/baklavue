@@ -15,8 +15,7 @@
     [
       "@semantic-release/npm",
       {
-        "npmPublish": true,
-        "tarballDir": false
+        "npmPublish": true
       }
     ],
     "@semantic-release/github",
