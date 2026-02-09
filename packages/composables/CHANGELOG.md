@@ -1,3 +1,10 @@
+# [1.0.0-preview.2](https://github.com/erbilnas/baklavue/compare/v1.0.0-preview.1...v1.0.0-preview.2) (2026-02-09)
+
+
+### Features
+
+* add accordion, alert and badge components ([b939941](https://github.com/erbilnas/baklavue/commit/b939941e469a29b10ddcc6196f97700951672f97))
+
 # 1.0.0-preview.1 (2026-02-09)
 
 
