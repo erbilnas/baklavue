@@ -1,3 +1,13 @@
+/**
+ * Component Exports
+ * 
+ * IMPORTANT: All components MUST be exported with the "Bv-" prefix.
+ * Example: BvButton, BvInput, BvBadge, etc.
+ * 
+ * This convention ensures consistency and prevents naming conflicts.
+ * Each component's index.ts file should export: export { default as Bv[ComponentName] } from "./[ComponentName].vue";
+ */
+
 export * from "./accordion";
 export * from "./alert";
 export * from "./badge";

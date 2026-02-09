@@ -1,0 +1,37 @@
+/* Custom styles for BaklaVue documentation */
+
+:root {
+  --vp-c-brand: #ff6000;
+  --vp-c-brand-light: #ff8533;
+  --vp-c-brand-lighter: #ffaa66;
+  --vp-c-brand-dark: #cc4d00;
+  --vp-c-brand-darker: #993a00;
+}
+
+/* Ensure Baklava components render correctly */
+bl-button,
+bl-input,
+bl-checkbox,
+bl-radio,
+bl-switch,
+bl-select,
+bl-textarea,
+bl-alert,
+bl-badge,
+bl-tag,
+bl-dialog,
+bl-drawer,
+bl-dropdown,
+bl-tooltip,
+bl-notification,
+bl-spinner,
+bl-icon,
+bl-link,
+bl-pagination,
+bl-split-button,
+bl-stepper,
+bl-tab,
+bl-table,
+bl-accordion {
+  display: block;
+}

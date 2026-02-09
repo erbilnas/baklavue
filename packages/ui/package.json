@@ -35,7 +35,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@trendyol/baklava": "^3.3.1",
+    "@trendyol/baklava": "^3.4.2",
     "@trendyol/baklava-icons": "^1.1.0",
     "vue": "^3.5.21"
   }

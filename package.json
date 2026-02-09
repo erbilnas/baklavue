@@ -6,7 +6,10 @@
   "scripts": {
     "release": "semantic-release",
     "release:dry-run": "semantic-release --dry-run",
-    "commit": "./scripts/commit.sh"
+    "commit": "./scripts/commit.sh",
+    "docs:dev": "cd docs && bun run dev",
+    "docs:build": "cd docs && bun run build",
+    "docs:preview": "cd docs && bun run preview"
   },
   "dependencies": {
     "@baklavue/ui": "workspace:*",
@@ -27,6 +30,7 @@
     "typescript": "^5.9.2"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "docs"
   ]
 }
