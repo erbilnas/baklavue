@@ -13,11 +13,10 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
     [
-      "@semantic-release/exec",
+      "@semantic-release/npm",
       {
-        "verifyConditionsCmd": "npm whoami --registry https://registry.npmjs.org/",
-        "prepareCmd": "npm pkg set version=${nextRelease.version}",
-        "publishCmd": "npm publish --access public --tag ${nextRelease.channel || 'latest'}"
+        "npmPublish": true,
+        "tarballDir": false
       }
     ],
     "@semantic-release/github",
