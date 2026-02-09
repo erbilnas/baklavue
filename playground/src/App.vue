@@ -4,8 +4,27 @@ import AccordionComponent from './components/AccordionComponent.vue'
 import AlertComponent from './components/AlertComponent.vue'
 import BadgeComponent from './components/BadgeComponent.vue'
 import ButtonComponent from './components/ButtonComponent.vue'
+import CheckboxComponent from './components/CheckboxComponent.vue'
+import DatepickerComponent from './components/DatepickerComponent.vue'
+import DialogComponent from './components/DialogComponent.vue'
+import DrawerComponent from './components/DrawerComponent.vue'
+import DropdownComponent from './components/DropdownComponent.vue'
+import IconComponent from './components/IconComponent.vue'
 import InputComponent from './components/InputComponent.vue'
+import LinkComponent from './components/LinkComponent.vue'
 import NotificationComponent from './components/NotificationComponent.vue'
+import PaginationComponent from './components/PaginationComponent.vue'
+import RadioComponent from './components/RadioComponent.vue'
+import SelectComponent from './components/SelectComponent.vue'
+import SpinnerComponent from './components/SpinnerComponent.vue'
+import SplitButtonComponent from './components/SplitButtonComponent.vue'
+import StepperComponent from './components/StepperComponent.vue'
+import SwitchComponent from './components/SwitchComponent.vue'
+import TabComponent from './components/TabComponent.vue'
+import TableComponent from './components/TableComponent.vue'
+import TagComponent from './components/TagComponent.vue'
+import TextareaComponent from './components/TextareaComponent.vue'
+import TooltipComponent from './components/TooltipComponent.vue'
 
 const events = ref<string[]>([])
 
@@ -27,9 +46,47 @@ const logEvent = (message: string) => {
 
       <ButtonComponent @log-event="logEvent" />
 
+      <CheckboxComponent @log-event="logEvent" />
+
+      <DatepickerComponent @log-event="logEvent" />
+
+      <DialogComponent @log-event="logEvent" />
+
+      <DrawerComponent @log-event="logEvent" />
+
+      <DropdownComponent @log-event="logEvent" />
+
+      <IconComponent @log-event="logEvent" />
+
       <InputComponent @log-event="logEvent" />
 
+      <LinkComponent @log-event="logEvent" />
+
       <NotificationComponent />
+
+      <PaginationComponent @log-event="logEvent" />
+
+      <RadioComponent @log-event="logEvent" />
+
+      <SelectComponent @log-event="logEvent" />
+
+      <SpinnerComponent @log-event="logEvent" />
+
+      <SplitButtonComponent @log-event="logEvent" />
+
+      <StepperComponent @log-event="logEvent" />
+
+      <SwitchComponent @log-event="logEvent" />
+
+      <TabComponent @log-event="logEvent" />
+
+      <TableComponent @log-event="logEvent" />
+
+      <TagComponent @log-event="logEvent" />
+
+      <TextareaComponent @log-event="logEvent" />
+
+      <TooltipComponent @log-event="logEvent" />
     </div>
 
     <aside class="events-sidebar">
