@@ -43,6 +43,9 @@ jobs:
           cp package.json package.json.bak
           sed -i 's/"workspace:\*"/"*"/g' package.json
 
+      - name: Pin npm version for compatibility
+        run: npm install -g npm@10.8.3
+
       - name: Release UI Package
         working-directory: packages/ui
         env:
@@ -85,6 +88,9 @@ jobs:
         run: |
           cp package.json package.json.bak
           sed -i 's/"workspace:\*"/"*"/g' package.json
+
+      - name: Pin npm version for compatibility
+        run: npm install -g npm@10.8.3
 
       - name: Release Composables Package
         working-directory: packages/composables
