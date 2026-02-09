@@ -33,7 +33,7 @@ If using GitHub Actions for automated releases, set these secrets in your reposi
 1. Go to your GitHub repository → Settings → Secrets and variables → Actions
 2. Add the following secrets:
    - `NPM_TOKEN`: Your npm authentication token (create at https://www.npmjs.com/settings/YOUR_USERNAME/tokens)
-   - `GH_TOKEN`: GitHub Personal Access Token with `repo` scope
+   - `GITHUB_TOKEN`: Automatically provided by GitHub Actions (no setup needed) - has write permissions for releases and tags
 
 ## Deployment Methods
 
@@ -181,7 +181,7 @@ npm profile get
 ### Semantic Release not publishing
 
 1. Check commit messages follow conventional format
-2. Verify `NPM_TOKEN` and `GH_TOKEN` are set in GitHub secrets
+2. Verify `NPM_TOKEN` is set in GitHub secrets (GITHUB_TOKEN is automatically provided)
 3. Check GitHub Actions logs for errors
 4. Ensure you're pushing to `main` branch
 
@@ -215,7 +215,7 @@ npm install @baklavue/ui @baklavue/composables
 1. **First-time setup**:
    - [ ] Create npm account
    - [ ] Log in locally (`npm login`)
-   - [ ] Set up GitHub secrets (`NPM_TOKEN`, `GH_TOKEN`)
+   - [ ] Set up GitHub secret (`NPM_TOKEN`) - GITHUB_TOKEN is automatically provided
    - [ ] Add missing package.json fields (description, keywords, license, etc.)
 
 2. **Before first release**:

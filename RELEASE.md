@@ -118,7 +118,7 @@ If releases aren't working:
 1. Check that your commit messages follow the conventional format
 2. Ensure you're pushing to the `main` branch
 3. Check GitHub Actions logs for errors
-4. Verify that `GITHUB_TOKEN` and `NPM_TOKEN` secrets are set
+4. Verify that `NPM_TOKEN` secret is set (GITHUB_TOKEN is automatically provided by GitHub Actions)
 5. Ensure Node.js version 20.8.1+ is available (GitHub Actions uses Node.js 20)
 
 ## Useful Commands
