@@ -34,19 +34,22 @@ onMounted(() => {
     :value="props.modelValue"
     @bl-change="
       emit('change', $event);
-      emit('update:modelValue', ($event.target as HTMLSelectElement)?.value || null);
+      emit(
+        'update:modelValue',
+        ($event.target as HTMLSelectElement)?.value || null,
+      );
     "
     @bl-input="emit('input', $event)"
   >
     <template v-if="options">
-      <bl-option
+      <bl-select-option
         v-for="option in options"
         :key="option.value"
         :value="option.value"
         :disabled="option.disabled"
       >
         {{ option.label }}
-      </bl-option>
+      </bl-select-option>
     </template>
     <slot />
   </bl-select>

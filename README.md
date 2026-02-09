@@ -9,7 +9,7 @@ A Vue 3 wrapper library for [Trendyol Baklava](https://github.com/Trendyol/bakla
 - **Type Safety**: Full TypeScript support with proper type definitions
 - **Composable Utilities**: Vue composables for enhanced functionality
 - **Modern Build**: Uses Bun for fast package management and building
-- **Playground**: Interactive demo application to test components
+- **Documentation**: Interactive documentation site with component examples and playground
 
 ## 📦 Project Structure
 
@@ -26,10 +26,10 @@ baklavue/
 │   └── composables/          # Vue composables
 │       ├── notification.ts    # Notification management composable
 │       └── package.json
-├── playground/                # Demo application
+├── docs/                      # Documentation site
 │   ├── src/
-│   │   ├── sections/         # Component examples
-│   │   └── App.vue           # Main playground app
+│   │   ├── components/       # Component examples
+│   │   └── App.vue           # Main docs app
 │   └── package.json
 └── package.json               # Root workspace configuration
 ```
@@ -141,12 +141,12 @@ bun install
 ### Development
 
 ```bash
-# Start the playground application
-cd playground
+# Start the documentation site
+cd docs
 bun run dev
 ```
 
-The playground will be available at `http://localhost:5173` with interactive examples of all components.
+The documentation site will be available at `http://localhost:5173` with interactive examples of all components and a playground for testing.
 
 ### Building
 
@@ -255,7 +255,7 @@ This project uses:
 - **Bun** for package management and building
 - **Vue 3** with Composition API
 - **TypeScript** for type safety
-- **Vite** for the playground development server
+- **Vite** for the documentation development server
 - **Workspaces** for monorepo management
 
 ### Versioning and Releases
@@ -309,7 +309,7 @@ For detailed release information, see [RELEASE.md](./RELEASE.md).
 1. Create a new component in `packages/ui/src/`
 2. Export it from `packages/ui/src/index.ts`
 3. Add types to the component's `.types.ts` file
-4. Update the playground with examples
+4. Update the documentation with examples
 5. Ensure Baklava resources are loaded via `loadBaklavaResources()`
 
 ### Component Guidelines
