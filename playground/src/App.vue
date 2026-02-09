@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import AccordionComponent from './components/AccordionComponent.vue'
+import AlertComponent from './components/AlertComponent.vue'
+import BadgeComponent from './components/BadgeComponent.vue'
 import ButtonComponent from './components/ButtonComponent.vue'
 import InputComponent from './components/InputComponent.vue'
 import NotificationComponent from './components/NotificationComponent.vue'
@@ -16,6 +19,12 @@ const logEvent = (message: string) => {
 <template>
   <main class="playground">
     <div class="content">
+      <AccordionComponent @log-event="logEvent" />
+
+      <AlertComponent @log-event="logEvent" />
+
+      <BadgeComponent @log-event="logEvent" />
+
       <ButtonComponent @log-event="logEvent" />
 
       <InputComponent @log-event="logEvent" />
