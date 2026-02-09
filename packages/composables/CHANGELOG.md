@@ -1,3 +1,10 @@
+# [1.0.0-preview.3](https://github.com/erbilnas/baklavue/compare/v1.0.0-preview.2...v1.0.0-preview.3) (2026-02-09)
+
+
+### Features
+
+* add new components ([22a1506](https://github.com/erbilnas/baklavue/commit/22a150681ad8587c92ad5546fbc256d9275b6d00))
+
 # [1.0.0-preview.2](https://github.com/erbilnas/baklavue/compare/v1.0.0-preview.1...v1.0.0-preview.2) (2026-02-09)
 
 
