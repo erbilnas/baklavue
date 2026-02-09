@@ -21,6 +21,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org'
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
@@ -45,6 +51,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
