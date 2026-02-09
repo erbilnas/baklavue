@@ -1,3 +1,10 @@
+# [1.0.0-preview.5](https://github.com/erbilnas/baklavue/compare/v1.0.0-preview.4...v1.0.0-preview.5) (2026-02-09)
+
+
+### Features
+
+* add github pages support ([c76dffa](https://github.com/erbilnas/baklavue/commit/c76dffa8eb32b8293aca7c7e1f5d2ee4139802b0))
+
 # [1.0.0-preview.3](https://github.com/erbilnas/baklavue/compare/v1.0.0-preview.2...v1.0.0-preview.3) (2026-02-09)
 
 
