@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
+          always-auth: true
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
@@ -42,6 +45,12 @@ jobs:
         run: |
           cp package.json package.json.bak
           sed -i 's/"workspace:\*"/"*"/g' package.json
+
+      - name: Configure npm authentication
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          npm config set registry https://registry.npmjs.org/
+          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
 
       - name: Release UI Package
         working-directory: packages/ui
@@ -69,6 +78,9 @@ jobs:
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
+          always-auth: true
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
@@ -85,6 +97,12 @@ jobs:
         run: |
           cp package.json package.json.bak
           sed -i 's/"workspace:\*"/"*"/g' package.json
+
+      - name: Configure npm authentication
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          npm config set registry https://registry.npmjs.org/
+          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
 
       - name: Release Composables Package
         working-directory: packages/composables
