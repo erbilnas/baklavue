@@ -8,58 +8,29 @@ Use the Accordion component without the `multiple` prop to create a single colla
 
 ### Basic Single Accordion
 
+<div class="component-demo">
+
+<BvAccordion caption="What is BaklaVue?">
+  <p style="color:black">
+    BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava
+    Design System. It provides Vue-friendly APIs with full TypeScript support.
+  </p>
+</BvAccordion>
+
+</div>
+
 ```vue
 <template>
-  <Accordion caption="What is BaklaVue?">
+  <BvAccordion caption="What is BaklaVue?">
     <p>
       BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava
       Design System. It provides Vue-friendly APIs with full TypeScript support.
     </p>
-  </Accordion>
+  </BvAccordion>
 </template>
 
 <script setup>
-import { Accordion } from "@baklavue/ui";
-</script>
-```
-
-<Accordion caption="What is BaklaVue?">
-  <p>
-    BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava
-    Design System. It provides Vue-friendly APIs with full TypeScript support.
-  </p>
-</Accordion>
-
-### Controlled Single Accordion
-
-Control the open/closed state programmatically using the `open` prop and `@toggle` event.
-
-```vue
-<template>
-  <div>
-    <Button @click="toggleAccordion">
-      {{ isOpen ? "Close" : "Open" }} Accordion
-    </Button>
-    <Accordion
-      :open="isOpen"
-      @toggle="isOpen = $event"
-      caption="Controlled Accordion"
-    >
-      <p>This accordion's state is controlled by the parent component.</p>
-      <p>Current state: {{ isOpen ? "Open" : "Closed" }}</p>
-    </Accordion>
-  </div>
-</template>
-
-<script setup>
-import { ref } from "vue";
-import { Accordion, Button } from "@baklavue/ui";
-
-const isOpen = ref(false);
-
-const toggleAccordion = () => {
-  isOpen.value = !isOpen.value;
-};
+import { BvAccordion } from "@baklavue/ui";
 </script>
 ```
 
@@ -67,59 +38,80 @@ const toggleAccordion = () => {
 
 Add an icon to the accordion header using the `icon` prop.
 
+<div class="component-demo">
+
+<BvAccordion caption="Settings" icon="settings">
+  <p style="color:black">Configure your application settings here.</p>
+</BvAccordion>
+
+</div>
+
 ```vue
 <template>
-  <Accordion caption="Settings" icon="settings">
+  <BvAccordion caption="Settings" icon="settings">
     <p>Configure your application settings here.</p>
-  </Accordion>
+  </BvAccordion>
 </template>
 
 <script setup>
-import { Accordion } from "@baklavue/ui";
+import { BvAccordion } from "@baklavue/ui";
 </script>
 ```
-
-<Accordion caption="Settings" icon="settings">
-  <p>Configure your application settings here.</p>
-</Accordion>
 
 ### Disabled State
 
 Disable an accordion to prevent user interaction.
 
+<div class="component-demo">
+
+<BvAccordion caption="Disabled Accordion" :disabled="true">
+  <p>This content cannot be accessed.</p>
+</BvAccordion>
+
+</div>
+
 ```vue
 <template>
-  <Accordion caption="Disabled Accordion" :disabled="true">
-    <p>This content cannot be accessed.</p>
-  </Accordion>
+  <BvAccordion caption="Disabled Accordion" :disabled="true" />
 </template>
 
 <script setup>
-import { Accordion } from "@baklavue/ui";
+import { BvAccordion } from "@baklavue/ui";
 </script>
 ```
 
-<Accordion caption="Disabled Accordion" :disabled="true">
-  <p>This content cannot be accessed.</p>
-</Accordion>
-
 ## Accordion Group
 
-Use the Accordion component with the `multiple` prop to create a group of accordions. When `multiple` is `false` (default), only one accordion can be open at a time. When `multiple` is `true`, multiple accordions can be open simultaneously.
+Use the Accordion component with the `multiple` and `items` props to create a group of accordions. When `multiple` is `false` (default), only one accordion can be open at a time. When `multiple` is `true`, multiple accordions can be open simultaneously. Content for each item is provided via the `#item` scoped slot.
 
-### Using Items Prop (Recommended)
+### Basic Items Example
 
-The easiest way to create an accordion group is by using the `items` prop. This approach is ideal when you have data-driven accordions.
+<div class="component-demo">
 
-#### Basic Items Example
+<BvAccordion :multiple="false" :items="[
+{ caption: 'What is BaklaVue?', content: 'BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.' },
+{ caption: 'How do I install BaklaVue?', content: 'Install BaklaVue using your preferred package manager: bun add @baklavue/ui @baklavue/composables' },
+{ caption: 'Is BaklaVue free to use?', content: 'Yes, BaklaVue is open source and free to use in your projects.' },
+{ caption: 'Does BaklaVue support TypeScript?', content: 'Yes, BaklaVue is built with TypeScript and provides comprehensive type definitions for all components, props, events, and composables.' }
+]">
+  <template #item="{ item }">
+    <p style="color: black">{{ item.content }}</p>
+  </template>
+</BvAccordion>
+
+</div>
 
 ```vue
 <template>
-  <Accordion :multiple="false" :items="faqItems" />
+  <BvAccordion :multiple="false" :items="faqItems">
+    <template #item="{ item }">
+      <p>{{ item.content }}</p>
+    </template>
+  </BvAccordion>
 </template>
 
 <script setup>
-import { Accordion } from "@baklavue/ui";
+import { BvAccordion } from "@baklavue/ui";
 
 const faqItems = [
   {
@@ -145,15 +137,33 @@ const faqItems = [
 </script>
 ```
 
-#### Multiple Open with Items
+### Multiple Open with Items
+
+<div class="component-demo">
+
+<BvAccordion :multiple="true" :items="[
+  { caption: 'Getting Started', content: 'Learn the basics of BaklaVue and how to set up your project.', open: true },
+  { caption: 'Components', content: 'Explore all available components in the BaklaVue library.' },
+  { caption: 'Composables', content: 'Discover powerful composables for common functionality.' }
+]">
+  <template #item="{ item }">
+    <p style="color: black">{{ item.content }}</p>
+  </template>
+</BvAccordion>
+
+</div>
 
 ```vue
 <template>
-  <Accordion :multiple="true" :items="sections" />
+  <BvAccordion :multiple="true" :items="sections">
+    <template #item="{ item }">
+      <p>{{ item.content }}</p>
+    </template>
+  </BvAccordion>
 </template>
 
 <script setup>
-import { Accordion } from "@baklavue/ui";
+import { BvAccordion } from "@baklavue/ui";
 
 const sections = [
   {
@@ -173,15 +183,33 @@ const sections = [
 </script>
 ```
 
-#### Items with Icons
+### Items with Icons
+
+<div class="component-demo">
+
+<BvAccordion :multiple="false" :items="[
+  { caption: 'Dashboard', icon: 'dashboard', content: 'View your dashboard with key metrics and insights.' },
+  { caption: 'Settings', icon: 'settings', content: 'Configure your application settings and preferences.' },
+  { caption: 'Profile', icon: 'user', content: 'Manage your profile information and account details.' }
+]">
+  <template #item="{ item }">
+    <p style="color: black">{{ item.content }}</p>
+  </template>
+</BvAccordion>
+
+</div>
 
 ```vue
 <template>
-  <Accordion :multiple="false" :items="menuItems" />
+  <BvAccordion :multiple="false" :items="menuItems">
+    <template #item="{ item }">
+      <p>{{ item.content }}</p>
+    </template>
+  </BvAccordion>
 </template>
 
 <script setup>
-import { Accordion } from "@baklavue/ui";
+import { BvAccordion } from "@baklavue/ui";
 
 const menuItems = [
   {
@@ -203,19 +231,29 @@ const menuItems = [
 </script>
 ```
 
-#### Dynamic Items from API
+### Dynamic Items from API
+
+<div class="component-demo">
+
+<DynamicItemsDemo />
+
+</div>
 
 ```vue
 <template>
   <div>
     <div v-if="loading">Loading...</div>
-    <Accordion v-else :multiple="true" :items="accordionItems" />
+    <BvAccordion v-else :multiple="true" :items="accordionItems">
+      <template #item="{ item }">
+        <p>{{ item.content }}</p>
+      </template>
+    </BvAccordion>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { Accordion } from "@baklavue/ui";
+import { BvAccordion } from "@baklavue/ui";
 
 const loading = ref(true);
 const apiData = ref([]);
@@ -242,65 +280,33 @@ onMounted(async () => {
 </script>
 ```
 
-### Using Slots (Alternative)
+### Custom Content with #item Slot
 
-You can also use slots to create accordion groups. This approach gives you more control over individual accordion content.
+Use the `#item` scoped slot to customize the content of each accordion. The slot receives `{ item, index }` and lets you render complex markup (e.g. code blocks, lists).
 
-#### Single Open (Default)
+<div class="component-demo">
 
-By default, only one accordion in a group can be open at a time.
+<SlotsAccordionDemo :multiple="false" />
 
-```vue
-<template>
-  <Accordion :multiple="false">
-    <Accordion :open="open1" @toggle="open1 = $event" caption="Question 1">
-      <p>Answer to question 1 goes here.</p>
-    </Accordion>
-    <Accordion :open="open2" @toggle="open2 = $event" caption="Question 2">
-      <p>Answer to question 2 goes here.</p>
-    </Accordion>
-    <Accordion :open="open3" @toggle="open3 = $event" caption="Question 3">
-      <p>Answer to question 3 goes here.</p>
-    </Accordion>
-  </Accordion>
-</template>
-
-<script setup>
-import { ref } from "vue";
-import { Accordion } from "@baklavue/ui";
-
-const open1 = ref(false);
-const open2 = ref(false);
-const open3 = ref(false);
-</script>
-```
-
-#### Multiple Open
-
-Allow multiple accordions to be open at the same time by setting `multiple` to `true`.
+</div>
 
 ```vue
 <template>
-  <Accordion :multiple="true">
-    <Accordion :open="open1" @toggle="open1 = $event" caption="Section 1">
-      <p>Content for section 1.</p>
-    </Accordion>
-    <Accordion :open="open2" @toggle="open2 = $event" caption="Section 2">
-      <p>Content for section 2.</p>
-    </Accordion>
-    <Accordion :open="open3" @toggle="open3 = $event" caption="Section 3">
-      <p>Content for section 3.</p>
-    </Accordion>
-  </Accordion>
+  <BvAccordion :multiple="false" :items="items">
+    <template #item="{ item }">
+      <p>{{ item.content }}</p>
+    </template>
+  </BvAccordion>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { Accordion } from "@baklavue/ui";
+import { BvAccordion } from "@baklavue/ui";
 
-const open1 = ref(false);
-const open2 = ref(false);
-const open3 = ref(false);
+const items = [
+  { caption: "Question 1", content: "Answer to question 1 goes here." },
+  { caption: "Question 2", content: "Answer to question 2 goes here." },
+  { caption: "Question 3", content: "Answer to question 3 goes here." },
+];
 </script>
 ```
 
@@ -308,18 +314,40 @@ const open3 = ref(false);
 
 ### FAQ Section with Items Prop
 
-A complete FAQ section using the `items` prop:
+A complete FAQ section using the `items` prop with the `#item` slot:
+
+<div class="component-demo">
+
+<div>
+  <h2 style="color: black; margin-bottom: 1rem">Frequently Asked Questions</h2>
+  <BvAccordion :multiple="false" :items="[
+    { caption: 'What is BaklaVue?', content: 'BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.' },
+    { caption: 'How do I install BaklaVue?', content: 'Install BaklaVue using your preferred package manager:' },
+    { caption: 'Is BaklaVue free to use?', content: 'Yes, BaklaVue is open source and free to use in your projects.' },
+    { caption: 'Does BaklaVue support TypeScript?', content: 'Yes, BaklaVue is built with TypeScript and provides comprehensive type definitions for all components, props, events, and composables.' }
+  ]">
+    <template #item="{ item }">
+      <p style="color: black">{{ item.content }}</p>
+    </template>
+  </BvAccordion>
+</div>
+
+</div>
 
 ```vue
 <template>
   <div>
     <h2>Frequently Asked Questions</h2>
-    <Accordion :multiple="false" :items="faqItems" />
+    <BvAccordion :multiple="false" :items="faqItems">
+      <template #item="{ item }">
+        <p>{{ item.content }}</p>
+      </template>
+    </BvAccordion>
   </div>
 </template>
 
 <script setup>
-import { Accordion } from "@baklavue/ui";
+import { BvAccordion } from "@baklavue/ui";
 
 const faqItems = [
   {
@@ -344,63 +372,51 @@ const faqItems = [
 </script>
 ```
 
-### FAQ Section with Slots
+### FAQ Section with Complex Content (Code Blocks)
 
-The same FAQ section using slots for more complex content:
+Use the `#item` slot for items that need custom markup like code blocks:
+
+<div class="component-demo">
+
+<FaqSlotsDemo />
+
+</div>
 
 ```vue
 <template>
   <div>
     <h2>Frequently Asked Questions</h2>
-    <Accordion :multiple="false">
-      <Accordion
-        :open="faq1"
-        @toggle="faq1 = $event"
-        caption="What is BaklaVue?"
-      >
-        <p>
-          BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol
-          Baklava Design System. It provides Vue-friendly APIs with full
-          TypeScript support.
-        </p>
-      </Accordion>
-      <Accordion
-        :open="faq2"
-        @toggle="faq2 = $event"
-        caption="How do I install BaklaVue?"
-      >
-        <p>Install BaklaVue using your preferred package manager:</p>
-        <pre><code>bun add @baklavue/ui @baklavue/composables</code></pre>
-      </Accordion>
-      <Accordion
-        :open="faq3"
-        @toggle="faq3 = $event"
-        caption="Is BaklaVue free to use?"
-      >
-        <p>Yes, BaklaVue is open source and free to use in your projects.</p>
-      </Accordion>
-      <Accordion
-        :open="faq4"
-        @toggle="faq4 = $event"
-        caption="Does BaklaVue support TypeScript?"
-      >
-        <p>
-          Yes, BaklaVue is built with TypeScript and provides comprehensive type
-          definitions for all components, props, events, and composables.
-        </p>
-      </Accordion>
-    </Accordion>
+    <BvAccordion :multiple="false" :items="faqItems">
+      <template #item="{ item }">
+        <div v-if="item.code">
+          <p>{{ item.content }}</p>
+          <pre><code>{{ item.code }}</code></pre>
+        </div>
+        <p v-else>{{ item.content }}</p>
+      </template>
+    </BvAccordion>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { Accordion } from "@baklavue/ui";
+import { BvAccordion } from "@baklavue/ui";
 
-const faq1 = ref(false);
-const faq2 = ref(false);
-const faq3 = ref(false);
-const faq4 = ref(false);
+const faqItems = [
+  {
+    caption: "What is BaklaVue?",
+    content:
+      "BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava Design System.",
+  },
+  {
+    caption: "How do I install BaklaVue?",
+    content: "Install BaklaVue using your preferred package manager:",
+    code: "bun add @baklavue/ui @baklavue/composables",
+  },
+  {
+    caption: "Is BaklaVue free to use?",
+    content: "Yes, BaklaVue is open source and free to use in your projects.",
+  },
+];
 </script>
 ```
 
@@ -408,27 +424,33 @@ const faq4 = ref(false);
 
 Access accordion methods programmatically using template refs (single accordion mode only).
 
+<div class="component-demo">
+
+<ProgrammaticControlDemo />
+
+</div>
+
 ```vue
 <template>
   <div>
     <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem;">
-      <Button @click="expandAccordion">Expand</Button>
-      <Button @click="collapseAccordion">Collapse</Button>
+      <BvButton @click="expandAccordion">Expand</BvButton>
+      <BvButton @click="collapseAccordion">Collapse</BvButton>
     </div>
-    <Accordion
+    <BvAccordion
       ref="accordionRef"
       :open="isOpen"
       @toggle="isOpen = $event"
       caption="Programmatically Controlled Accordion"
     >
       <p>This accordion can be controlled via buttons or programmatically.</p>
-    </Accordion>
+    </BvAccordion>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { Accordion, Button } from "@baklavue/ui";
+import { BvAccordion, BvButton } from "@baklavue/ui";
 
 const accordionRef = ref();
 const isOpen = ref(false);
@@ -447,21 +469,27 @@ const collapseAccordion = () => {
 
 Control the expand/collapse animation duration.
 
+<div class="component-demo">
+
+<CustomAnimationDemo />
+
+</div>
+
 ```vue
 <template>
-  <Accordion
+  <BvAccordion
     caption="Slow Animation"
     :animation-duration="500"
     :open="isOpen"
     @toggle="isOpen = $event"
   >
     <p>This accordion has a slower animation (500ms).</p>
-  </Accordion>
+  </BvAccordion>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { Accordion } from "@baklavue/ui";
+import { BvAccordion } from "@baklavue/ui";
 
 const isOpen = ref(false);
 </script>
@@ -492,7 +520,7 @@ When used as an accordion group (with `multiple` prop):
 
 ### AccordionItem Interface
 
-When using the `items` prop, each item should follow the `AccordionItem` interface:
+When using the `items` prop, each item should follow the `AccordionItem` interface. Items include all bl-accordion props; content is provided via the `#item` scoped slot.
 
 | Property            | Type                     | Default     | Description                                                                       |
 | ------------------- | ------------------------ | ----------- | --------------------------------------------------------------------------------- |
@@ -501,7 +529,8 @@ When using the `items` prop, each item should follow the `AccordionItem` interfa
 | `icon`              | `boolean \| BaklavaIcon` | `undefined` | Icon configuration - boolean to show/hide default icon, or specific icon name     |
 | `disabled`          | `boolean`                | `false`     | Whether the accordion is disabled                                                 |
 | `animationDuration` | `number`                 | `250`       | Duration of the expand/collapse animation in milliseconds                         |
-| `content`           | `string \| (() => any)`  | `undefined` | The content to display inside the accordion. Can be a string or a render function |
+
+Items may include additional custom data for use in the `#item` slot (e.g. `content`, `description`, `code`).
 
 ## Events
 
@@ -526,9 +555,10 @@ When used as a single accordion, you can access these methods via template refs:
 
 ## Slots
 
-| Slot      | Description                                                                                                             |
-| --------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `default` | Content displayed when accordion is expanded. Also used in group mode to add additional accordions alongside items prop |
+| Slot      | Props              | Description                                                                 |
+| --------- | ------------------ | --------------------------------------------------------------------------- |
+| `default` | -                  | Content displayed when accordion is expanded (single accordion mode only)   |
+| `item`    | `{ item, index }`  | Scoped slot for each accordion item content in group mode                   |
 
 ## Types
 
@@ -541,7 +571,7 @@ interface AccordionItem {
   icon?: boolean | BaklavaIcon;
   disabled?: boolean;
   animationDuration?: number;
-  content?: string | (() => any);
+  [key: string]: unknown; // Additional custom data for #item slot
 }
 
 interface AccordionProps {
@@ -560,13 +590,11 @@ interface AccordionProps {
 
 ## Usage Notes
 
-- **Single vs Group Mode**: The component automatically switches between single accordion mode and group mode based on whether the `multiple` prop is provided. When `multiple` is `undefined`, it acts as a single accordion. When `multiple` is provided (even if `false`), it acts as a group wrapper.
+- **Single vs Group Mode**: The component automatically switches between single accordion mode and group mode based on whether the `multiple` prop is provided. When `multiple` is `undefined`, it acts as a single accordion. When `multiple` is provided (even if `false`), it acts as a group wrapper using the `items` prop.
 
-- **Items Prop vs Slots**: Use the `items` prop when you have data-driven accordions or want a simpler API. Use slots when you need more control over individual accordion content or want to include complex markup/components.
+- **Items Prop Required**: In group mode, accordions are rendered from the `items` prop. There is no default slot for nested accordion children. Content for each item is provided via the `#item` scoped slot.
 
-- **Combining Items and Slots**: You can use both `items` prop and slots together. Items will be rendered first, followed by any accordions provided via slots.
-
-- **State Management**: In group mode with slots, you need to manage the `open` state for each accordion item individually using `v-model` or `:open` with `@toggle`. With the `items` prop, you can control the initial `open` state directly in the items array.
+- **State Management**: With the `items` prop, you can control the initial `open` state directly in the items array. In group mode, the underlying `bl-accordion-group` manages which accordions are open.
 
 - **Accessibility**: The component follows Baklava's accessibility guidelines and includes proper ARIA attributes for screen readers.
 

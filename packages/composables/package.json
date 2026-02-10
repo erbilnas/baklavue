@@ -31,7 +31,8 @@
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vue": ">=3.0.0"
   },
   "publishConfig": {
     "access": "public"

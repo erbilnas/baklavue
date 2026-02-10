@@ -14,6 +14,19 @@
   --vp-c-brand-3: #8ad4b1;
 }
 
+/* Component demo preview container */
+.component-demo {
+  padding: 1.5rem;
+  margin: 1rem 0;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+}
+
+.component-demo + pre {
+  margin-top: 1rem;
+}
+
 /* Ensure Baklava components render correctly */
 bl-button,
 bl-input,
@@ -40,6 +53,13 @@ bl-tab,
 bl-table,
 bl-accordion {
   display: block;
+}
+
+/* Sidebar badge alignment */
+.VPSidebarItem .text .VPBadge {
+  transform: none;
+  margin-left: 6px;
+  vertical-align: middle;
 }
 
 /* Home page animations */

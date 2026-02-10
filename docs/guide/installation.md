@@ -58,6 +58,28 @@ cd my-app
 npm install @baklavue/ui @baklavue/composables
 ```
 
+## Vite Configuration
+
+BaklaVue components wrap Baklava web components (custom elements with `bl-*` tags). When using Vite, configure the Vue plugin to treat these as custom elements so Vue does not try to resolve them as components:
+
+```ts
+// vite.config.ts
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+
+export default defineConfig({
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith("bl-"),
+        },
+      },
+    }),
+  ],
+});
+```
+
 ## TypeScript Configuration
 
 If using TypeScript, ensure your `tsconfig.json` includes proper module resolution:
@@ -97,6 +119,10 @@ import { Button } from "@baklavue/ui";
 If the button renders correctly, installation is successful!
 
 ## Troubleshooting
+
+### "Failed to resolve component: bl-*" warning
+
+BaklaVue uses Baklava web components under the hood. Configure `compilerOptions.isCustomElement` in your Vite config so Vue treats `bl-*` tags as custom elements. See [Vite Configuration](#vite-configuration) above.
 
 ### Components not rendering
 

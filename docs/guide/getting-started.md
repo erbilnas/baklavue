@@ -71,6 +71,20 @@ const showNotification = () => {
 </script>
 ```
 
+### 3. Customize Theme (Optional)
+
+Use `useBaklavaTheme` to overwrite Baklava colors—e.g. apply Vue.js brand colors:
+
+```vue
+<script setup>
+import { useBaklavaTheme } from "@baklavue/composables";
+
+useBaklavaTheme().applyTheme({ preset: "vue" });
+</script>
+```
+
+See [useBaklavaTheme](/composables/theme) for custom color overrides.
+
 ## Loading Baklava Resources
 
 BaklaVue components automatically load Baklava resources when mounted. However, if you need to load them manually:

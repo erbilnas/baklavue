@@ -39,10 +39,10 @@ export interface AccordionItem {
   animationDuration?: number;
 
   /**
-   * The content to display inside the accordion.
-   * Can be a string or a render function that returns VNodes.
+   * Additional custom data for use in the #item scoped slot.
+   * Content is provided via the #item slot, not via a property.
    */
-  content?: string | (() => any);
+  [key: string]: unknown;
 }
 
 /**

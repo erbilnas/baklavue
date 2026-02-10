@@ -1,10 +1,15 @@
 import { resolve } from "path";
 import { defineConfig } from "vitepress";
 
+const badge = (label: string, type: "wip" | "new" | "broken") =>
+  ` <span class="VPBadge ${type === "wip" ? "warning" : type === "new" ? "tip" : type === "broken" ? "error" : "info"}">${label.toUpperCase()}</span>`;
+
 export default defineConfig({
   title: "BaklaVue",
   description: "Vue 3 wrapper library for Trendyol Baklava Design System",
   base: "/baklavue/",
+
+  head: [["link", { rel: "icon", href: "/logo.png" }]],
 
   themeConfig: {
     logo: "/logo.png",
@@ -32,8 +37,14 @@ export default defineConfig({
           text: "Components",
           items: [
             { text: "Overview", link: "/components/" },
-            { text: "Accordion", link: "/components/accordion" },
-            { text: "Alert", link: "/components/alert" },
+            {
+              text: `Accordion${badge("new", "new")}`,
+              link: "/components/accordion",
+            },
+            {
+              text: `Alert${badge("new", "new")}`,
+              link: "/components/alert",
+            },
             { text: "Badge", link: "/components/badge" },
             { text: "Button", link: "/components/button" },
             { text: "Checkbox", link: "/components/checkbox" },
@@ -66,6 +77,7 @@ export default defineConfig({
           items: [
             { text: "Overview", link: "/composables/" },
             { text: "useNotification", link: "/composables/notification" },
+            { text: "useBaklavaTheme", link: "/composables/theme" },
           ],
         },
       ],
@@ -92,6 +104,14 @@ export default defineConfig({
     },
   },
 
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: (tag) => tag.startsWith("bl-"),
+      },
+    },
+  },
+
   vite: {
     resolve: {
       alias: {
@@ -103,7 +123,8 @@ export default defineConfig({
       },
     },
     optimizeDeps: {
-      include: ["@baklavue/ui", "@baklavue/composables", "@trendyol/baklava"],
+      include: ["@baklavue/ui", "@trendyol/baklava"],
+      exclude: ["@baklavue/composables"],
     },
     css: {
       postcss: undefined,

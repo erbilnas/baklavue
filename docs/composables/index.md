@@ -5,6 +5,7 @@ BaklaVue provides Vue 3 composables to enhance your application functionality.
 ## Available Composables
 
 - [useNotification](/composables/notification) - Programmatically manage notifications
+- [useBaklavaTheme](/composables/theme) - Overwrite Baklava colors (Vue preset or custom)
 
 ## Usage Pattern
 

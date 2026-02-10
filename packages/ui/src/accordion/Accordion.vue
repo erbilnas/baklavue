@@ -20,13 +20,10 @@
  * ```vue
  * <!-- Accordion group - only one open at a time -->
  * <template>
- *   <Accordion :multiple="false">
- *     <Accordion :open="open1" @toggle="open1 = $event" caption="Question 1">
- *       Answer 1
- *     </Accordion>
- *     <Accordion :open="open2" @toggle="open2 = $event" caption="Question 2">
- *       Answer 2
- *     </Accordion>
+ *   <Accordion :multiple="false" :items="items">
+ *     <template #item="{ item }">
+ *       <p>{{ item.answer }}</p>
+ *     </template>
  *   </Accordion>
  * </template>
  * ```
@@ -35,13 +32,10 @@
  * ```vue
  * <!-- Accordion group - multiple can be open -->
  * <template>
- *   <Accordion :multiple="true">
- *     <Accordion :open="open1" @toggle="open1 = $event" caption="Section 1">
- *       Content 1
- *     </Accordion>
- *     <Accordion :open="open2" @toggle="open2 = $event" caption="Section 2">
- *       Content 2
- *     </Accordion>
+ *   <Accordion :multiple="true" :items="sections">
+ *     <template #item="{ item }">
+ *       <p>{{ item.description }}</p>
+ *     </template>
  *   </Accordion>
  * </template>
  * ```
@@ -58,7 +52,7 @@ const props = withDefaults(defineProps<AccordionProps>(), {
   caption: undefined,
   icon: undefined,
   disabled: false,
-  animationDuration: undefined,
+  animationDuration: 250,
   multiple: undefined,
 });
 
@@ -82,9 +76,11 @@ const accordionRef = ref<HTMLElement | null>(null);
 
 /**
  * Determines if the component should act as a group wrapper.
- * When `multiple` prop is explicitly provided (even if false), it acts as a group.
+ * When `multiple` prop is provided and `items` is defined, it acts as a group.
  */
-const isGroupMode = computed(() => props.multiple !== undefined);
+const isGroupMode = computed(
+  () => props.multiple !== undefined && Array.isArray(props.items),
+);
 
 /**
  * Watches for changes to the `open` prop and syncs with the web component.
@@ -172,7 +168,7 @@ defineExpose({
 
 <template>
   <!-- Group mode: render as bl-accordion-group -->
-  <!-- Render bl-accordion for each item in props.items -->
+  <!-- Render bl-accordion for each item in props.items. Content via #item slot. -->
   <bl-accordion-group
     v-if="isGroupMode"
     :multiple="props.multiple === true ? true : undefined"
@@ -188,15 +184,8 @@ defineExpose({
         animationDuration: item.animationDuration,
       }"
     >
-      <template v-if="item.content">
-        <component
-          v-if="typeof item.content === 'function'"
-          :is="item.content"
-        />
-        <template v-else>{{ item.content }}</template>
-      </template>
+      <slot name="item" :item="item" :index="index" />
     </bl-accordion>
-    <slot />
   </bl-accordion-group>
 
   <!-- Single accordion mode: render as bl-accordion -->

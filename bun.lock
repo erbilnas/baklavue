@@ -29,7 +29,7 @@
       "dependencies": {
         "@baklavue/composables": "workspace:*",
         "@baklavue/ui": "workspace:*",
-        "@trendyol/baklava": "^3.3.1",
+        "@trendyol/baklava": "^3.4.2",
         "@trendyol/baklava-icons": "^1.1.0",
       },
       "devDependencies": {
@@ -39,19 +39,20 @@
     },
     "packages/composables": {
       "name": "@baklavue/composables",
-      "version": "1.0.0-preview.3",
+      "version": "1.0.0-preview.5",
       "devDependencies": {
         "@types/bun": "latest",
       },
       "peerDependencies": {
         "typescript": "^5.9.2",
+        "vue": ">=3.0.0",
       },
     },
     "packages/ui": {
       "name": "@baklavue/ui",
       "version": "1.0.0-preview.4",
       "dependencies": {
-        "@trendyol/baklava": "^3.3.1",
+        "@trendyol/baklava": "^3.4.2",
         "@trendyol/baklava-icons": "^1.1.0",
         "vue": "^3.5.21",
       },

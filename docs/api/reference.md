@@ -187,7 +187,7 @@ interface TextareaEmits {
 ### useNotification
 
 ```typescript
-import { useNotification } from "@baklavue/composables";
+import { useNotification, useBaklavaTheme } from "@baklavue/composables";
 
 interface NotificationOptions {
   title?: string;
@@ -205,6 +205,22 @@ interface UseNotificationReturn {
 
 const { success, error, warning, info }: UseNotificationReturn =
   useNotification();
+```
+
+### useBaklavaTheme
+
+```typescript
+import { useBaklavaTheme } from "@baklavue/composables";
+
+const { applyTheme } = useBaklavaTheme();
+
+// Vue preset
+applyTheme({ preset: "vue" });
+
+// Custom colors
+applyTheme({
+  colors: { primary: "#41B883", primaryHighlight: "#3aa876" },
+});
 ```
 
 ## Utilities
@@ -240,7 +256,7 @@ import type {
 
 ```typescript
 import { Button, Input, Checkbox } from "@baklavue/ui";
-import { useNotification } from "@baklavue/composables";
+import { useNotification, useBaklavaTheme } from "@baklavue/composables";
 ```
 
 ### Namespace Import
