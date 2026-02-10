@@ -57,9 +57,9 @@ bl-accordion {
 
 /* Sidebar badge alignment */
 .VPSidebarItem .text .VPBadge {
-  transform: none;
-  margin-left: 6px;
-  vertical-align: middle;
+  margin-left: 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
 }
 
 /* Home page animations */

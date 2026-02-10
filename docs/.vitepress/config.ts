@@ -45,8 +45,14 @@ export default defineConfig({
               text: `Alert${badge("new", "new")}`,
               link: "/components/alert",
             },
-            { text: "Badge", link: "/components/badge" },
-            { text: "Button", link: "/components/button" },
+            {
+              text: `Badge${badge("new", "new")}`,
+              link: "/components/badge",
+            },
+            {
+              text: `Button${badge("new", "new")}`,
+              link: "/components/button",
+            },
             { text: "Checkbox", link: "/components/checkbox" },
             { text: "Datepicker", link: "/components/datepicker" },
             { text: "Dialog", link: "/components/dialog" },

@@ -8,6 +8,8 @@ import ControlledAccordionDemo from "./components/ControlledAccordionDemo.vue";
 import CustomAnimationDemo from "./components/CustomAnimationDemo.vue";
 import DynamicItemsDemo from "./components/DynamicItemsDemo.vue";
 import FaqSlotsDemo from "./components/FaqSlotsDemo.vue";
+import FormSubmitButtonDemo from "./components/FormSubmitButtonDemo.vue";
+import LoadingButtonDemo from "./components/LoadingButtonDemo.vue";
 import ProgrammaticControlDemo from "./components/ProgrammaticControlDemo.vue";
 import SlotsAccordionDemo from "./components/SlotsAccordionDemo.vue";
 import "./style.css";
@@ -22,6 +24,8 @@ export default {
     app.component("CustomAnimationDemo", CustomAnimationDemo);
     app.component("DynamicItemsDemo", DynamicItemsDemo);
     app.component("FaqSlotsDemo", FaqSlotsDemo);
+    app.component("FormSubmitButtonDemo", FormSubmitButtonDemo);
+    app.component("LoadingButtonDemo", LoadingButtonDemo);
     app.component("ProgrammaticControlDemo", ProgrammaticControlDemo);
     app.component("SlotsAccordionDemo", SlotsAccordionDemo);
     // Register all BaklaVue components globally
