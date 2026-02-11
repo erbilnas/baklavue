@@ -1,0 +1,140 @@
+import { mount } from "@vue/test-utils";
+import { defineComponent, ref } from "vue";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { useThrottleFn, useThrottledRef } from "./throttle";
+
+function withSetup<T>(composable: () => T) {
+  let result: T;
+  const TestComponent = defineComponent({
+    setup() {
+      result = composable();
+      return () => null;
+    },
+  });
+  const wrapper = mount(TestComponent);
+  return { result: result!, wrapper };
+}
+
+describe("useThrottleFn", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("invokes immediately on first call (leading)", () => {
+    const fn = vi.fn();
+    const { result } = withSetup(() => useThrottleFn(fn, 200));
+
+    result("arg");
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith("arg");
+  });
+
+  it("throttles calls within interval", () => {
+    const fn = vi.fn();
+    const { result } = withSetup(() => useThrottleFn(fn, 200));
+
+    result("a");
+    result("b");
+    result("c");
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith("a");
+
+    vi.advanceTimersByTime(200);
+    expect(fn).toHaveBeenCalledTimes(2);
+    expect(fn).toHaveBeenCalledWith("c");
+  });
+
+  it("invokes again after delay has passed", () => {
+    const fn = vi.fn();
+    const { result } = withSetup(() => useThrottleFn(fn, 200));
+
+    result("a");
+    vi.advanceTimersByTime(200);
+    result("b");
+    expect(fn).toHaveBeenCalledTimes(2);
+    expect(fn).toHaveBeenCalledWith("b");
+  });
+
+  it("leading: false skips immediate invocation on first call", () => {
+    const fn = vi.fn();
+    const { result } = withSetup(() =>
+      useThrottleFn(fn, 200, { leading: false, trailing: true }),
+    );
+
+    result("a");
+    expect(fn).not.toHaveBeenCalled();
+  });
+
+  it("cleans up on unmount", () => {
+    const fn = vi.fn();
+    const { result, wrapper } = withSetup(() => useThrottleFn(fn, 200));
+
+    result("a");
+    result("b");
+    wrapper.unmount();
+    vi.advanceTimersByTime(200);
+    expect(fn).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("useThrottledRef", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("returns initial value immediately", () => {
+    const source = ref("initial");
+    const { result } = withSetup(() => useThrottledRef(source, 200));
+    expect(result.value).toBe("initial");
+  });
+
+  it("throttles updates when source changes rapidly", async () => {
+    const source = ref("a");
+    const { result, wrapper } = withSetup(() => useThrottledRef(source, 200));
+
+    expect(result.value).toBe("a");
+    source.value = "b";
+    await wrapper.vm.$nextTick();
+    source.value = "c";
+    await wrapper.vm.$nextTick();
+    expect(result.value).toBe("b");
+
+    vi.advanceTimersByTime(200);
+    await wrapper.vm.$nextTick();
+    expect(result.value).toBe("c");
+  });
+
+  it("throttles rapid updates", async () => {
+    const source = ref("a");
+    const { result, wrapper } = withSetup(() => useThrottledRef(source, 200));
+
+    source.value = "b";
+    await wrapper.vm.$nextTick();
+    source.value = "c";
+    await wrapper.vm.$nextTick();
+    source.value = "d";
+    await wrapper.vm.$nextTick();
+
+    vi.advanceTimersByTime(200);
+    await wrapper.vm.$nextTick();
+    expect(result.value).toBe("d");
+  });
+
+  it("cleans up on unmount", () => {
+    const source = ref("initial");
+    const { result, wrapper } = withSetup(() => useThrottledRef(source, 200));
+
+    source.value = "updated";
+    wrapper.unmount();
+    vi.advanceTimersByTime(200);
+    expect(result.value).toBe("initial");
+  });
+});

@@ -11,12 +11,12 @@ Each component wraps Baklava's battle-tested web components under the hood, so y
 | Category | Count | Purpose |
 | -------- | ----- | ------- |
 | Form | 9 | Inputs, selects, buttons, toggles, file upload, and date picking |
-| Feedback | 6 | Alerts, badges, tags, notifications, spinners, and skeleton loaders |
+| Feedback | 7 | Alerts, badges, chips, tags, notifications, spinners, and skeleton loaders |
 | Layout | 7 | Dialogs, drawers, dropdowns, tooltips, accordions, tabs, steppers |
 | Navigation | 4 | Links, pagination, split buttons, scroll-to-top |
 | Data | 3 | Tables, icons, and images |
 
-**29 components** in total—ready to build beautiful, consistent interfaces.
+**31 components** in total—ready to build beautiful, consistent interfaces.
 
 ---
 
@@ -46,6 +46,8 @@ Communicate status, guide users, and show progress. These components help you bu
 | --------- | ----------- |
 | [**Alert**](/components/alert) | Inline alerts for success, warning, error, info • Closable and programmatic control |
 | [**Badge**](/components/badge) | Compact status indicators (e.g. counts, labels) |
+| [**Banner**](/components/banner) | Full-width top-of-page banner for announcements • Closable with localStorage persistence |
+| [**Chip**](/components/chip) | Notification badge on icons/avatars • Position, colors, sizes, standalone mode |
 | [**Tag**](/components/tag) | Labels with optional close button • Selectable and customizable icons |
 | [**Notification**](/components/notification) | Toast-style notifications • Use composable `useNotification` for programmatic control |
 | [**Skeleton**](/components/skeleton) | Animated placeholder for content loading • Text, rectangle, circle variants |

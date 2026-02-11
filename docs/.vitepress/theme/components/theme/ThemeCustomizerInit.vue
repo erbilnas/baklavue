@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from "vitepress";
-import { useThemeCustomizer } from "../composables/useThemeCustomizer";
+import { useThemeCustomizer } from "../../composables/useThemeCustomizer";
 import { onMounted, watch } from "vue";
 
 // Initialize theme on mount - composable applies saved preferences

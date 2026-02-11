@@ -16,6 +16,8 @@ export const COMPONENT_CATEGORIES: Record<string, string> = {
   // Feedback Components
   Alert: "feedback",
   Badge: "feedback",
+  Banner: "feedback",
+  Chip: "feedback",
   Tag: "feedback",
   Notification: "feedback",
   Spinner: "feedback",

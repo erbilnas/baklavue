@@ -106,12 +106,20 @@ export default defineConfig({
               link: "/components/badge",
             },
             {
+              text: `Banner${badge("new", "new")}`,
+              link: "/components/banner",
+            },
+            {
               text: `Button`,
               link: "/components/button",
             },
             {
               text: `Checkbox`,
               link: "/components/checkbox",
+            },
+            {
+              text: `Chip${badge("new", "new")}`,
+              link: "/components/chip",
             },
             {
               text: `Datepicker`,
@@ -209,31 +217,49 @@ export default defineConfig({
           text: "UI & Feedback",
           collapsed: false,
           items: [
-            { text: "Alert", link: "/composables/alert" },
+            { text: `Alert${badge("new", "new")}`, link: "/composables/alert" },
             { text: "Confirm Dialog", link: "/composables/confirmDialog" },
             { text: "Disclosure", link: "/composables/disclosure" },
-            { text: "Focus Trap", link: "/composables/focusTrap" },
-            { text: "Generate ID", link: "/composables/id" },
+            {
+              text: `Focus Trap${badge("new", "new")}`,
+              link: "/composables/focusTrap",
+            },
+            {
+              text: `Generate ID${badge("new", "new")}`,
+              link: "/composables/id",
+            },
             { text: "Loading", link: "/composables/loading" },
             { text: "Notification", link: "/composables/notification" },
-            { text: "Scroll Lock", link: "/composables/scrollLock" },
             {
-              text: "Scroll Visibility",
+              text: `Scroll Lock${badge("new", "new")}`,
+              link: "/composables/scrollLock",
+            },
+            {
+              text: `Scroll Visibility${badge("new", "new")}`,
               link: "/composables/scrollVisibility",
             },
-            { text: "Stepper", link: "/composables/stepper" },
+            {
+              text: `Stepper${badge("new", "new")}`,
+              link: "/composables/stepper",
+            },
           ],
         },
         {
           text: "Forms",
           collapsed: false,
           items: [
-            { text: "Field Array", link: "/composables/fieldArray" },
+            {
+              text: `Field Array${badge("new", "new")}`,
+              link: "/composables/fieldArray",
+            },
             { text: "Form Persistence", link: "/composables/formPersistence" },
             { text: "Form State", link: "/composables/formState" },
             { text: "Form Validation", link: "/composables/formValidation" },
             { text: "Scroll to Error", link: "/composables/scrollToError" },
-            { text: "Stepper Form", link: "/composables/stepperForm" },
+            {
+              text: `Stepper Form${badge("new", "new")}`,
+              link: "/composables/stepperForm",
+            },
           ],
         },
         {
@@ -241,14 +267,26 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: "Async State", link: "/composables/asyncState" },
-            { text: "Base64", link: "/composables/base64" },
+            {
+              text: `Base64${badge("new", "new")}`,
+              link: "/composables/base64",
+            },
             { text: "Clipboard", link: "/composables/clipboard" },
             { text: "Cookie", link: "/composables/cookie" },
             { text: "File", link: "/composables/file" },
             { text: "Format", link: "/composables/format" },
-            { text: "Previous", link: "/composables/previous" },
-            { text: "Share", link: "/composables/share" },
-            { text: "Slug", link: "/composables/slug" },
+            {
+              text: `Previous${badge("new", "new")}`,
+              link: "/composables/previous",
+            },
+            {
+              text: `Share${badge("new", "new")}`,
+              link: "/composables/share",
+            },
+            {
+              text: `Slug${badge("new", "new")}`,
+              link: "/composables/slug",
+            },
             { text: "Storage", link: "/composables/storage" },
             { text: "Toggle", link: "/composables/toggle" },
           ],
@@ -258,7 +296,10 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: "Debounce", link: "/composables/debounce" },
-            { text: "Request Animation Frame", link: "/composables/raf" },
+            {
+              text: `Request Animation Frame${badge("new", "new")}`,
+              link: "/composables/raf",
+            },
             { text: "Throttle", link: "/composables/throttle" },
             { text: "Timer", link: "/composables/timer" },
           ],
@@ -272,12 +313,18 @@ export default defineConfig({
               text: "Intersection Observer",
               link: "/composables/intersectionObserver",
             },
-            { text: "Element Size", link: "/composables/elementSize" },
             {
-              text: "Window Size",
+              text: `Element Size${badge("new", "new")}`,
+              link: "/composables/elementSize",
+            },
+            {
+              text: `Window Size${badge("new", "new")}`,
               link: "/composables/breakpoints#use-window-size",
             },
-            { text: "Container Scroll", link: "/composables/containerScroll" },
+            {
+              text: `Container Scroll${badge("new", "new")}`,
+              link: "/composables/containerScroll",
+            },
             { text: "Sticky", link: "/composables/sticky" },
           ],
         },
@@ -287,20 +334,38 @@ export default defineConfig({
           items: [
             { text: "Fetch", link: "/composables/fetch" },
             { text: "Query", link: "/composables/query" },
-            { text: "Mutation", link: "/composables/mutation" },
-            { text: "Infinite Query", link: "/composables/infiniteQuery" },
-            { text: "Lazy Query", link: "/composables/lazyQuery" },
-            { text: "Polling", link: "/composables/polling" },
+            {
+              text: `Mutation${badge("new", "new")}`,
+              link: "/composables/mutation",
+            },
+            {
+              text: `Infinite Query${badge("new", "new")}`,
+              link: "/composables/infiniteQuery",
+            },
+            {
+              text: `Lazy Query${badge("new", "new")}`,
+              link: "/composables/lazyQuery",
+            },
+            {
+              text: `Polling${badge("new", "new")}`,
+              link: "/composables/polling",
+            },
           ],
         },
         {
           text: "Theme & Layout",
           collapsed: false,
           items: [
-            { text: "Pagination", link: "/composables/pagination" },
+            {
+              text: `Pagination${badge("new", "new")}`,
+              link: "/composables/pagination",
+            },
             { text: "Theme", link: "/composables/theme" },
             { text: "Color Scheme", link: "/composables/colorScheme" },
-            { text: "Theme Preset", link: "/composables/themePreset" },
+            {
+              text: `Theme Preset${badge("new", "new")}`,
+              link: "/composables/themePreset",
+            },
           ],
         },
       ],
@@ -324,7 +389,10 @@ export default defineConfig({
             { text: "Overview", link: "/api/composables/" },
             { text: "UI & Feedback", link: "/api/composables/ui-feedback" },
             { text: "Forms", link: "/api/composables/forms" },
-            { text: "Data & Utilities", link: "/api/composables/data-utilities" },
+            {
+              text: "Data & Utilities",
+              link: "/api/composables/data-utilities",
+            },
             { text: "Performance", link: "/api/composables/performance" },
             { text: "Browser APIs", link: "/api/composables/browser-apis" },
             { text: "Data Fetching", link: "/api/composables/data-fetching" },

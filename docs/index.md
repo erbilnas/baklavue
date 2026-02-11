@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "BaklaVue"
   text: "Enhanced Baklava experience for Vue 3"
-  tagline: "Type-safe, composable and ready to go. Bring Baklava Design System easily to Vue."
+  tagline: "Type-safe, composable, ready to ship."
   image:
     src: /logo.png
     alt: BaklaVue Logo
@@ -15,6 +15,9 @@ hero:
     - theme: alt
       text: View on GitHub
       link: https://github.com/erbilnas/baklavue
+    - theme:
+      text: Open Theme Customizer
+      link: "#theme-customizer"
 
 features:
   - icon: 🚀
@@ -84,7 +87,7 @@ See the [Getting Started Guide](/guide/getting-started) for full setup.
 
 ## Components
 
-25+ Baklava components—forms, feedback, layout, navigation, and data display.
+30+ Baklava components—forms, feedback, layout, navigation, and data display.
 
 **[Browse all components →](/components/)**
 

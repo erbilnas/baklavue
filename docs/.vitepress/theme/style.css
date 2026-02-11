@@ -260,7 +260,8 @@ bl-accordion {
 .home .VPHomeFeatures .vp-doc .feature:hover,
 .home .vp-doc .feature:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px -8px color-mix(in srgb, var(--vp-c-brand-1) 12%, transparent);
+  box-shadow: 0 12px 24px -8px
+    color-mix(in srgb, var(--vp-c-brand-1) 12%, transparent);
 }
 
 /* Action buttons hover animation */
@@ -321,7 +322,9 @@ bl-accordion {
 
 /* Link hover animation */
 .home .vp-doc a {
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .home .vp-doc a:hover {

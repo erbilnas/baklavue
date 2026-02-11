@@ -2,6 +2,24 @@
 
 Components for displaying feedback and status information.
 
+## BvBanner
+
+[Banner](/components/banner) · `import { BvBanner } from "@baklavue/ui"`
+
+| Prop        | Type              | Description                                        |
+| ----------- | ----------------- | -------------------------------------------------- |
+| `title`     | `string`          | Banner message text                                |
+| `icon`      | `BaklavaIcon`     | Icon name next to title                            |
+| `color`     | `BannerColor`     | primary, success, danger, warning, info, neutral    |
+| `close`     | `boolean`         | Show close button                                  |
+| `closeIcon` | `BaklavaIcon`     | Close button icon                                  |
+| `id`        | `string`          | Unique ID for localStorage persistence             |
+| `to`        | `string`          | Make banner a link (href)                           |
+| `target`    | `string`          | Link target (e.g. _blank)                           |
+| `actions`   | `BannerAction[]`  | Action buttons (label, variant, onClick)            |
+
+**Events:** `close`
+
 ## BvAlert
 
 [Alert](/components/alert) · `import { BvAlert } from "@baklavue/ui"`
@@ -16,6 +34,22 @@ Components for displaying feedback and status information.
 | `closed`      | `boolean`                | Closed state                   |
 
 **Events:** Emits via `BlAlertElement` ref (open, close)
+
+## BvChip
+
+[Chip](/components/chip) · `import { BvChip } from "@baklavue/ui"`
+
+| Prop         | Type          | Description                                              |
+| ------------ | ------------- | -------------------------------------------------------- |
+| `text`       | `string \| number` | Text or number inside the chip                        |
+| `color`      | `ChipColor`   | primary, success, danger, warning, info, neutral          |
+| `size`       | `ChipSize`    | xs, sm, md, lg                                           |
+| `position`   | `ChipPosition`| top-right, bottom-right, top-left, bottom-left            |
+| `inset`      | `boolean`     | Keep chip inside rounded elements                         |
+| `standalone` | `boolean`     | Render inline without wrapping content                    |
+| `show`       | `boolean`     | Visibility (default true)                                |
+
+**Slots:** `default` (wrapped element), `content` (override chip content)
 
 ## BvBadge
 

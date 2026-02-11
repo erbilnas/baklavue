@@ -7,7 +7,7 @@ import {
   RADIUS_PRESETS,
   isValidHex,
   useThemeCustomizer,
-} from "../composables/useThemeCustomizer";
+} from "../../composables/useThemeCustomizer";
 
 const props = defineProps<{
   open: boolean;
