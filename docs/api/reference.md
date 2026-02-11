@@ -78,19 +78,36 @@ interface InputEmits {
 ### Checkbox
 
 ```typescript
-import { Checkbox } from "@baklavue/ui";
+import { BvCheckbox } from "@baklavue/ui";
 
 interface CheckboxProps {
-  modelValue?: boolean;
+  // Single checkbox mode
+  modelValue?: boolean | (string | number)[];
+  disabled?: boolean;
+  indeterminate?: boolean;
+  value?: string | number;
   name?: string;
   label?: string;
+
+  // Group mode
+  items?: CheckboxItem[];
+}
+
+interface CheckboxItem {
+  value: string | number;
+  label?: string;
+  checked?: boolean;
   disabled?: boolean;
-  required?: boolean;
+  indeterminate?: boolean;
+  name?: string;
+  [key: string]: unknown;
 }
 
 // Events
 interface CheckboxEmits {
-  "update:modelValue": [value: boolean];
+  "update:modelValue": [value: boolean | (string | number)[]];
+  change: [event: CustomEvent];
+  input: [event: CustomEvent]; // Single mode only
 }
 ```
 
@@ -243,6 +260,7 @@ import type {
   ButtonProps,
   InputProps,
   CheckboxProps,
+  CheckboxItem,
   RadioProps,
   SwitchProps,
   SelectProps,
@@ -255,7 +273,7 @@ import type {
 ### Individual Imports
 
 ```typescript
-import { Button, Input, Checkbox } from "@baklavue/ui";
+import { BvButton, BvInput, BvCheckbox } from "@baklavue/ui";
 import { useNotification, useBaklavaTheme } from "@baklavue/composables";
 ```
 

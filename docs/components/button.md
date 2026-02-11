@@ -50,6 +50,34 @@ import { BvButton } from "@baklavue/ui";
 </script>
 ```
 
+## Kinds
+
+The Button component supports multiple kinds: default, neutral, success, danger, and custom (with color overrides).
+
+<div class="component-demo" style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+
+<BvButton kind="default" variant="primary">Default</BvButton>
+<BvButton kind="neutral" variant="primary">Neutral</BvButton>
+<BvButton kind="success" variant="primary">Success</BvButton>
+<BvButton kind="danger" variant="primary">Danger</BvButton>
+<BvButton kind="custom" variant="primary" :custom-class="{ color: '#8b5cf6', highlightColor: '#7c3aed' }">Custom</BvButton>
+
+</div>
+
+```vue
+<template>
+  <BvButton kind="default" variant="primary">Default</BvButton>
+  <BvButton kind="neutral" variant="primary">Neutral</BvButton>
+  <BvButton kind="success" variant="primary">Success</BvButton>
+  <BvButton kind="danger" variant="primary">Danger</BvButton>
+  <BvButton kind="custom" variant="primary" :custom-class="{ color: '#8b5cf6', highlightColor: '#7c3aed' }">Custom</BvButton>
+</template>
+
+<script setup>
+import { BvButton } from "@baklavue/ui";
+</script>
+```
+
 ## Sizes
 
 The Button component supports three sizes: small, medium, and large.
@@ -168,7 +196,7 @@ import { BvButton } from "@baklavue/ui";
 | Prop           | Type            | Default     | Description                                         |
 | -------------- | --------------- | ----------- | --------------------------------------------------- |
 | `variant`      | `ButtonVariant` | `'primary'` | Button style variant (primary, secondary, tertiary) |
-| `kind`         | `ButtonKind`    | `'default'` | Button type (default, custom)                       |
+| `kind`         | `ButtonKind`    | `'default'` | Button kind (default, neutral, success, danger, custom) |
 | `size`         | `ButtonSize`    | `'medium'`  | Button size (small, medium, large)                  |
 | `label`        | `string`        | `undefined` | Button label text                                   |
 | `loadingLabel` | `string`        | `'...'`     | Label shown during loading state                    |
@@ -199,7 +227,7 @@ import { BvButton } from "@baklavue/ui";
 import type { ButtonProps } from "@baklavue/ui";
 
 // ButtonVariant: "primary" | "secondary" | "tertiary"
-// ButtonKind: "default" | "custom"
+// ButtonKind: "default" | "neutral" | "success" | "danger" | "custom"
 // ButtonSize: "small" | "medium" | "large"
 
 interface ButtonProps {

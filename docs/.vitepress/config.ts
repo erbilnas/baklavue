@@ -9,7 +9,7 @@ export default defineConfig({
   description: "Vue 3 wrapper library for Trendyol Baklava Design System",
   base: "/baklavue/",
 
-  head: [["link", { rel: "icon", href: "/logo.png" }]],
+  head: [["link", { rel: "icon", href: "/baklavue/logo.png" }]],
 
   themeConfig: {
     logo: "/logo.png",
@@ -53,14 +53,38 @@ export default defineConfig({
               text: `Button${badge("new", "new")}`,
               link: "/components/button",
             },
-            { text: "Checkbox", link: "/components/checkbox" },
-            { text: "Datepicker", link: "/components/datepicker" },
-            { text: "Dialog", link: "/components/dialog" },
-            { text: "Drawer", link: "/components/drawer" },
-            { text: "Dropdown", link: "/components/dropdown" },
-            { text: "Icon", link: "/components/icon" },
-            { text: "Input", link: "/components/input" },
-            { text: "Link", link: "/components/link" },
+            {
+              text: `Checkbox${badge("wip", "wip")}`,
+              link: "/components/checkbox",
+            },
+            {
+              text: `Datepicker${badge("wip", "wip")}`,
+              link: "/components/datepicker",
+            },
+            {
+              text: `Dialog${badge("new", "new")}`,
+              link: "/components/dialog",
+            },
+            {
+              text: `Drawer${badge("new", "new")}`,
+              link: "/components/drawer",
+            },
+            {
+              text: `Dropdown${badge("wip", "wip")}`,
+              link: "/components/dropdown",
+            },
+            {
+              text: `Icon${badge("new", "new")}`,
+              link: "/components/icon",
+            },
+            {
+              text: `Input${badge("new", "new")}`,
+              link: "/components/input",
+            },
+            {
+              text: `Link${badge("new", "new")}`,
+              link: "/components/link",
+            },
             { text: "Notification", link: "/components/notification" },
             { text: "Pagination", link: "/components/pagination" },
             { text: "Radio", link: "/components/radio" },
