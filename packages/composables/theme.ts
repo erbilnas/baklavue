@@ -296,6 +296,8 @@ export const useBaklavaTheme = () => {
     }
 
     styleEl.textContent = css;
+    // Move to end of head so we override any lazy-loaded styles (e.g. from VitePress route chunks)
+    document.head.appendChild(styleEl);
   };
 
   return {

@@ -45,6 +45,8 @@ export default defineConfig({
           items: [
             { text: "Introduction", link: "/guide/getting-started" },
             { text: "Installation", link: "/guide/installation" },
+            { text: "Localization", link: "/guide/localization" },
+            { text: "MCP Support", link: "/guide/mcp" },
             { text: "Contributing", link: "/guide/contributing" },
           ],
         },

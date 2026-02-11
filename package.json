@@ -9,7 +9,8 @@
     "commit": "./scripts/commit.sh",
     "docs:dev": "cd docs && bun run dev",
     "docs:build": "cd docs && bun run build",
-    "docs:preview": "cd docs && bun run preview"
+    "docs:preview": "cd docs && bun run preview",
+    "mcp": "bun run --cwd packages/mcp start"
   },
   "dependencies": {
     "@baklavue/ui": "workspace:*",

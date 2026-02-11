@@ -50,6 +50,7 @@ import LinkSizesDemo from "./components/LinkSizesDemo.vue";
 import LinkStandaloneDemo from "./components/LinkStandaloneDemo.vue";
 import LinkWithIconDemo from "./components/LinkWithIconDemo.vue";
 import LoadingButtonDemo from "./components/LoadingButtonDemo.vue";
+import LocalizationDemo from "./components/LocalizationDemo.vue";
 import NotificationBasicDemo from "./components/NotificationBasicDemo.vue";
 import NotificationDurationDemo from "./components/NotificationDurationDemo.vue";
 import PaginationBasicDemo from "./components/PaginationBasicDemo.vue";
@@ -162,6 +163,7 @@ export default {
     app.component("LinkStandaloneDemo", LinkStandaloneDemo);
     app.component("LinkWithIconDemo", LinkWithIconDemo);
     app.component("LoadingButtonDemo", LoadingButtonDemo);
+    app.component("LocalizationDemo", LocalizationDemo);
     app.component("NotificationBasicDemo", NotificationBasicDemo);
     app.component("NotificationDurationDemo", NotificationDurationDemo);
     app.component("PaginationBasicDemo", PaginationBasicDemo);

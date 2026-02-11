@@ -1,96 +1,130 @@
 # Components
 
-BaklaVue provides Vue 3 UI kit for all Baklava Design System components. Each component is fully typed and follows Vue 3 best practices.
+BaklaVue provides a comprehensive Vue 3 UI kit that brings the [Baklava Design System](https://baklava.design) to your Vue applications. Every component is **fully typed**, **composable**, and built with Vue 3 best practices—giving you a native, delightful development experience.
+
+::: tip Why BaklaVue?
+Each component wraps Baklava's battle-tested web components under the hood, so you get enterprise-grade accessibility, theming, and design consistency—with Vue-native APIs like `v-model`, slots, and reactive props.
+:::
+
+## Overview
+
+| Category | Count | Purpose |
+| -------- | ----- | ------- |
+| Form | 8 | Inputs, selects, buttons, toggles, and date picking |
+| Feedback | 5 | Alerts, badges, tags, notifications, and loading states |
+| Layout | 7 | Dialogs, drawers, dropdowns, tooltips, accordions, tabs, steppers |
+| Navigation | 3 | Links, pagination, split buttons |
+| Data | 2 | Tables and icons |
+
+**25 components** in total—ready to build beautiful, consistent interfaces.
+
+---
 
 ## Form Components
 
-Components for building forms and collecting user input.
+Build forms and collect user input with purpose-built components. All form components support `v-model`, validation states, and full TypeScript inference.
 
-- [Button](/components/button) - Interactive button component
-- [Input](/components/input) - Text input field
-- [Checkbox](/components/checkbox) - Checkbox input
-- [Radio](/components/radio) - Radio button input
-- [Switch](/components/switch) - Toggle switch
-- [Select](/components/select) - Dropdown select
-- [Textarea](/components/textarea) - Multi-line text input
-- [Datepicker](/components/datepicker) - Date selection input
+| Component | Description |
+| --------- | ----------- |
+| [**Button**](/components/button) | Primary, secondary, tertiary variants • Multiple kinds (default, neutral, success, danger) • Sizes, icons, loading state |
+| [**Input**](/components/input) | Text input with label, help text, validation • Types: text, email, password, number • Loading and disabled states |
+| [**Checkbox**](/components/checkbox) | Single and grouped checkboxes • Indeterminate state • Custom slots and preferences |
+| [**Radio**](/components/radio) | Radio button groups with full v-model support |
+| [**Switch**](/components/switch) | Toggle switch for boolean settings • Multiple sizes |
+| [**Select**](/components/select) | Single and multi-select dropdowns • Options via props or slots |
+| [**Textarea**](/components/textarea) | Multi-line text input with validation |
+| [**Datepicker**](/components/datepicker) | Date selection with calendar popover |
+
+---
 
 ## Feedback Components
 
-Components for displaying feedback and status information.
+Communicate status, guide users, and show progress. These components help you build clear, responsive feedback patterns.
 
-- [Alert](/components/alert) - Alert messages
-- [Badge](/components/badge) - Status badges
-- [Tag](/components/tag) - Tag labels
-- [Notification](/components/notification) - Toast notifications
-- [Spinner](/components/spinner) - Loading spinner
+| Component | Description |
+| --------- | ----------- |
+| [**Alert**](/components/alert) | Inline alerts for success, warning, error, info • Closable and programmatic control |
+| [**Badge**](/components/badge) | Compact status indicators (e.g. counts, labels) |
+| [**Tag**](/components/tag) | Labels with optional close button • Selectable and customizable icons |
+| [**Notification**](/components/notification) | Toast-style notifications • Use composable `useNotification` for programmatic control |
+| [**Spinner**](/components/spinner) | Loading spinner with size and variant options |
+
+---
 
 ## Layout Components
 
-Components for organizing content and creating layouts.
+Structure your UI with overlays, panels, and navigation patterns. Full control over open/close behavior and animations.
 
-- [Dialog](/components/dialog) - Modal dialog
-- [Drawer](/components/drawer) - Side drawer
-- [Dropdown](/components/dropdown) - Dropdown menu
-- [Tooltip](/components/tooltip) - Tooltip popover
-- [Accordion](/components/accordion) - Collapsible accordion
-- [Tab](/components/tab) - Tab navigation
-- [Stepper](/components/stepper) - Step indicator
+| Component | Description |
+| --------- | ----------- |
+| [**Dialog**](/components/dialog) | Modal dialogs with header, footer, caption • Programmatic open/close |
+| [**Drawer**](/components/drawer) | Side drawer for navigation or forms • Left/right placement |
+| [**Dropdown**](/components/dropdown) | Dropdown menus with items, groups, and slots |
+| [**Tooltip**](/components/tooltip) | Contextual tooltips with placement control |
+| [**Accordion**](/components/accordion) | Collapsible sections • Single or multiple open |
+| [**Tab**](/components/tab) | Tab navigation with slot-based panels |
+| [**Stepper**](/components/stepper) | Step indicator for wizards and multi-step flows |
+
+---
 
 ## Navigation Components
 
-Components for navigation and user actions.
+Help users move through your app and trigger actions.
 
-- [Link](/components/link) - Navigation link
-- [Pagination](/components/pagination) - Page navigation
-- [Split Button](/components/split-button) - Button with dropdown
+| Component | Description |
+| --------- | ----------- |
+| [**Link**](/components/link) | Internal and external links • Standalone and inline variants |
+| [**Pagination**](/components/pagination) | Page navigation with jumper and select controls |
+| [**Split Button**](/components/split-button) | Primary action with secondary dropdown options |
+
+---
 
 ## Data Display
 
-Components for displaying data and content.
+Render data and assets with consistent styling.
 
-- [Table](/components/table) - Data table
-- [Icon](/components/icon) - Icon component
+| Component | Description |
+| --------- | ----------- |
+| [**Table**](/components/table) | Data tables with sorting, pagination, loading states • Custom cell slots |
+| [**Icon**](/components/icon) | Icon component with size and color props |
 
-## Usage Example
+---
+
+## Quick Start
+
+### Import and Use
+
+Import components individually (recommended for tree-shaking):
 
 ```vue
 <template>
-  <div>
-    <BvButton variant="primary" @click="handleClick"> Submit </BvButton>
+  <div class="form-example">
     <BvInput v-model="email" label="Email" type="email" />
+    <BvButton variant="primary" @click="handleSubmit">Submit</BvButton>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import { BvButton, BvInput } from "@baklavue/ui";
 
 const email = ref("");
 
-const handleClick = () => {
+const handleSubmit = () => {
   console.log("Submitted:", email.value);
 };
 </script>
 ```
 
-## Importing Components
-
-You can import components individually:
-
-```typescript
-import { BvButton, BvInput, BvCheckbox } from "@baklavue/ui";
-```
-
-Or import all components:
+Or import everything:
 
 ```typescript
 import * as BaklaVue from "@baklavue/ui";
 ```
 
-## TypeScript Support
+### TypeScript
 
-All components are fully typed:
+All components ship with full type definitions. Use inferred props or import types:
 
 ```typescript
 import type { ButtonProps } from "@baklavue/ui";
@@ -101,8 +135,11 @@ const props: ButtonProps = {
 };
 ```
 
+---
+
 ## Next Steps
 
-- Browse individual component documentation
-- Check [API Reference](/api/reference) for detailed API
-- See [Getting Started Guide](/guide/getting-started) for setup
+- [**Browse components**](/components/button) — Each component has examples, API docs, and live demos
+- [**API Reference**](/api/reference) — Full programmatic API
+- [**Getting Started**](/guide/getting-started) — Project setup and configuration
+- [**Design Tokens**](/guide/design-tokens) — Customize colors, spacing, typography

@@ -1,0 +1,29 @@
+{
+  "name": "@baklavue/mcp",
+  "version": "0.0.0",
+  "description": "MCP server for Baklavue - Vue 3 UI kit for Baklava Design System",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "baklavue-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.9.2"
+  },
+  "keywords": ["mcp", "baklavue", "vue", "baklava", "design-system"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erbilnas/baklavue.git",
+    "directory": "packages/mcp"
+  }
+}

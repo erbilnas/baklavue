@@ -79,6 +79,7 @@ const handleClick = () => {
 - 📦 **Type Safe**: Full TypeScript support with proper type definitions for all components, props, events, and composables
 - ⚡ **Modern Build**: Uses Bun for fast package management and building. Optimized bundle sizes with tree-shaking support
 - 📚 **Well Documented**: Comprehensive documentation with examples and interactive playground
+- 🤖 **MCP Support**: [Model Context Protocol](https://modelcontextprotocol.io) server for AI assistants (Cursor, Claude, Windsurf)
 
 ## Components
 
@@ -123,6 +124,7 @@ Ready to dive deeper? Explore these resources:
 
 - **[Documentation Site](https://erbilnas.github.io/baklavue/)** - Complete documentation with interactive examples
 - **[Getting Started Guide](/docs/guide/getting-started)** - Complete setup instructions and first steps
+- **[MCP Support](/docs/guide/mcp)** - Use Baklavue with AI assistants (Cursor, Claude)
 - **[Component Documentation](/docs/components/)** - Browse all available components with examples
 - **[GitHub Repository](https://github.com/erbilnas/baklavue)** - View source code and contribute
 

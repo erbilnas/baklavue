@@ -29,6 +29,18 @@ features:
   - icon: 📚
     title: Well Documented
     details: API docs, examples, and interactive playgrounds for every component.
+  - icon: 🤖
+    title: MCP Support
+    details: Model Context Protocol server for AI assistants like Cursor, Claude, and Windsurf.
+  - icon: 🌐
+    title: Localization
+    details: Built-in i18n support for multi-language applications.
+  - icon: ↔️
+    title: RTL Support
+    details: Right-to-left layout support for Arabic, Hebrew, and other RTL languages.
+  - icon: 🎨
+    title: Theme Customization
+    details: Design tokens for colors, typography, and spacing. Apply presets or define your own brand.
 ---
 
 ## What is BaklaVue?
@@ -85,7 +97,7 @@ More for programmatic control and DX.
 ## Learn More
 
 - [Getting Started](/guide/getting-started) · [Installation](/guide/installation)
-- [Components](/components/) · [API Reference](/api/reference) · [Contributing](/guide/contributing)
+- [Components](/components/) · [API Reference](/api/reference) · [MCP Support](/guide/mcp) · [Localization](/guide/localization) · [Contributing](/guide/contributing)
 
 ---
 
