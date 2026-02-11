@@ -28,7 +28,8 @@
     "release:dry-run": "semantic-release --dry-run"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@trendyol/baklava": "^3.4.2"
   },
   "peerDependencies": {
     "typescript": "^5.9.2",

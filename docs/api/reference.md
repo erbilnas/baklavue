@@ -207,10 +207,10 @@ interface TextareaEmits {
 import { useNotification, useBaklavaTheme } from "@baklavue/composables";
 
 interface NotificationOptions {
-  title?: string;
-  message?: string;
+  caption?: string;    // Notification title
+  description: string; // Notification message (required)
   duration?: number;
-  closable?: boolean;
+  permanent?: boolean;
 }
 
 interface UseNotificationReturn {

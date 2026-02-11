@@ -196,15 +196,15 @@ const { success, error, info, warning } = useNotification();
 
 const showSuccess = () => {
   success({
-    title: "Operation Successful",
-    message: "Your changes have been saved",
+    caption: "Operation Successful",
+    description: "Your changes have been saved",
   });
 };
 
 const showError = () => {
   error({
-    title: "Error Occurred",
-    message: "Please try again later",
+    caption: "Error Occurred",
+    description: "Please try again later",
   });
 };
 </script>
@@ -313,9 +313,9 @@ const handleAction = async () => {
   try {
     // Perform async operation
     await performAction();
-    success({ title: "Success", message: "Action completed" });
+    success({ caption: "Success", description: "Action completed" });
   } catch (err) {
-    error({ title: "Error", message: "Action failed" });
+    error({ caption: "Error", description: "Action failed" });
   }
 };
 </script>

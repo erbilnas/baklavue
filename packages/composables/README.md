@@ -60,33 +60,33 @@ const { success, error, warning, info } = useNotification();
 
 const showSuccess = () => {
   success({
-    title: "Success!",
-    message: "Operation completed successfully.",
-    duration: 5000,
+    caption: "Success!",
+    description: "Operation completed successfully.",
+    duration: 5,
   });
 };
 
 const showError = () => {
   error({
-    title: "Error!",
-    message: "Something went wrong. Please try again.",
-    duration: 8000,
+    caption: "Error!",
+    description: "Something went wrong. Please try again.",
+    duration: 8,
   });
 };
 
 const showWarning = () => {
   warning({
-    title: "Warning!",
-    message: "Please review your input before proceeding.",
-    duration: 6000,
+    caption: "Warning!",
+    description: "Please review your input before proceeding.",
+    duration: 6,
   });
 };
 
 const showInfo = () => {
   info({
-    title: "Information",
-    message: "Here is some useful information for you.",
-    duration: 4000,
+    caption: "Information",
+    description: "Here is some useful information for you.",
+    duration: 4,
   });
 };
 </script>
@@ -118,10 +118,10 @@ All notification methods accept a `NotificationProps` object with the following 
 
 ```typescript
 interface NotificationProps {
-  title: string; // Notification title
-  message: string; // Notification message/content
-  duration?: number; // Duration in milliseconds (optional)
-  icon?: boolean; // Whether to show an icon (default: true)
+  caption?: string;    // Notification title
+  description: string; // Notification message (required)
+  duration?: number;  // Duration in seconds (optional)
+  permanent?: boolean; // Prevent auto-close
   // ... other Baklava notification properties
 }
 ```

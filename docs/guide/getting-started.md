@@ -64,8 +64,8 @@ const { success } = useNotification();
 
 const showNotification = () => {
   success({
-    title: "Success!",
-    message: "Operation completed successfully",
+    caption: "Success!",
+    description: "Operation completed successfully",
   });
 };
 </script>

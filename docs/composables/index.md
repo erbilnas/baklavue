@@ -19,8 +19,8 @@ const { success, error, warning, info } = useNotification();
 
 // Use the composable methods
 success({
-  title: "Success!",
-  message: "Operation completed",
+  caption: "Success!",
+  description: "Operation completed",
 });
 </script>
 ```

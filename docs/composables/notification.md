@@ -23,29 +23,29 @@ const { success, error, warning, info } = useNotification();
 
 const showSuccess = () => {
   success({
-    title: "Success!",
-    message: "Operation completed successfully",
+    caption: "Success!",
+    description: "Operation completed successfully",
   });
 };
 
 const showError = () => {
   error({
-    title: "Error",
-    message: "Something went wrong",
+    caption: "Error",
+    description: "Something went wrong",
   });
 };
 
 const showWarning = () => {
   warning({
-    title: "Warning",
-    message: "Please check your input",
+    caption: "Warning",
+    description: "Please check your input",
   });
 };
 
 const showInfo = () => {
   info({
-    title: "Info",
-    message: "This is an informational message",
+    caption: "Info",
+    description: "This is an informational message",
   });
 };
 </script>
@@ -87,12 +87,16 @@ info(options: NotificationOptions): void
 
 ## Notification Options
 
+Uses Baklava's `NotificationProps`. Key options:
+
 ```typescript
 interface NotificationOptions {
-  title?: string;
-  message?: string;
+  caption?: string;    // Notification title
+  description: string; // Notification message (required)
   duration?: number;
-  closable?: boolean;
+  permanent?: boolean;
+  primaryAction?: { label: string; onClick: () => void };
+  secondaryAction?: { label: string; onClick: () => void };
 }
 ```
 
@@ -108,8 +112,8 @@ const { success } = useNotification();
 
 const showNotification = () => {
   success({
-    title: "Saved",
-    message: "Your changes have been saved",
+    caption: "Saved",
+    description: "Your changes have been saved",
     duration: 5, // Show for 5 seconds
   });
 };
@@ -126,8 +130,8 @@ const { error } = useNotification()
 
 const handleError = (err: Error) => {
   error({
-    title: 'Error',
-    message: err.message
+    caption: 'Error',
+    description: err.message
   })
 }
 </script>
@@ -159,7 +163,7 @@ const notification = useNotification();
 
 // All methods are fully typed
 notification.success({
-  title: "Success",
-  message: "Done!",
+  caption: "Success",
+  description: "Done!",
 });
 ```
