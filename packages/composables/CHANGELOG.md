@@ -1,3 +1,10 @@
+# [@baklavue/composables-v1.0.0-preview.2](https://github.com/erbilnas/baklavue/compare/@baklavue/composables-v1.0.0-preview.1...@baklavue/composables-v1.0.0-preview.2) (2026-02-11)
+
+
+### Features
+
+* add new composables ([49105ea](https://github.com/erbilnas/baklavue/commit/49105eaa106f1a5b888f9e3f9638ed9776b3d55b))
+
 # @baklavue/composables-v1.0.0-preview.1 (2026-02-11)
 
 
