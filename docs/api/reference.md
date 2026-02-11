@@ -197,6 +197,17 @@ Components for displaying feedback and status information.
 
 Container for toast notifications triggered via `useNotification`. Must be mounted for composable to work.
 
+### BvSkeleton
+
+[Skeleton](/components/skeleton) · `import { BvSkeleton } from "@baklavue/ui"`
+
+| Prop      | Type             | Description                         |
+| --------- | ---------------- | ----------------------------------- |
+| `variant` | `SkeletonVariant` | text, rectangle, circle             |
+| `width`   | `string`         | Width (CSS value)                   |
+| `height`  | `string`         | Height (CSS value)                  |
+| `count`   | `number`         | Number of elements (for text lines) |
+
 ### BvSpinner
 
 [Spinner](/components/spinner) · `import { BvSpinner } from "@baklavue/ui"`
@@ -326,6 +337,21 @@ Components for organizing content and creating layouts.
 ## Navigation Components
 
 Components for navigation and user actions.
+
+### BvScrollToTop
+
+[ScrollToTop](/components/scroll-to-top) · `import { BvScrollToTop } from "@baklavue/ui"`
+
+| Prop        | Type                 | Description                                  |
+| ----------- | -------------------- | -------------------------------------------- |
+| `threshold` | `number`             | Scroll threshold (px) before button appears   |
+| `position`  | `ScrollToTopPosition` | bottom-right, bottom-left, top-right, top-left |
+| `label`     | `string`             | Accessible label                             |
+| `size`      | `ButtonSize`         | Button size                                  |
+| `variant`   | `ButtonVariant`      | Button variant                               |
+
+**Events:** `click`
+
 
 ### BvLink
 
@@ -707,6 +733,8 @@ import type {
   TagVariant,
   TagSize,
   NotificationProps,
+  SkeletonProps,
+  SkeletonVariant,
   SpinnerProps,
   // Layout
   DialogProps,
@@ -722,6 +750,8 @@ import type {
   StepperProps,
   StepperStep,
   // Navigation
+  ScrollToTopProps,
+  ScrollToTopPosition,
   LinkProps,
   LinkVariant,
   LinkSize,

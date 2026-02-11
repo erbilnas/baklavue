@@ -11,12 +11,12 @@ Each component wraps Baklava's battle-tested web components under the hood, so y
 | Category | Count | Purpose |
 | -------- | ----- | ------- |
 | Form | 8 | Inputs, selects, buttons, toggles, and date picking |
-| Feedback | 5 | Alerts, badges, tags, notifications, and loading states |
+| Feedback | 6 | Alerts, badges, tags, notifications, spinners, and skeleton loaders |
 | Layout | 7 | Dialogs, drawers, dropdowns, tooltips, accordions, tabs, steppers |
-| Navigation | 3 | Links, pagination, split buttons |
+| Navigation | 4 | Links, pagination, split buttons, scroll-to-top |
 | Data | 2 | Tables and icons |
 
-**25 components** in total—ready to build beautiful, consistent interfaces.
+**27 components** in total—ready to build beautiful, consistent interfaces.
 
 ---
 
@@ -47,6 +47,7 @@ Communicate status, guide users, and show progress. These components help you bu
 | [**Badge**](/components/badge) | Compact status indicators (e.g. counts, labels) |
 | [**Tag**](/components/tag) | Labels with optional close button • Selectable and customizable icons |
 | [**Notification**](/components/notification) | Toast-style notifications • Use composable `useNotification` for programmatic control |
+| [**Skeleton**](/components/skeleton) | Animated placeholder for content loading • Text, rectangle, circle variants |
 | [**Spinner**](/components/spinner) | Loading spinner with size and variant options |
 
 ---
@@ -75,6 +76,7 @@ Help users move through your app and trigger actions.
 | --------- | ----------- |
 | [**Link**](/components/link) | Internal and external links • Standalone and inline variants |
 | [**Pagination**](/components/pagination) | Page navigation with jumper and select controls |
+| [**ScrollToTop**](/components/scroll-to-top) | Floating button to scroll back to top • Configurable threshold and position |
 | [**Split Button**](/components/split-button) | Primary action with secondary dropdown options |
 
 ---

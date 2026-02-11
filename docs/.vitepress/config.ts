@@ -142,8 +142,16 @@ export default defineConfig({
               link: "/components/radio",
             },
             {
+              text: `ScrollToTop${badge("new", "new")}`,
+              link: "/components/scroll-to-top",
+            },
+            {
               text: `Select${badge("new", "new")}`,
               link: "/components/select",
+            },
+            {
+              text: `Skeleton${badge("new", "new")}`,
+              link: "/components/skeleton",
             },
             {
               text: `Spinner${badge("new", "new")}`,
