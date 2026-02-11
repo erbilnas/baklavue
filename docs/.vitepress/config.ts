@@ -129,6 +129,10 @@ export default defineConfig({
               link: "/components/image",
             },
             {
+              text: `File Upload${badge("new", "new")}`,
+              link: "/components/file-upload",
+            },
+            {
               text: `Input`,
               link: "/components/input",
             },

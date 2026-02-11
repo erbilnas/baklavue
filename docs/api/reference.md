@@ -125,6 +125,27 @@ Components for building forms and collecting user input.
 
 **Events:** `update:modelValue`, `invalid`
 
+### BvFileUpload
+
+[File Upload](/components/file-upload) · `import { BvFileUpload } from "@baklavue/ui"`
+
+| Prop          | Type                        | Description                                |
+| ------------- | --------------------------- | ------------------------------------------ |
+| `modelValue`  | `File \| File[] \| null`    | v-model                                    |
+| `multiple`    | `boolean`                   | Allow multiple files                       |
+| `accept`      | `string`                    | MIME types or extensions (e.g. `image/*`)  |
+| `maxSize`     | `number`                    | Max file size (bytes)                      |
+| `minSize`     | `number`                    | Min file size (bytes)                      |
+| `maxFiles`    | `number`                    | Max file count when multiple               |
+| `disabled`    | `boolean`                   | Disabled state                             |
+| `label`       | `string`                    | Label                                      |
+| `helpText`    | `string`                    | Helper text                                |
+| `invalidText` | `string`                    | Error message                              |
+| `showPreview` | `boolean`                   | Image previews for image files             |
+| `size`        | `FileUploadSize`            | small, medium, large                       |
+
+**Events:** `update:modelValue`, `invalid`, `change`
+
 ### BvDatepicker
 
 [Datepicker](/components/datepicker) · `import { BvDatepicker } from "@baklavue/ui"`

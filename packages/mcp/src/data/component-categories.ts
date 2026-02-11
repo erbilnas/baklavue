@@ -11,6 +11,7 @@ export const COMPONENT_CATEGORIES: Record<string, string> = {
   Switch: "form",
   Select: "form",
   Textarea: "form",
+  FileUpload: "form",
   Datepicker: "form",
   // Feedback Components
   Alert: "feedback",

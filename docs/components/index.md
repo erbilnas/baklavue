@@ -10,13 +10,13 @@ Each component wraps Baklava's battle-tested web components under the hood, so y
 
 | Category | Count | Purpose |
 | -------- | ----- | ------- |
-| Form | 8 | Inputs, selects, buttons, toggles, and date picking |
+| Form | 9 | Inputs, selects, buttons, toggles, file upload, and date picking |
 | Feedback | 6 | Alerts, badges, tags, notifications, spinners, and skeleton loaders |
 | Layout | 7 | Dialogs, drawers, dropdowns, tooltips, accordions, tabs, steppers |
 | Navigation | 4 | Links, pagination, split buttons, scroll-to-top |
 | Data | 3 | Tables, icons, and images |
 
-**28 components** in total—ready to build beautiful, consistent interfaces.
+**29 components** in total—ready to build beautiful, consistent interfaces.
 
 ---
 
@@ -33,6 +33,7 @@ Build forms and collect user input with purpose-built components. All form compo
 | [**Switch**](/components/switch) | Toggle switch for boolean settings • Multiple sizes |
 | [**Select**](/components/select) | Single and multi-select dropdowns • Options via props or slots |
 | [**Textarea**](/components/textarea) | Multi-line text input with validation |
+| [**File Upload**](/components/file-upload) | Drag-and-drop file upload with validation, preview, and file list |
 | [**Datepicker**](/components/datepicker) | Date selection with calendar popover |
 
 ---

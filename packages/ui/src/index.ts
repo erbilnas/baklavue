@@ -17,6 +17,7 @@ export * from "./datepicker";
 export * from "./dialog";
 export * from "./drawer";
 export * from "./dropdown";
+export * from "./file-upload";
 export * from "./icon";
 export * from "./image";
 export * from "./input";

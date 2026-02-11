@@ -29,6 +29,12 @@ import DropdownProgrammaticDemo from "./components/DropdownProgrammaticDemo.vue"
 import DropdownSlotDemo from "./components/DropdownSlotDemo.vue";
 import DynamicItemsDemo from "./components/DynamicItemsDemo.vue";
 import FaqSlotsDemo from "./components/FaqSlotsDemo.vue";
+import FileUploadBasicDemo from "./components/FileUploadBasicDemo.vue";
+import FileUploadDisabledDemo from "./components/FileUploadDisabledDemo.vue";
+import FileUploadMultipleDemo from "./components/FileUploadMultipleDemo.vue";
+import FileUploadPreviewDemo from "./components/FileUploadPreviewDemo.vue";
+import FileUploadValidationDemo from "./components/FileUploadValidationDemo.vue";
+import FileUploadSlotDemo from "./components/FileUploadSlotDemo.vue";
 import FormSubmitButtonDemo from "./components/FormSubmitButtonDemo.vue";
 import IconBasicDemo from "./components/IconBasicDemo.vue";
 import IconColorDemo from "./components/IconColorDemo.vue";
@@ -147,6 +153,12 @@ export default {
     app.component("DrawerProgrammaticDemo", DrawerProgrammaticDemo);
     app.component("DynamicItemsDemo", DynamicItemsDemo);
     app.component("FaqSlotsDemo", FaqSlotsDemo);
+    app.component("FileUploadBasicDemo", FileUploadBasicDemo);
+    app.component("FileUploadDisabledDemo", FileUploadDisabledDemo);
+    app.component("FileUploadMultipleDemo", FileUploadMultipleDemo);
+    app.component("FileUploadPreviewDemo", FileUploadPreviewDemo);
+    app.component("FileUploadValidationDemo", FileUploadValidationDemo);
+    app.component("FileUploadSlotDemo", FileUploadSlotDemo);
     app.component("FormSubmitButtonDemo", FormSubmitButtonDemo);
     app.component("IconBasicDemo", IconBasicDemo);
     app.component("IconColorDemo", IconColorDemo);
