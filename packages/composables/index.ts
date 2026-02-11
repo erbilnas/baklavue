@@ -54,6 +54,15 @@ export {
   type UseFetchReturn,
 } from "./fetch";
 export {
+  useQuery,
+  useQueryClient,
+  type InvalidateQueriesOptions,
+  type QueryClient,
+  type QueryKey,
+  type UseQueryOptions,
+  type UseQueryReturn,
+} from "./query";
+export {
   useIntersectionObserver,
   type UseIntersectionObserverOptions,
 } from "./intersectionObserver";

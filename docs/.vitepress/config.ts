@@ -226,6 +226,7 @@ export default defineConfig({
               link: "/composables/timer",
             },
             { text: "useFetch", link: "/composables/fetch" },
+            { text: "useQuery", link: "/composables/query" },
             {
               text: "useIntersectionObserver",
               link: "/composables/intersectionObserver",

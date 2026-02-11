@@ -174,6 +174,14 @@ export function listComposables(): ComposableInfo[] {
       description: "Reactive fetch with loading/error/data",
     },
     {
+      name: "useQuery",
+      description: "Data fetching with caching, retries, and invalidation",
+    },
+    {
+      name: "useQueryClient",
+      description: "Cache invalidation and manual cache access for useQuery",
+    },
+    {
       name: "useIntersectionObserver",
       description: "Detect element visibility in viewport",
     },
@@ -207,6 +215,8 @@ const COMPOSABLE_TO_FILE: Record<string, string> = {
   useIntervalFn: "timer",
   useTimeoutFn: "timer",
   useFetch: "fetch",
+  useQuery: "query",
+  useQueryClient: "query",
   useIntersectionObserver: "intersectionObserver",
   useRafFn: "raf",
 };

@@ -20,6 +20,7 @@ BaklaVue provides Vue 3 composables to enhance your application functionality.
 - [useThrottleFn / useThrottledRef](/composables/throttle) - Throttle function or ref value
 - [useIntervalFn / useTimeoutFn](/composables/timer) - Pausable interval and cancellable timeout
 - [useFetch](/composables/fetch) - Reactive fetch with loading/error/data
+- [useQuery](/composables/query) - Data fetching with caching, retries, and invalidation
 - [useIntersectionObserver](/composables/intersectionObserver) - Detect element visibility in viewport
 - [useRafFn](/composables/raf) - Animation frame loop
 
