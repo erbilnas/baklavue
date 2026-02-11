@@ -23,6 +23,16 @@
   border-radius: 8px;
 }
 
+/* Table demos: ensure table fills width and has proper overflow */
+.component-demo .table,
+.component-demo .table-content {
+  width: 100%;
+}
+
+.component-demo .table-content {
+  overflow-x: auto;
+}
+
 .component-demo + pre {
   margin-top: 1rem;
 }
@@ -55,10 +65,14 @@ bl-split-button,
 bl-stepper,
 bl-stepper-item,
 bl-tab,
-bl-table,
+bl-tab-group,
+bl-tab-panel,
 bl-accordion {
   display: block;
 }
+
+/* Table elements: do NOT use display:block - Baklava uses table layout
+   (table-header-group, table-row-group, table-row, table-cell) */
 
 /* Sidebar badge alignment */
 .VPSidebarItem .text .VPBadge {
