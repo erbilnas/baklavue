@@ -1,7 +1,9 @@
+import { h } from "vue";
 import { useBaklavaTheme } from "@baklavue/composables";
 import * as BaklaVue from "@baklavue/ui";
 import "@trendyol/baklava/dist/themes/default.css";
 import Theme from "vitepress/theme";
+import BaklavaVersionBadge from "./components/BaklavaVersionBadge.vue";
 import AlertProgrammaticDemo from "./components/AlertProgrammaticDemo.vue";
 import CheckboxCustomSlotDemo from "./components/CheckboxCustomSlotDemo.vue";
 import CheckboxDisabledDemo from "./components/CheckboxDisabledDemo.vue";
@@ -18,14 +20,14 @@ import DialogClosableDemo from "./components/DialogClosableDemo.vue";
 import DialogHeaderFooterDemo from "./components/DialogHeaderFooterDemo.vue";
 import DialogProgrammaticDemo from "./components/DialogProgrammaticDemo.vue";
 import DrawerBasicDemo from "./components/DrawerBasicDemo.vue";
+import DrawerCaptionDemo from "./components/DrawerCaptionDemo.vue";
+import DrawerProgrammaticDemo from "./components/DrawerProgrammaticDemo.vue";
 import DropdownBasicDemo from "./components/DropdownBasicDemo.vue";
 import DropdownDisabledDemo from "./components/DropdownDisabledDemo.vue";
 import DropdownGroupDemo from "./components/DropdownGroupDemo.vue";
 import DropdownItemsDemo from "./components/DropdownItemsDemo.vue";
 import DropdownProgrammaticDemo from "./components/DropdownProgrammaticDemo.vue";
 import DropdownSlotDemo from "./components/DropdownSlotDemo.vue";
-import DrawerCaptionDemo from "./components/DrawerCaptionDemo.vue";
-import DrawerProgrammaticDemo from "./components/DrawerProgrammaticDemo.vue";
 import DynamicItemsDemo from "./components/DynamicItemsDemo.vue";
 import FaqSlotsDemo from "./components/FaqSlotsDemo.vue";
 import FormSubmitButtonDemo from "./components/FormSubmitButtonDemo.vue";
@@ -55,6 +57,9 @@ import PaginationBasicDemo from "./components/PaginationBasicDemo.vue";
 import PaginationJumperDemo from "./components/PaginationJumperDemo.vue";
 import PaginationSelectDemo from "./components/PaginationSelectDemo.vue";
 import ProgrammaticControlDemo from "./components/ProgrammaticControlDemo.vue";
+import RadioDisabledDemo from "./components/RadioDisabledDemo.vue";
+import RadioGroupDemo from "./components/RadioGroupDemo.vue";
+import RadioSingleDemo from "./components/RadioSingleDemo.vue";
 import SelectBasicDemo from "./components/SelectBasicDemo.vue";
 import SelectDisabledDemo from "./components/SelectDisabledDemo.vue";
 import SelectMultipleDemo from "./components/SelectMultipleDemo.vue";
@@ -68,6 +73,17 @@ import SplitButtonBasicDemo from "./components/SplitButtonBasicDemo.vue";
 import SplitButtonDropdownDemo from "./components/SplitButtonDropdownDemo.vue";
 import SplitButtonWithIconDemo from "./components/SplitButtonWithIconDemo.vue";
 import StepperBasicDemo from "./components/StepperBasicDemo.vue";
+import StepperChangeEventDemo from "./components/StepperChangeEventDemo.vue";
+import StepperDescriptionDemo from "./components/StepperDescriptionDemo.vue";
+import StepperDisabledDemo from "./components/StepperDisabledDemo.vue";
+import StepperErrorDemo from "./components/StepperErrorDemo.vue";
+import StepperFormWizardDemo from "./components/StepperFormWizardDemo.vue";
+import StepperNoLabelsDemo from "./components/StepperNoLabelsDemo.vue";
+import StepperOrientationDemo from "./components/StepperOrientationDemo.vue";
+import StepperWithStepsDemo from "./components/StepperWithStepsDemo.vue";
+import SwitchBasicDemo from "./components/SwitchBasicDemo.vue";
+import SwitchDisabledDemo from "./components/SwitchDisabledDemo.vue";
+import SwitchSizesDemo from "./components/SwitchSizesDemo.vue";
 import TabBasicDemo from "./components/TabBasicDemo.vue";
 import TabWithSlotsDemo from "./components/TabWithSlotsDemo.vue";
 import TableBasicDemo from "./components/TableBasicDemo.vue";
@@ -87,21 +103,15 @@ import TextareaBasicDemo from "./components/TextareaBasicDemo.vue";
 import TextareaValidationDemo from "./components/TextareaValidationDemo.vue";
 import TooltipBasicDemo from "./components/TooltipBasicDemo.vue";
 import TooltipPlacementDemo from "./components/TooltipPlacementDemo.vue";
-import StepperChangeEventDemo from "./components/StepperChangeEventDemo.vue";
-import StepperDescriptionDemo from "./components/StepperDescriptionDemo.vue";
-import StepperDisabledDemo from "./components/StepperDisabledDemo.vue";
-import StepperErrorDemo from "./components/StepperErrorDemo.vue";
-import StepperFormWizardDemo from "./components/StepperFormWizardDemo.vue";
-import StepperNoLabelsDemo from "./components/StepperNoLabelsDemo.vue";
-import StepperOrientationDemo from "./components/StepperOrientationDemo.vue";
-import StepperWithStepsDemo from "./components/StepperWithStepsDemo.vue";
-import SwitchBasicDemo from "./components/SwitchBasicDemo.vue";
-import SwitchDisabledDemo from "./components/SwitchDisabledDemo.vue";
-import SwitchSizesDemo from "./components/SwitchSizesDemo.vue";
 import "./style.css";
 
 export default {
   extends: Theme,
+  Layout: () => {
+    return h(Theme.Layout, null, {
+      "nav-bar-title-after": () => h(BaklavaVersionBadge),
+    });
+  },
   enhanceApp({ app }) {
     useBaklavaTheme().applyTheme({ preset: "vue" });
     app.component("AlertProgrammaticDemo", AlertProgrammaticDemo);
@@ -157,6 +167,9 @@ export default {
     app.component("PaginationJumperDemo", PaginationJumperDemo);
     app.component("PaginationSelectDemo", PaginationSelectDemo);
     app.component("ProgrammaticControlDemo", ProgrammaticControlDemo);
+    app.component("RadioDisabledDemo", RadioDisabledDemo);
+    app.component("RadioGroupDemo", RadioGroupDemo);
+    app.component("RadioSingleDemo", RadioSingleDemo);
     app.component("SelectBasicDemo", SelectBasicDemo);
     app.component("SelectDisabledDemo", SelectDisabledDemo);
     app.component("SelectMultipleDemo", SelectMultipleDemo);
@@ -203,13 +216,17 @@ export default {
     // Register all BaklaVue components globally
     // Components are exported with "Bv" prefix (e.g., BvAccordion)
     // Register them with both prefixed and non-prefixed names
+    // Skip non-prefixed names that conflict with VitePress built-in components
+    const VITEPRESS_BUILTIN_COMPONENTS = ["Badge"];
     for (const [key, component] of Object.entries(BaklaVue)) {
       if (key.startsWith("Bv") && typeof component !== "function") {
         // Register with prefixed name (BvAccordion)
         app.component(key, component);
-        // Also register without prefix (Accordion) for convenience
+        // Also register without prefix (Accordion) for convenience, unless it conflicts
         const name = key.replace(/^Bv/, "");
-        app.component(name, component);
+        if (!VITEPRESS_BUILTIN_COMPONENTS.includes(name)) {
+          app.component(name, component);
+        }
       }
     }
   },

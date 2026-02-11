@@ -39,6 +39,10 @@ features:
 
 ## What is BaklaVue?
 
+::: info Baklava Version
+BaklaVue is based on [@trendyol/baklava](https://www.npmjs.com/package/@trendyol/baklava) **v3.4.2**.
+:::
+
 BaklaVue is a comprehensive Vue 3 wrapper library for the [Trendyol Baklava Design System](https://github.com/Trendyol/baklava). It bridges the gap between Baklava's web components and Vue 3's reactive ecosystem, providing a seamless development experience with full TypeScript support, Vue-friendly APIs, and powerful composables.
 
 ### Why BaklaVue?

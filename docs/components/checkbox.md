@@ -82,7 +82,11 @@ Use the indeterminate state for "select all" or partial selection scenarios.
 
 ```vue
 <template>
-  <BvCheckbox v-model="checked" label="Select all" :indeterminate="indeterminate" />
+  <BvCheckbox
+    v-model="checked"
+    label="Select all"
+    :indeterminate="indeterminate"
+  />
 </template>
 
 <script setup>
@@ -236,36 +240,36 @@ const preferenceItems = [
 
 When used as a single checkbox (without `items` prop):
 
-| Prop          | Type               | Default     | Description                                      |
-| ------------- | ------------------ | ----------- | ------------------------------------------------ |
-| `modelValue`  | `boolean`          | `undefined` | Checked state (use v-model for two-way binding)  |
-| `disabled`    | `boolean`          | `undefined` | Whether the checkbox is disabled                 |
-| `indeterminate` | `boolean`        | `undefined` | Whether the checkbox is in indeterminate state   |
-| `value`       | `string \| number`  | `undefined` | Value for form submission                        |
-| `name`        | `string`           | `undefined` | Name attribute for the checkbox                  |
-| `label`       | `string`           | `undefined` | Label text (can be overridden by default slot)   |
+| Prop            | Type               | Default     | Description                                     |
+| --------------- | ------------------ | ----------- | ----------------------------------------------- |
+| `modelValue`    | `boolean`          | `undefined` | Checked state (use v-model for two-way binding) |
+| `disabled`      | `boolean`          | `undefined` | Whether the checkbox is disabled                |
+| `indeterminate` | `boolean`          | `undefined` | Whether the checkbox is in indeterminate state  |
+| `value`         | `string \| number` | `undefined` | Value for form submission                       |
+| `name`          | `string`           | `undefined` | Name attribute for the checkbox                 |
+| `label`         | `string`           | `undefined` | Label text (can be overridden by default slot)  |
 
 ### Group Mode Props
 
 When used as a checkbox group (with `items` prop):
 
-| Prop         | Type              | Default     | Description                                                         |
-| ------------ | ----------------- | ----------- | ------------------------------------------------------------------- |
-| `modelValue` | `(string \| number)[]` | `undefined` | Selected values array (use v-model for two-way binding)         |
-| `items`      | `CheckboxItem[]`  | `undefined` | Array of checkbox items. Each item renders as a bl-checkbox element |
+| Prop         | Type                   | Default     | Description                                                         |
+| ------------ | ---------------------- | ----------- | ------------------------------------------------------------------- |
+| `modelValue` | `(string \| number)[]` | `undefined` | Selected values array (use v-model for two-way binding)             |
+| `items`      | `CheckboxItem[]`       | `undefined` | Array of checkbox items. Each item renders as a bl-checkbox element |
 
 ### CheckboxItem Interface
 
 When using the `items` prop, each item should follow the `CheckboxItem` interface:
 
-| Property       | Type               | Default     | Description                              |
-| -------------- | ------------------ | ----------- | ---------------------------------------- |
-| `value`        | `string \| number`  | required    | The value of the checkbox (for v-model)   |
-| `label`        | `string`           | `undefined` | Label text displayed next to the checkbox |
-| `checked`      | `boolean`          | `false`     | Whether the checkbox is checked          |
-| `disabled`     | `boolean`          | `false`     | Whether the checkbox is disabled         |
-| `indeterminate`| `boolean`          | `false`     | Whether the checkbox is indeterminate    |
-| `name`         | `string`           | `undefined` | Name attribute for the checkbox          |
+| Property        | Type               | Default     | Description                               |
+| --------------- | ------------------ | ----------- | ----------------------------------------- |
+| `value`         | `string \| number` | required    | The value of the checkbox (for v-model)   |
+| `label`         | `string`           | `undefined` | Label text displayed next to the checkbox |
+| `checked`       | `boolean`          | `false`     | Whether the checkbox is checked           |
+| `disabled`      | `boolean`          | `false`     | Whether the checkbox is disabled          |
+| `indeterminate` | `boolean`          | `false`     | Whether the checkbox is indeterminate     |
+| `name`          | `string`           | `undefined` | Name attribute for the checkbox           |
 
 Items may include additional custom data for use in the `#item` slot.
 
@@ -275,27 +279,27 @@ Items may include additional custom data for use in the `#item` slot.
 
 When used as a single checkbox:
 
-| Event               | Payload   | Description                                      |
-| ------------------- | --------- | ------------------------------------------------ |
-| `update:modelValue` | `boolean` | Emitted when checked state changes (for v-model) |
-| `change`            | `CustomEvent` | Emitted when the checkbox state changes      |
-| `input`             | `CustomEvent` | Emitted on input (native bl-input event)     |
+| Event               | Payload       | Description                                      |
+| ------------------- | ------------- | ------------------------------------------------ |
+| `update:modelValue` | `boolean`     | Emitted when checked state changes (for v-model) |
+| `change`            | `CustomEvent` | Emitted when the checkbox state changes          |
+| `input`             | `CustomEvent` | Emitted on input (native bl-input event)         |
 
 ### Group Mode Events
 
 When used as a checkbox group:
 
-| Event               | Payload   | Description                                           |
-| ------------------- | --------- | ----------------------------------------------------- |
+| Event               | Payload                | Description                                  |
+| ------------------- | ---------------------- | -------------------------------------------- |
 | `update:modelValue` | `(string \| number)[]` | Emitted when selection changes (for v-model) |
-| `change`            | `CustomEvent` | Emitted when the selection changes                |
+| `change`            | `CustomEvent`          | Emitted when the selection changes           |
 
 ## Slots
 
-| Slot      | Props              | Description                                                |
-| --------- | ------------------ | ---------------------------------------------------------- |
-| `default` | -                  | Label content for single checkbox mode (overrides `label` prop) |
-| `item`    | `{ item, index }`  | Scoped slot for each checkbox item content in group mode   |
+| Slot      | Props             | Description                                                     |
+| --------- | ----------------- | --------------------------------------------------------------- |
+| `default` | -                 | Label content for single checkbox mode (overrides `label` prop) |
+| `item`    | `{ item, index }` | Scoped slot for each checkbox item content in group mode        |
 
 ## Types
 

@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from "vue";
 import { BvCheckbox } from "@baklavue/ui";
+import { ref } from "vue";
 
 const prefs = ref([]);
 const preferenceItems = [
@@ -12,13 +12,13 @@ const preferenceItems = [
 
 <template>
   <div>
-    <h3 style="color: black; margin-bottom: 1rem">Notification Preferences</h3>
+    <h3 style="margin-bottom: 1rem">Notification Preferences</h3>
     <BvCheckbox v-model="prefs" :items="preferenceItems">
       <template #item="{ item }">
-        <span style="color: black">{{ item.label }}</span>
+        <span>{{ item.label }}</span>
       </template>
     </BvCheckbox>
-    <p v-if="prefs.length" style="color: black; margin-top: 0.5rem; font-size: 0.875rem">
+    <p v-if="prefs.length" style="margin-top: 0.5rem; font-size: 0.875rem">
       Selected: {{ prefs.join(", ") }}
     </p>
   </div>

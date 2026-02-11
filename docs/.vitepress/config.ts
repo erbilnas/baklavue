@@ -54,11 +54,11 @@ export default defineConfig({
               link: "/components/button",
             },
             {
-              text: `Checkbox${badge("wip", "wip")}`,
+              text: `Checkbox${badge("new", "new")}`,
               link: "/components/checkbox",
             },
             {
-              text: `Datepicker${badge("wip", "wip")}`,
+              text: `Datepicker${badge("new", "new")}`,
               link: "/components/datepicker",
             },
             {
@@ -70,7 +70,7 @@ export default defineConfig({
               link: "/components/drawer",
             },
             {
-              text: `Dropdown${badge("wip", "wip")}`,
+              text: `Dropdown${badge("new", "new")}`,
               link: "/components/dropdown",
             },
             {
@@ -94,7 +94,7 @@ export default defineConfig({
               link: "/components/pagination",
             },
             {
-              text: `Radio${badge("wip", "wip")}`,
+              text: `Radio${badge("new", "new")}`,
               link: "/components/radio",
             },
             {

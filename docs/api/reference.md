@@ -114,20 +114,33 @@ interface CheckboxEmits {
 ### Radio
 
 ```typescript
-import { Radio } from "@baklavue/ui";
+import { BvRadio } from "@baklavue/ui";
 
-interface RadioProps {
-  modelValue?: string;
-  value?: string;
-  name?: string;
+interface RadioItem {
+  value: string | number;
   label?: string;
   disabled?: boolean;
+  name?: string;
+  [key: string]: unknown;
+}
+
+interface RadioProps {
+  modelValue?: string | number;
+  value?: string | number;
+  name?: string;
+  label?: string;
+  checked?: boolean;
+  disabled?: boolean;
   required?: boolean;
+  items?: RadioItem[]; // Group mode
 }
 
 // Events
 interface RadioEmits {
-  "update:modelValue": [value: string];
+  "update:modelValue": [value: string | number];
+  "update:checked": [checked: boolean];
+  change: [event: CustomEvent];
+  input: [event: CustomEvent];
 }
 ```
 

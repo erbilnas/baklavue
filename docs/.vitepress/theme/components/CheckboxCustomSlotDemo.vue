@@ -13,13 +13,10 @@ const items = [
 <template>
   <BvCheckbox v-model="selected" :items="items">
     <template #item="{ item }">
-      <span style="color: black">{{ item.label }}</span>
+      <span>{{ item.label }}</span>
     </template>
   </BvCheckbox>
-  <p
-    v-if="selected.length"
-    style="color: black; margin-top: 0.5rem; font-size: 0.875rem"
-  >
+  <p v-if="selected.length" style="margin-top: 0.5rem; font-size: 0.875rem">
     Selected: {{ selected.join(", ") }}
   </p>
 </template>
