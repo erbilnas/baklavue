@@ -527,7 +527,7 @@ Uses Baklava's `NotificationProps` (description required). Options include `prim
 
 [useScrollToError](/composables/scrollToError) · `import { useScrollToError } from "@baklavue/composables"`
 
-Scroll to an element with validation error. Scrolls into view, optionally applies a highlight effect, and focuses the first focusable control.
+Scroll to an element with validation error. Scrolls into view, optionally applies a highlight effect, focuses the first focusable control, and announces to screen readers.
 
 ```typescript
 const { scrollToError } = useScrollToError();
@@ -543,12 +543,21 @@ scrollToError('[data-field="tags"]', {
   shineClass: "my-shine",
   shineDuration: 1500,
   focus: true,
+  scrollContainer: "[data-dialog-body]",
+  scrollOffset: { top: 80 },
+});
+
+// With default options (e.g. for modals)
+const { scrollToError } = useScrollToError({
+  defaultOptions: { scrollContainer: "[data-dialog-body]" },
 });
 ```
 
 **Target:** `string` (CSS selector) | `HTMLElement` | `{ scrollTarget: string }`
 
-**ScrollToErrorOptions:** `scrollBehavior`, `block`, `shineClass`, `shineDuration`, `focus`, `focusDelay`
+**Returns:** `{ success: boolean }`
+
+**ScrollToErrorOptions:** `scrollBehavior`, `block`, `shineClass`, `shineDuration`, `focus`, `focusDelay`, `scrollContainer`, `announce`, `scrollOffset`
 
 ### useZodForm
 
@@ -557,13 +566,33 @@ scrollToError('[data-field="tags"]', {
 Form validation with Zod schemas. Supports lazy (validate on submit, then real-time) or eager (validate on change) modes.
 
 ```typescript
-const { validate, errors, isValid, getError, scrollToFirstError } = useZodForm(
-  schema,
-  formData,
-  { mode: "lazy" }
-);
+const {
+  validate,
+  validateField,
+  errors,
+  isValid,
+  clearErrors,
+  reset,
+  getError,
+  getErrors,
+  handleSubmit,
+  scrollToFirstError,
+  setFieldValue,
+  setErrors,
+  setFieldError,
+  initialValues,
+  isDirty,
+  dirtyFields,
+  touched,
+  touchedFields,
+  setFieldTouched,
+  isSubmitting,
+  isSubmitted,
+  submitCount,
+} = useZodForm(schema, formData, { mode: "lazy" });
 
-const handleSubmit = async () => {
+// Manual validation
+const onSubmit = async () => {
   const errs = await validate();
   if (!errs) {
     // submit
@@ -571,11 +600,51 @@ const handleSubmit = async () => {
     scrollToFirstError();
   }
 };
+
+// Or use handleSubmit (sets isSubmitting while running)
+const onSubmit = () =>
+  handleSubmit(async (data) => await api.submit(data));
 ```
 
-**Returns:** `validate`, `errors`, `isValid`, `clearErrors`, `getError`, `scrollToFirstError`
+**Returns:** `validate`, `validateField`, `errors`, `isValid`, `clearErrors`, `reset`, `getError`, `getErrors`, `handleSubmit`, `scrollToFirstError`, `setFieldValue`, `setErrors`, `setFieldError`, `initialValues`, `isDirty`, `dirtyFields`, `touched`, `touchedFields`, `setFieldTouched`, `isSubmitting`, `isSubmitted`, `submitCount`
 
-**UseZodFormOptions:** `mode?: 'lazy' | 'eager'`
+**UseZodFormOptions:** `mode?: 'lazy' | 'eager'`, `debounce?: number`
+
+### useFormState
+
+[useFormState](/composables/formState) · `import { useFormState } from "@baklavue/composables"`
+
+Form dirty and touched state without validation. Use with plain ref form data.
+
+**Returns:** `isDirty`, `dirtyFields`, `touched`, `touchedFields`, `setFieldTouched`, `setFieldValue`, `reset`, `initialValues`
+
+### useFieldArray
+
+[useFieldArray](/composables/fieldArray) · `import { useFieldArray } from "@baklavue/composables"`
+
+Dynamic array fields for forms (tags, addresses, line items). Provides stable keys for list rendering.
+
+**Returns:** `fields`, `push`, `remove`, `insert`, `move`, `replace`, `reset`
+
+### useFormPersistence
+
+[useFormPersistence](/composables/formPersistence) · `import { useFormPersistence } from "@baklavue/composables"`
+
+Auto-save form data to localStorage or sessionStorage. Useful for drafts and long forms.
+
+**Returns:** `clear`
+
+**Options:** `storage?: 'localStorage' | 'sessionStorage'`, `debounce?: number`
+
+### useStepperForm
+
+[useStepperForm](/composables/stepperForm) · `import { useStepperForm } from "@baklavue/composables"`
+
+Multi-step form validation with useStepper. Validate before advancing to the next step.
+
+**Returns:** `hasStepError`, `nextWithValidation`
+
+**Options:** `stepFields?: (stepIndex: number) => string[]`
 
 ### useBaklavaTheme
 
@@ -723,9 +792,9 @@ const { run, cancel, isPending } = useTimeoutFn(
 
 ### useFetch
 
-[useFetch](/composables/fetch) · `import { useFetch } from "@baklavue/composables"`
+[useFetch](/composables/fetch) · `import { useFetch, createFetch } from "@baklavue/composables"`
 
-Reactive fetch with loading/error/data. Supports abort, timeout, manual execute.
+Reactive fetch with loading/error/data. Axios-like API: method, headers, body, params, baseURL, retries, refetch triggers, execute overrides. Use `createFetch` for preconfigured instances.
 
 ```typescript
 const { data, error, isFetching, execute, abort } = useFetch<User>(
@@ -889,6 +958,10 @@ import {
   useNotification,
   useScrollToError,
   useZodForm,
+  useFormState,
+  useFieldArray,
+  useFormPersistence,
+  useStepperForm,
   useBaklavaTheme,
   useDisclosure,
   usePagination,
@@ -904,6 +977,7 @@ import {
   useThrottledRef,
   useIntervalFn,
   useTimeoutFn,
+  createFetch,
   useFetch,
   useIntersectionObserver,
   useRafFn,

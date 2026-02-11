@@ -199,7 +199,7 @@ useQueryClient(): QueryClient
 | --- | --- | --- |
 | Caching | Yes, by query key | No |
 | Stale / refetch | Yes | No |
-| Retries | Configurable | No |
-| Refetch triggers | Window focus, reconnect | Manual only |
+| Retries | Configurable | Configurable (opt-in) |
+| Refetch triggers | Window focus, reconnect (default on) | Window focus, reconnect, URL change (opt-in) |
 | Invalidation | Via useQueryClient | N/A |
 | Use case | Cached API data | One-off or non-cached requests |

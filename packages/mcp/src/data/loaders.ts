@@ -170,8 +170,12 @@ export function listComposables(): ComposableInfo[] {
       description: "Cancellable timeout",
     },
     {
+      name: "createFetch",
+      description: "Create preconfigured useFetch instance (axios.create-like)",
+    },
+    {
       name: "useFetch",
-      description: "Reactive fetch with loading/error/data",
+      description: "Reactive fetch with loading/error/data (axios-like API)",
     },
     {
       name: "useQuery",
@@ -188,6 +192,50 @@ export function listComposables(): ComposableInfo[] {
     {
       name: "useRafFn",
       description: "Animation frame loop",
+    },
+    {
+      name: "useStepper",
+      description: "Multi-step wizard state for BvStepper",
+    },
+    {
+      name: "useScrollVisibility",
+      description: "Scroll-based visibility for scroll-to-top and sticky UI",
+    },
+    {
+      name: "useScrollLock",
+      description: "Lock body scroll when modals/drawers are open",
+    },
+    {
+      name: "useAlert",
+      description: "Programmatic show/hide for inline BvAlert",
+    },
+    {
+      name: "useLoading",
+      description: "Generic loading state with optional delay",
+    },
+    {
+      name: "useFocusTrap",
+      description: "Trap focus within modals/dialogs",
+    },
+    {
+      name: "useId",
+      description: "Stable unique IDs for accessibility attributes",
+    },
+    {
+      name: "useFormState",
+      description: "Form dirty and touched state without validation",
+    },
+    {
+      name: "useFieldArray",
+      description: "Dynamic array fields for forms",
+    },
+    {
+      name: "useFormPersistence",
+      description: "Auto-save form data to localStorage/sessionStorage",
+    },
+    {
+      name: "useStepperForm",
+      description: "Multi-step form validation with useStepper",
     },
   ];
 
@@ -214,11 +262,23 @@ const COMPOSABLE_TO_FILE: Record<string, string> = {
   useThrottledRef: "throttle",
   useIntervalFn: "timer",
   useTimeoutFn: "timer",
+  createFetch: "fetch",
   useFetch: "fetch",
   useQuery: "query",
   useQueryClient: "query",
   useIntersectionObserver: "intersectionObserver",
   useRafFn: "raf",
+  useStepper: "stepper",
+  useScrollVisibility: "scrollVisibility",
+  useScrollLock: "scrollLock",
+  useAlert: "alert",
+  useLoading: "loading",
+  useFocusTrap: "focusTrap",
+  useId: "id",
+  useFormState: "formState",
+  useFieldArray: "fieldArray",
+  useFormPersistence: "formPersistence",
+  useStepperForm: "stepperForm",
 };
 
 export function getComposableDoc(composableName: string): string | null {

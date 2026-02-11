@@ -17,23 +17,19 @@ const schema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-const { validate, getError, scrollToFirstError } = useZodForm(schema, form, {
+const { handleSubmit, getError } = useZodForm(schema, form, {
   mode: "lazy",
 });
 
-const handleSubmit = async () => {
-  const errors = await validate();
-  if (!errors) {
-    console.log("Form submitted:", form.value);
-  } else {
-    scrollToFirstError();
-  }
-};
+const onSubmit = () =>
+  handleSubmit((data) => {
+    console.log("Form submitted:", data);
+  });
 </script>
 
 <template>
   <form
-    @submit.prevent="handleSubmit"
+    @submit.prevent="onSubmit"
     style="max-width: 300px; display: flex; flex-direction: column; gap: 1rem"
   >
     <div data-field="email">

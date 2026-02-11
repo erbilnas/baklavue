@@ -4,25 +4,55 @@ BaklaVue provides Vue 3 composables to enhance your application functionality.
 
 ## Available Composables
 
-- [useCsv](/composables/csv) - Parse, create, and download CSV files
-- [useNotification](/composables/notification) - Programmatically manage notifications
-- [useScrollToError](/composables/scrollToError) - Scroll to element with validation error
-- [useZodForm](/composables/formValidation) - Form validation with Zod schemas
-- [useBaklavaTheme](/composables/theme) - Overwrite Baklava colors (Vue preset or custom)
-- [useDisclosure](/composables/disclosure) - Open/close state for Dialog, Drawer, Dropdown
-- [usePagination](/composables/pagination) - Pagination state for tables and lists
-- [useConfirmDialog](/composables/confirmDialog) - Confirm/cancel dialog flow
-- [useClipboard](/composables/clipboard) - Copy text to clipboard
-- [useBreakpoints](/composables/breakpoints) - Responsive breakpoints (isMobile, isTablet, isDesktop)
-- [useLocalStorage](/composables/storage) - Reactive sync with localStorage
-- [useSessionStorage](/composables/storage) - Reactive sync with sessionStorage
-- [useDebounceFn / useDebouncedRef](/composables/debounce) - Debounce function or ref value
-- [useThrottleFn / useThrottledRef](/composables/throttle) - Throttle function or ref value
-- [useIntervalFn / useTimeoutFn](/composables/timer) - Pausable interval and cancellable timeout
-- [useFetch](/composables/fetch) - Reactive fetch with loading/error/data
-- [useQuery](/composables/query) - Data fetching with caching, retries, and invalidation
-- [useIntersectionObserver](/composables/intersectionObserver) - Detect element visibility in viewport
-- [useRafFn](/composables/raf) - Animation frame loop
+### UI & Feedback
+
+- [Notification](/composables/notification) (`useNotification`) - Programmatically manage notifications
+- [Confirm Dialog](/composables/confirmDialog) (`useConfirmDialog`) - Confirm/cancel dialog flow
+- [Disclosure](/composables/disclosure) (`useDisclosure`) - Open/close state for Dialog, Drawer, Dropdown
+- [Stepper](/composables/stepper) (`useStepper`) - Multi-step wizard state for BvStepper
+- [Scroll Visibility](/composables/scrollVisibility) (`useScrollVisibility`) - Scroll-based visibility for scroll-to-top and sticky UI
+- [Scroll Lock](/composables/scrollLock) (`useScrollLock`) - Lock body scroll when modals/drawers are open
+- [Alert](/composables/alert) (`useAlert`) - Programmatic show/hide for inline BvAlert
+- [Loading](/composables/loading) (`useLoading`) - Generic loading state with optional delay
+- [Focus Trap](/composables/focusTrap) (`useFocusTrap`) - Trap focus within modals/dialogs
+- [Id](/composables/id) (`useId`) - Stable unique IDs for accessibility attributes
+
+### Forms
+
+- [Form Validation](/composables/formValidation) (`useZodForm`) - Form validation with Zod schemas
+- [Form State](/composables/formState) (`useFormState`) - Form dirty and touched state without validation
+- [Field Array](/composables/fieldArray) (`useFieldArray`) - Dynamic array fields for forms
+- [Form Persistence](/composables/formPersistence) (`useFormPersistence`) - Auto-save form data to localStorage/sessionStorage
+- [Stepper Form](/composables/stepperForm) (`useStepperForm`) - Multi-step form validation with useStepper
+- [Scroll to Error](/composables/scrollToError) (`useScrollToError`) - Scroll to element with validation error
+
+### Data & Utilities
+
+- [CSV](/composables/csv) (`useCsv`) - Parse, create, and download CSV files
+- [Clipboard](/composables/clipboard) (`useClipboard`) - Copy text to clipboard
+- [Storage](/composables/storage) (`useLocalStorage` / `useSessionStorage`) - Reactive sync with localStorage/sessionStorage
+
+### Performance
+
+- [Debounce](/composables/debounce) (`useDebounceFn` / `useDebouncedRef`) - Debounce function or ref value
+- [Throttle](/composables/throttle) (`useThrottleFn` / `useThrottledRef`) - Throttle function or ref value
+- [Timer](/composables/timer) (`useIntervalFn` / `useTimeoutFn`) - Pausable interval and cancellable timeout
+- [Request Animation Frame](/composables/raf) (`useRafFn`) - Animation frame loop
+
+### Browser APIs
+
+- [Breakpoints](/composables/breakpoints) (`useBreakpoints`) - Responsive breakpoints (isMobile, isTablet, isDesktop)
+- [Intersection Observer](/composables/intersectionObserver) (`useIntersectionObserver`) - Detect element visibility in viewport
+
+### Data Fetching
+
+- [Fetch](/composables/fetch) (`useFetch`) - Reactive fetch with loading/error/data
+- [Query](/composables/query) (`useQuery`) - Data fetching with caching, retries, and invalidation
+
+### Theme & Layout
+
+- [Theme](/composables/theme) (`useBaklavaTheme`) - Overwrite Baklava colors (Vue preset or custom)
+- [Pagination](/composables/pagination) (`usePagination`) - Pagination state for tables and lists
 
 ## Usage Pattern
 
