@@ -8,6 +8,19 @@ BaklaVue provides Vue 3 composables to enhance your application functionality.
 - [useNotification](/composables/notification) - Programmatically manage notifications
 - [useScrollToError](/composables/scrollToError) - Scroll to element with validation error
 - [useBaklavaTheme](/composables/theme) - Overwrite Baklava colors (Vue preset or custom)
+- [useDisclosure](/composables/disclosure) - Open/close state for Dialog, Drawer, Dropdown
+- [usePagination](/composables/pagination) - Pagination state for tables and lists
+- [useConfirmDialog](/composables/confirmDialog) - Confirm/cancel dialog flow
+- [useClipboard](/composables/clipboard) - Copy text to clipboard
+- [useBreakpoints](/composables/breakpoints) - Responsive breakpoints (isMobile, isTablet, isDesktop)
+- [useLocalStorage](/composables/storage) - Reactive sync with localStorage
+- [useSessionStorage](/composables/storage) - Reactive sync with sessionStorage
+- [useDebounceFn / useDebouncedRef](/composables/debounce) - Debounce function or ref value
+- [useThrottleFn / useThrottledRef](/composables/throttle) - Throttle function or ref value
+- [useIntervalFn / useTimeoutFn](/composables/timer) - Pausable interval and cancellable timeout
+- [useFetch](/composables/fetch) - Reactive fetch with loading/error/data
+- [useIntersectionObserver](/composables/intersectionObserver) - Detect element visibility in viewport
+- [useRafFn](/composables/raf) - Animation frame loop
 
 ## Usage Pattern
 

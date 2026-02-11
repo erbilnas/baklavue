@@ -1,36 +1,38 @@
-import { readFileSync, existsSync, readdirSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  COMPONENT_CATEGORIES,
   CATEGORY_LABELS,
+  COMPONENT_CATEGORIES,
   COMPONENT_LIST,
 } from "./component-categories.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**
- * Resolve the project root (where docs/ lives).
- * When running via "bun run mcp" from repo root, cwd is repo root.
- * When running from packages/mcp, we need to go up two levels.
+ * Resolve docs path for MCP server.
+ * - When published (npx @baklavue/mcp): docs are bundled at dist/docs/
+ * - When running from monorepo: docs are at repo root docs/
  */
-function getProjectRoot(): string {
-  const cwd = process.cwd();
-  // Check if we're in the repo root (has docs/ and packages/)
-  if (existsSync(join(cwd, "docs")) && existsSync(join(cwd, "packages"))) {
-    return cwd;
+function getDocsPath(): string {
+  // Published package: loaders are in dist/data/, docs are in dist/docs/
+  const packageDocs = join(__dirname, "..", "docs");
+  if (existsSync(join(packageDocs, "components"))) {
+    return packageDocs;
   }
-  // Check if we're in packages/mcp (has ../../docs)
+  // Monorepo: repo root has docs/
+  const cwd = process.cwd();
+  if (existsSync(join(cwd, "docs")) && existsSync(join(cwd, "packages"))) {
+    return join(cwd, "docs");
+  }
   const mcpParent = join(cwd, "..", "..");
   if (existsSync(join(mcpParent, "docs"))) {
-    return mcpParent;
+    return join(mcpParent, "docs");
   }
-  // Fallback: assume cwd is project root
-  return cwd;
+  return packageDocs;
 }
 
-const projectRoot = getProjectRoot();
-const docsPath = join(projectRoot, "docs");
+const docsPath = getDocsPath();
 
 export interface ComponentInfo {
   name: string;
@@ -95,9 +97,86 @@ export function listComposables(): ComposableInfo[] {
 
   const composables: ComposableInfo[] = [
     { name: "useCsv", description: "Parse, create, and download CSV files" },
-    { name: "useNotification", description: "Programmatically manage notifications" },
-    { name: "useScrollToError", description: "Scroll to element with validation error" },
-    { name: "useBaklavaTheme", description: "Overwrite Baklava colors (Vue preset or custom)" },
+    {
+      name: "useNotification",
+      description: "Programmatically manage notifications",
+    },
+    {
+      name: "useScrollToError",
+      description: "Scroll to element with validation error",
+    },
+    {
+      name: "useBaklavaTheme",
+      description: "Overwrite Baklava colors (Vue preset or custom)",
+    },
+    {
+      name: "useDisclosure",
+      description: "Open/close state for Dialog, Drawer, Dropdown",
+    },
+    {
+      name: "usePagination",
+      description: "Pagination state for tables and lists",
+    },
+    {
+      name: "useConfirmDialog",
+      description: "Confirm/cancel dialog flow",
+    },
+    {
+      name: "useClipboard",
+      description: "Copy text to clipboard",
+    },
+    {
+      name: "useBreakpoints",
+      description: "Responsive breakpoints (isMobile, isTablet, isDesktop)",
+    },
+    {
+      name: "useMediaQuery",
+      description: "Single media query matcher",
+    },
+    {
+      name: "useLocalStorage",
+      description: "Reactive sync with localStorage",
+    },
+    {
+      name: "useSessionStorage",
+      description: "Reactive sync with sessionStorage",
+    },
+    {
+      name: "useDebounceFn",
+      description: "Debounce function execution",
+    },
+    {
+      name: "useDebouncedRef",
+      description: "Debounced ref value",
+    },
+    {
+      name: "useThrottleFn",
+      description: "Throttle function execution",
+    },
+    {
+      name: "useThrottledRef",
+      description: "Throttled ref value",
+    },
+    {
+      name: "useIntervalFn",
+      description: "Pausable interval",
+    },
+    {
+      name: "useTimeoutFn",
+      description: "Cancellable timeout",
+    },
+    {
+      name: "useFetch",
+      description: "Reactive fetch with loading/error/data",
+    },
+    {
+      name: "useIntersectionObserver",
+      description: "Detect element visibility in viewport",
+    },
+    {
+      name: "useRafFn",
+      description: "Animation frame loop",
+    },
   ];
 
   return composables;
@@ -108,10 +187,29 @@ const COMPOSABLE_TO_FILE: Record<string, string> = {
   useNotification: "notification",
   useScrollToError: "scrollToError",
   useBaklavaTheme: "theme",
+  useDisclosure: "disclosure",
+  usePagination: "pagination",
+  useConfirmDialog: "confirmDialog",
+  useClipboard: "clipboard",
+  useBreakpoints: "breakpoints",
+  useMediaQuery: "breakpoints",
+  useLocalStorage: "storage",
+  useSessionStorage: "storage",
+  useDebounceFn: "debounce",
+  useDebouncedRef: "debounce",
+  useThrottleFn: "throttle",
+  useThrottledRef: "throttle",
+  useIntervalFn: "timer",
+  useTimeoutFn: "timer",
+  useFetch: "fetch",
+  useIntersectionObserver: "intersectionObserver",
+  useRafFn: "raf",
 };
 
 export function getComposableDoc(composableName: string): string | null {
-  const file = COMPOSABLE_TO_FILE[composableName] ?? composableName.replace(/^use/, "").toLowerCase();
+  const file =
+    COMPOSABLE_TO_FILE[composableName] ??
+    composableName.replace(/^use/, "").toLowerCase();
   const path = join(docsPath, "composables", `${file}.md`);
   if (!existsSync(path)) return null;
   return readFileSync(path, "utf-8");

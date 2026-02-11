@@ -35,6 +35,7 @@ export default defineConfig({
       { text: "Components", link: "/components/" },
       { text: "Composables", link: "/composables/" },
       { text: "API", link: "/api/reference" },
+      { text: "Changelog", link: "/changelog" },
       { text: "GitHub", link: "https://github.com/erbilnas/baklavue" },
     ],
 
@@ -183,6 +184,33 @@ export default defineConfig({
             { text: "useNotification", link: "/composables/notification" },
             { text: "useScrollToError", link: "/composables/scrollToError" },
             { text: "useBaklavaTheme", link: "/composables/theme" },
+            { text: "useDisclosure", link: "/composables/disclosure" },
+            { text: "usePagination", link: "/composables/pagination" },
+            { text: "useConfirmDialog", link: "/composables/confirmDialog" },
+            { text: "useClipboard", link: "/composables/clipboard" },
+            { text: "useBreakpoints", link: "/composables/breakpoints" },
+            {
+              text: "useLocalStorage / useSessionStorage",
+              link: "/composables/storage",
+            },
+            {
+              text: "useDebounceFn / useDebouncedRef",
+              link: "/composables/debounce",
+            },
+            {
+              text: "useThrottleFn / useThrottledRef",
+              link: "/composables/throttle",
+            },
+            {
+              text: "useIntervalFn / useTimeoutFn",
+              link: "/composables/timer",
+            },
+            { text: "useFetch", link: "/composables/fetch" },
+            {
+              text: "useIntersectionObserver",
+              link: "/composables/intersectionObserver",
+            },
+            { text: "useRafFn", link: "/composables/raf" },
           ],
         },
       ],
@@ -195,7 +223,19 @@ export default defineConfig({
       "/release/": [
         {
           text: "Release",
-          items: [{ text: "Release Guide", link: "/release/guide" }],
+          items: [
+            { text: "Release Guide", link: "/release/guide" },
+            { text: "Changelog", link: "/changelog" },
+          ],
+        },
+      ],
+      "/changelog": [
+        {
+          text: "Release",
+          items: [
+            { text: "Release Guide", link: "/release/guide" },
+            { text: "Changelog", link: "/changelog" },
+          ],
         },
       ],
     },

@@ -21,6 +21,26 @@ The Baklavue MCP server provides these tools:
 | `get_documentation_page` | Get guide pages (installation, getting-started, design-tokens) |
 | `list_documentation_pages` | List all available guide pages |
 
+## Low Budget: Run Locally (No Hosted Service)
+
+The Baklavue MCP server runs **entirely on your machine**—no cloud service, no API keys, no monthly fees. Your AI client (Cursor, Claude Desktop, etc.) spawns the server process locally and talks to it over stdin/stdout. This is the intended and free way to use it.
+
+**What you need:**
+- Bun or Node.js installed
+- Baklavue repo cloned locally, or `@baklavue/mcp` as a dependency
+
+**How it works:** When you open a project, your AI client runs `bun run mcp` (or `npx @baklavue/mcp`) and keeps that process alive. All data stays on your machine. No external servers are involved.
+
+**Quick start (local only):**
+
+1. Clone Baklavue or add `@baklavue/mcp` to your project.
+2. Add the MCP config to `.cursor/mcp.json` (see [Cursor setup](#cursor) below).
+3. Restart your AI client. The server runs on your machine when needed.
+
+**For teams:** Each developer runs the server locally from their own clone or from the published package. There is no central MCP host—everyone uses their own local process.
+
+---
+
 ## Setup
 
 ### Cursor
@@ -100,7 +120,7 @@ The AI will use the MCP server to fetch structured data and provide accurate Bak
 
 ## Running Locally
 
-To run the MCP server from the Baklavue repository:
+The MCP server communicates over stdio and is designed to be spawned by your AI client. You can also run it manually for testing:
 
 ```bash
 # From repo root
@@ -110,7 +130,7 @@ bun run mcp
 cd packages/mcp && bun run start
 ```
 
-The server communicates over stdio and is designed to be spawned by the AI client.
+No HTTP server or port is required—everything runs over stdin/stdout on your machine. See [Low Budget: Run Locally](#low-budget-run-locally-no-hosted-service) for the full setup.
 
 ## Package
 

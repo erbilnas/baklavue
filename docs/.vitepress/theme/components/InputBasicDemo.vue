@@ -7,4 +7,6 @@ const value = ref("");
 
 <template>
   <BvInput v-model="value" label="Email" placeholder="Enter your email" />
+
+  <p>Value: {{ value }}</p>
 </template>
