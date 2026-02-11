@@ -109,4 +109,60 @@ describe("useColorScheme", () => {
     await wrapper.vm.$nextTick();
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
   });
+
+  it("uses class attribute instead of data-theme", async () => {
+    const div = document.createElement("div");
+    div.id = "theme-target";
+    document.body.appendChild(div);
+
+    const { result, wrapper } = withSetup(() =>
+      useColorScheme({
+        storageKey: false,
+        defaultScheme: "dark",
+        attribute: "class",
+        selector: "#theme-target",
+      }),
+    );
+
+    await wrapper.vm.$nextTick();
+    expect(div.classList.contains("dark")).toBe(true);
+
+    result.setScheme("light");
+    await wrapper.vm.$nextTick();
+    expect(div.classList.contains("dark")).toBe(false);
+
+    document.body.removeChild(div);
+  });
+
+  it("system scheme uses matchMedia prefers-color-scheme", () => {
+    vi.stubGlobal(
+      "matchMedia",
+      vi.fn().mockImplementation((query: string) => ({
+        matches: true,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        media: query,
+      })),
+    );
+
+    const { result } = withSetup(() =>
+      useColorScheme({ storageKey: false, defaultScheme: "system" }),
+    );
+
+    expect(result.scheme.value).toBe("system");
+    expect(result.isDark.value).toBe(true);
+  });
+
+  it("handles localStorage error gracefully", () => {
+    const getItem = vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
+      throw new Error("QuotaExceeded");
+    });
+
+    const { result } = withSetup(() =>
+      useColorScheme({ storageKey, defaultScheme: "light" }),
+    );
+
+    expect(result.scheme.value).toBe("light");
+    getItem.mockRestore();
+  });
 });

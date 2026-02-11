@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createFetch, useFetch } from "./fetch";
 
@@ -158,6 +158,493 @@ describe("useFetch", () => {
 
     expect(result.error.value).toBeTruthy();
     expect(result.error.value?.message).toContain("404");
+  });
+
+  it("beforeFetch can modify url", async () => {
+    const { result } = withSetup(() =>
+      useFetch("/api/user", {
+        immediate: true,
+        beforeFetch: (ctx) => {
+          ctx.url = "/api/user/modified";
+        },
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      "/api/user/modified",
+      expect.any(Object),
+    );
+    expect(result.data.value).toEqual({ id: 1, name: "test" });
+  });
+
+  it("afterFetch can transform response", async () => {
+    const { result } = withSetup(() =>
+      useFetch("/api/user", {
+        immediate: true,
+        afterFetch: ({ data }) => ({ ...data, transformed: true }),
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(result.data.value).toEqual({
+      id: 1,
+      name: "test",
+      transformed: true,
+    });
+  });
+
+  it("onFetchError is called on error", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockRejectedValue(new Error("Network error")),
+    );
+
+    const onFetchError = vi.fn();
+    const { result } = withSetup(() =>
+      useFetch("/api/user", { retry: false, onFetchError }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(onFetchError).toHaveBeenCalledWith({
+      response: null,
+      error: expect.any(Error),
+    });
+    expect(result.error.value).toBeTruthy();
+  });
+
+  it("retries on network error", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("Failed to fetch"))
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        headers: new Headers({ "content-type": "application/json" }),
+        json: () => Promise.resolve({ id: 1 }),
+        text: () => Promise.resolve(""),
+        blob: () => Promise.resolve(new Blob()),
+        arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+      });
+
+    vi.stubGlobal("fetch", fetchMock);
+
+    const { result } = withSetup(() =>
+      useFetch("/api/user", { retry: 2, retryDelay: 10 }),
+    );
+
+    await new Promise((r) => setTimeout(r, 100));
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(result.data.value).toEqual({ id: 1 });
+  });
+
+  it("execute with overrides", async () => {
+    const { result } = withSetup(() =>
+      useFetch("/api/user", { immediate: false }),
+    );
+
+    await result.execute({
+      url: "/api/other",
+      params: { x: 1 },
+    });
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      expect.stringContaining("/api/other"),
+      expect.any(Object),
+    );
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      expect.stringContaining("x=1"),
+      expect.any(Object),
+    );
+  });
+
+  it("abort cancels request", async () => {
+    let resolveFetch: (value: unknown) => void;
+    const fetchPromise = new Promise((resolve) => {
+      resolveFetch = resolve;
+    });
+    const fetchMock = vi.fn().mockReturnValue(fetchPromise);
+
+    vi.stubGlobal("fetch", fetchMock);
+
+    const { result } = withSetup(() =>
+      useFetch("/api/user", { immediate: true }),
+    );
+
+    await new Promise((r) => setTimeout(r, 10));
+    expect(result.isFetching.value).toBe(true);
+
+    result.abort();
+    resolveFetch!({
+      ok: true,
+      status: 200,
+      headers: new Headers(),
+      json: () => Promise.resolve({}),
+      text: () => Promise.resolve(""),
+      blob: () => Promise.resolve(new Blob()),
+      arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+    });
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(result.isFetching.value).toBe(false);
+  });
+
+  it("parseResponse uses responseType", async () => {
+    const blob = new Blob(["test"]);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        headers: new Headers(),
+        json: () => Promise.resolve({}),
+        text: () => Promise.resolve("text"),
+        blob: () => Promise.resolve(blob),
+        arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+      }),
+    );
+
+    const { result } = withSetup(() =>
+      useFetch("/api/user", {
+        immediate: true,
+        responseType: "blob",
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(result.data.value).toBeInstanceOf(Blob);
+  });
+
+  it("baseURL prepends to relative URLs", async () => {
+    withSetup(() =>
+      useFetch("users", {
+        immediate: true,
+        baseURL: "https://api.example.com",
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      "https://api.example.com/users",
+      expect.any(Object),
+    );
+  });
+
+  it("baseURL prepends to relative URLs without leading slash", async () => {
+    withSetup(() =>
+      useFetch("/users", {
+        immediate: true,
+        baseURL: "https://api.example.com/",
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      "https://api.example.com/users",
+      expect.any(Object),
+    );
+  });
+
+  it("does not modify absolute URLs when baseURL is set", async () => {
+    withSetup(() =>
+      useFetch("https://other.com/api", {
+        immediate: true,
+        baseURL: "https://api.example.com",
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      "https://other.com/api",
+      expect.any(Object),
+    );
+  });
+
+  it("serializes array params", async () => {
+    withSetup(() =>
+      useFetch("/api/users", {
+        immediate: true,
+        params: { ids: [1, 2, 3] },
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      expect.stringMatching(/ids=1&ids=2&ids=3|ids=1.*ids=2.*ids=3/),
+      expect.any(Object),
+    );
+  });
+
+  it("responseType text returns text", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        headers: new Headers(),
+        json: () => Promise.resolve({}),
+        text: () => Promise.resolve("plain text"),
+        blob: () => Promise.resolve(new Blob()),
+        arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+      }),
+    );
+
+    const { result } = withSetup(() =>
+      useFetch("/api/user", {
+        immediate: true,
+        responseType: "text",
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(result.data.value).toBe("plain text");
+  });
+
+  it("responseType arraybuffer returns ArrayBuffer", async () => {
+    const buf = new ArrayBuffer(8);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        headers: new Headers(),
+        json: () => Promise.resolve({}),
+        text: () => Promise.resolve(""),
+        blob: () => Promise.resolve(new Blob()),
+        arrayBuffer: () => Promise.resolve(buf),
+      }),
+    );
+
+    const { result } = withSetup(() =>
+      useFetch("/api/user", {
+        immediate: true,
+        responseType: "arraybuffer",
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(result.data.value).toBe(buf);
+  });
+
+  it("onFetchError rethrow prevents retry", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockRejectedValue(new Error("Network error")),
+    );
+
+    const onFetchError = vi.fn().mockRejectedValue(new Error("rethrown"));
+    const { result } = withSetup(() =>
+      useFetch("/api/user", { retry: 2, retryDelay: 10, onFetchError }),
+    );
+
+    await new Promise((r) => setTimeout(r, 100));
+
+    expect(onFetchError).toHaveBeenCalled();
+    expect(result.error.value).toBeTruthy();
+  });
+
+  it("execute with throwOnFailed throws on error", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockRejectedValue(new Error("Network error")),
+    );
+
+    const { result } = withSetup(() =>
+      useFetch("/api/user", { immediate: false, retry: false }),
+    );
+
+    await expect(result.execute({ throwOnFailed: true })).rejects.toThrow(
+      "Network error",
+    );
+  });
+
+  it("execute with boolean true refetches", async () => {
+    const { result } = withSetup(() =>
+      useFetch("/api/user", { immediate: true }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    const initialCalls = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length;
+
+    await result.execute(true);
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect((globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length).toBeGreaterThan(
+      initialCalls,
+    );
+  });
+
+  it("abort clears timeout", async () => {
+    const clearSpy = vi.spyOn(globalThis, "clearTimeout");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockImplementation(
+        () =>
+          new Promise((_, reject) => {
+            setTimeout(
+              () => reject(new Error("timeout")),
+              1000,
+            );
+          }),
+      ),
+    );
+
+    const { result } = withSetup(() =>
+      useFetch("/api/user", { immediate: true, timeout: 5000 }),
+    );
+
+    await new Promise((r) => setTimeout(r, 10));
+    result.abort();
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(clearSpy).toHaveBeenCalled();
+  });
+
+  it("sets Content-Type for JSON body when not provided", async () => {
+    withSetup(() =>
+      useFetch("/api/user", {
+        immediate: true,
+        method: "POST",
+        body: { key: "value" },
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({ key: "value" }),
+      }),
+    );
+  });
+
+  it("skips body for GET requests", async () => {
+    withSetup(() =>
+      useFetch("/api/user", {
+        immediate: true,
+        method: "GET",
+        body: { key: "value" },
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    const call = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls[0][1];
+    expect(call.body).toBeUndefined();
+  });
+
+  it("retries on 5xx status", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        statusText: "Service Unavailable",
+        headers: new Headers(),
+        json: () => Promise.resolve({}),
+        text: () => Promise.resolve(""),
+        blob: () => Promise.resolve(new Blob()),
+        arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        headers: new Headers({ "content-type": "application/json" }),
+        json: () => Promise.resolve({ id: 1 }),
+        text: () => Promise.resolve(""),
+        blob: () => Promise.resolve(new Blob()),
+        arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+      });
+
+    vi.stubGlobal("fetch", fetchMock);
+
+    const { result } = withSetup(() =>
+      useFetch("/api/user", {
+        retry: 3,
+        retryDelay: 50,
+        retryCondition: (err) => err.message.includes("503"),
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 200));
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(result.data.value).toEqual({ id: 1 });
+  });
+
+  it("refetchOnUrlChange refetches when url getter changes", async () => {
+    const url = ref("/api/a");
+    const { result } = withSetup(() =>
+      useFetch(() => url.value, {
+        immediate: true,
+        refetchOnUrlChange: true,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    expect((globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls[0][0]).toBe(
+      "/api/a",
+    );
+
+    url.value = "/api/b";
+    await new Promise((r) => setTimeout(r, 150));
+
+    expect((globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.some(
+      (c) => c[0] === "/api/b",
+    )).toBe(true);
+  });
+
+  it("refetchOnWindowFocus refetches on focus", async () => {
+    const { result } = withSetup(() =>
+      useFetch("/api/user", {
+        immediate: true,
+        refetchOnWindowFocus: true,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    const initialCalls = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length;
+
+    window.dispatchEvent(new Event("focus"));
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect((globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length).toBeGreaterThan(
+      initialCalls,
+    );
+  });
+
+  it("refetchOnReconnect refetches on online", async () => {
+    const { result } = withSetup(() =>
+      useFetch("/api/user", {
+        immediate: true,
+        refetchOnReconnect: true,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    const initialCalls = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length;
+
+    window.dispatchEvent(new Event("online"));
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect((globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length).toBeGreaterThan(
+      initialCalls,
+    );
   });
 });
 

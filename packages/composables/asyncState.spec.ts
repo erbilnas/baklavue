@@ -89,6 +89,15 @@ describe("useAsyncState", () => {
     expect(onError).toHaveBeenCalledWith(err);
   });
 
+  it("wraps non-Error thrown values in Error", async () => {
+    const fn = vi.fn().mockRejectedValue("string error");
+    const { result } = withSetup(() => useAsyncState(fn));
+
+    await expect(result.execute()).rejects.toThrow("string error");
+    expect(result.error.value).toBeInstanceOf(Error);
+    expect(result.error.value?.message).toBe("string error");
+  });
+
   it("immediate: true executes on mount", async () => {
     const fn = vi.fn().mockResolvedValue(1);
     const { result, wrapper } = withSetup(() =>

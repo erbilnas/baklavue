@@ -81,6 +81,17 @@ describe("useIntervalFn", () => {
     expect(fn).toHaveBeenCalledTimes(1);
   });
 
+  it("resume is no-op when already running", () => {
+    const fn = vi.fn();
+    const { result } = withSetup(() => useIntervalFn(fn, 1000));
+
+    result.resume();
+    result.resume();
+    result.resume();
+    vi.advanceTimersByTime(1000);
+    expect(fn).toHaveBeenCalledTimes(2);
+  });
+
   it("cleans up on unmount", () => {
     const fn = vi.fn();
     const { result, wrapper } = withSetup(() => useIntervalFn(fn, 1000));

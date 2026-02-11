@@ -100,4 +100,64 @@ describe("useShare", () => {
     const { result } = withSetup(() => useShare());
     expect(result.isSupported.value).toBe(true);
   });
+
+  it("share() returns false when API not supported", async () => {
+    const navWithoutShare = Object.fromEntries(
+      Object.entries(navigator).filter(([k]) => k !== "share"),
+    ) as Navigator;
+    vi.stubGlobal("navigator", navWithoutShare);
+    const { result } = withSetup(() => useShare({ data: { title: "Test" } }));
+
+    const ok = await result.share();
+    expect(ok).toBe(false);
+    expect(result.error.value?.message).toBe("Web Share API is not supported");
+
+    vi.unstubAllGlobals();
+  });
+
+  it("share() returns false when canShare rejects files", async () => {
+    vi.stubGlobal("navigator", {
+      ...navigator,
+      share: vi.fn().mockResolvedValue(undefined),
+      canShare: vi.fn().mockReturnValue(false),
+    });
+    const file = new File(["x"], "test.txt");
+    const { result } = withSetup(() =>
+      useShare({ data: { files: [file] } }),
+    );
+
+    const ok = await result.share();
+    expect(ok).toBe(false);
+    expect(result.error.value?.message).toBe("Cannot share these files");
+
+    vi.unstubAllGlobals();
+  });
+
+  it("share() does not set error on AbortError", async () => {
+    vi.mocked(navigator.share).mockRejectedValue(
+      Object.assign(new Error("Aborted"), { name: "AbortError" }),
+    );
+    const { result } = withSetup(() =>
+      useShare({ data: { title: "Test" } }),
+    );
+
+    const ok = await result.share();
+    expect(ok).toBe(false);
+    expect(result.error.value).toBeNull();
+  });
+
+  it("canShare with files when canShare returns true", async () => {
+    vi.stubGlobal("navigator", {
+      ...navigator,
+      share: vi.fn().mockResolvedValue(undefined),
+      canShare: vi.fn().mockReturnValue(true),
+    });
+    const file = new File(["x"], "test.txt");
+    const { result } = withSetup(() =>
+      useShare({ data: { files: [file] } }),
+    );
+
+    expect(result.canShare.value).toBe(true);
+    vi.unstubAllGlobals();
+  });
 });

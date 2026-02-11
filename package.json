@@ -11,9 +11,10 @@
     "docs:build": "cd docs && bun run build",
     "docs:preview": "cd docs && bun run preview",
     "mcp": "bun run --cwd packages/mcp start",
-    "test": "bun run --cwd packages/composables test",
-    "test:run": "bun run --cwd packages/composables test:run",
-    "test:coverage": "bun run --cwd packages/composables test:coverage"
+    "test": "bun run --cwd packages/composables test && bun run --cwd packages/ui test",
+    "test:run": "bun run --cwd packages/composables test:run && bun run --cwd packages/ui test:run",
+    "test:coverage": "bun run --cwd packages/composables test:coverage && bun run --cwd packages/ui test:coverage",
+    "test:ui": "bun run --cwd packages/ui test"
   },
   "dependencies": {
     "@baklavue/ui": "workspace:*",

@@ -36,7 +36,6 @@ describe("useNotification", () => {
     const { result } = withSetup(() => useNotification());
 
     result.success({ title: "Success", description: "Done" });
-
     expect(addNotification).toHaveBeenCalledWith(
       expect.objectContaining({
         title: "Success",
@@ -44,6 +43,21 @@ describe("useNotification", () => {
         variant: "success",
         icon: true,
       }),
+    );
+
+    result.error({ title: "Error", description: "Failed" });
+    expect(addNotification).toHaveBeenLastCalledWith(
+      expect.objectContaining({ variant: "error" }),
+    );
+
+    result.warning({ title: "Warning", description: "Careful" });
+    expect(addNotification).toHaveBeenLastCalledWith(
+      expect.objectContaining({ variant: "warning" }),
+    );
+
+    result.info({ title: "Info", description: "Note" });
+    expect(addNotification).toHaveBeenLastCalledWith(
+      expect.objectContaining({ variant: "info" }),
     );
 
     document.body.removeChild(mockEl);

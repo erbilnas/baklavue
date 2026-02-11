@@ -103,4 +103,46 @@ describe("useClipboard", () => {
     expect(result.copied.value).toBe(true);
     expect(execCommand).toHaveBeenCalledWith("copy");
   });
+
+  it("legacy fallback when navigator.clipboard is undefined", async () => {
+    const execCommand = vi.fn().mockReturnValue(true);
+    const originalClipboard = navigator.clipboard;
+    Object.defineProperty(navigator, "clipboard", {
+      value: undefined,
+      configurable: true,
+    });
+    Object.defineProperty(document, "execCommand", {
+      value: execCommand,
+      configurable: true,
+    });
+
+    const { result } = withSetup(() => useClipboard({ legacy: true }));
+
+    const ok = await result.copy("legacy only");
+    expect(ok).toBe(true);
+    expect(execCommand).toHaveBeenCalledWith("copy");
+
+    Object.defineProperty(navigator, "clipboard", {
+      value: originalClipboard,
+      configurable: true,
+    });
+  });
+
+  it("copiedDuring of 0 does not schedule reset", async () => {
+    const { result } = withSetup(() =>
+      useClipboard({ copiedDuring: 0 }),
+    );
+
+    await result.copy("text");
+    expect(result.copied.value).toBe(true);
+  });
+
+  it("returns false when source is empty string and no text provided", async () => {
+    const { result } = withSetup(() =>
+      useClipboard({ source: ref("") }),
+    );
+
+    const ok = await result.copy();
+    expect(ok).toBe(false);
+  });
 });

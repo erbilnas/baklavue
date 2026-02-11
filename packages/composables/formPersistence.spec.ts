@@ -85,4 +85,21 @@ describe("useFormPersistence", () => {
 
     sessionStorage.removeItem(sessionKey);
   });
+
+  it("stops watch on unmount", async () => {
+    const form = ref({ email: "test@test.com" });
+    const { wrapper } = withSetup(() =>
+      useFormPersistence(key, form, { debounce: 0 }),
+    );
+
+    form.value = { email: "updated@test.com" };
+    await wrapper.vm.$nextTick();
+    wrapper.unmount();
+    form.value = { email: "should-not-persist" };
+    await wrapper.vm.$nextTick();
+    vi.advanceTimersByTime(500);
+    expect(localStorage.getItem(key)).toBe(
+      JSON.stringify({ email: "updated@test.com" }),
+    );
+  });
 });

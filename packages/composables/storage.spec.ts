@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { defineComponent } from "vue";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { useLocalStorage, useSessionStorage } from "./storage";
 
 function withSetup<T>(composable: () => T) {
@@ -93,5 +93,92 @@ describe("useSessionStorage", () => {
     const { result } = withSetup(() => useSessionStorage(key, "default"));
 
     expect(result.value).toBe("stored");
+  });
+});
+
+describe("storage options", () => {
+  const key = "test-storage-options-" + Math.random();
+
+  afterEach(() => {
+    localStorage.removeItem(key);
+  });
+
+  it("mergeDefaults: true merges objects", () => {
+    localStorage.setItem(key, JSON.stringify({ count: 5 }));
+    const { result } = withSetup(() =>
+      useLocalStorage(key, { count: 0, name: "default" }, { mergeDefaults: true }),
+    );
+
+    expect(result.value).toEqual({ count: 5, name: "default" });
+  });
+
+  it("mergeDefaults: function merges with custom logic", () => {
+    localStorage.setItem(key, JSON.stringify({ a: 1 }));
+    const { result } = withSetup(() =>
+      useLocalStorage(key, { b: 2 }, {
+        mergeDefaults: (stored, def) => ({ ...def, ...stored }),
+      }),
+    );
+
+    expect(result.value).toEqual({ b: 2, a: 1 });
+  });
+
+  it("default serializer returns raw string on parse error", () => {
+    localStorage.setItem(key, "invalid-json");
+    const { result } = withSetup(() => useLocalStorage(key, "default"));
+
+    expect(result.value).toBe("invalid-json");
+  });
+
+  it("calls onError when serializer.read throws", () => {
+    const onError = vi.fn();
+    localStorage.setItem(key, "not-json");
+    const { result } = withSetup(() =>
+      useLocalStorage(key, "default", {
+        onError,
+        serializer: {
+          read: () => {
+            throw new Error("Parse failed");
+          },
+          write: (v) => JSON.stringify(v),
+        },
+      }),
+    );
+
+    expect(result.value).toBe("default");
+    expect(onError).toHaveBeenCalledWith(expect.any(Error));
+  });
+
+  it("removes item when value is null", async () => {
+    const { result, wrapper } = withSetup(() =>
+      useLocalStorage(key, "default"),
+    );
+
+    result.value = "set";
+    await wrapper.vm.$nextTick();
+    expect(localStorage.getItem(key)).toBeTruthy();
+
+    result.value = null as unknown as string;
+    await wrapper.vm.$nextTick();
+    expect(localStorage.getItem(key)).toBeNull();
+  });
+
+  it("syncs storage event from other tab", async () => {
+    const { result, wrapper } = withSetup(() =>
+      useLocalStorage(key, "default"),
+    );
+
+    expect(result.value).toBe("default");
+
+    window.dispatchEvent(
+      new StorageEvent("storage", {
+        key,
+        newValue: JSON.stringify("from-other-tab"),
+        storageArea: localStorage,
+      }),
+    );
+    await wrapper.vm.$nextTick();
+
+    expect(result.value).toBe("from-other-tab");
   });
 });

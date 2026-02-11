@@ -76,4 +76,10 @@ describe("useConfirmDialog", () => {
     const value = await promise;
     expect(value).toBe(true);
   });
+
+  it("close is safe when called with no pending promise", () => {
+    const { result } = withSetup(() => useConfirmDialog());
+
+    expect(() => result.close(true)).not.toThrow();
+  });
 });

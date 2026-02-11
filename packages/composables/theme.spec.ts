@@ -78,4 +78,48 @@ describe("useBaklavaTheme", () => {
     const styleEl = document.getElementById("baklavue-theme-overrides");
     expect(styleEl).toBeFalsy();
   });
+
+  it("applyTheme with borderRadius override", () => {
+    const { result } = withSetup(() => useBaklavaTheme());
+
+    result.applyTheme({
+      borderRadius: { m: "12px" },
+    });
+
+    const styleEl = document.getElementById("baklavue-theme-overrides");
+    expect(styleEl?.textContent).toContain("--bl-border-radius-m");
+  });
+
+  it("applyTheme with size override", () => {
+    const { result } = withSetup(() => useBaklavaTheme());
+
+    result.applyTheme({
+      size: { m: "1rem" },
+    });
+
+    const styleEl = document.getElementById("baklavue-theme-overrides");
+    expect(styleEl?.textContent).toContain("--bl-size-m");
+  });
+
+  it("applyTheme with typography override", () => {
+    const { result } = withSetup(() => useBaklavaTheme());
+
+    result.applyTheme({
+      typography: { fontFamily: "monospace" },
+    });
+
+    const styleEl = document.getElementById("baklavue-theme-overrides");
+    expect(styleEl?.textContent).toContain("--bl-font-family");
+  });
+
+  it("applyTheme with zIndex override", () => {
+    const { result } = withSetup(() => useBaklavaTheme());
+
+    result.applyTheme({
+      zIndex: { dialog: 9999 },
+    });
+
+    const styleEl = document.getElementById("baklavue-theme-overrides");
+    expect(styleEl?.textContent).toContain("--bl-index-dialog");
+  });
 });

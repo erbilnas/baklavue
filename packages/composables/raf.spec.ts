@@ -81,4 +81,46 @@ describe("useRafFn", () => {
     wrapper.unmount();
     expect(result.isActive.value).toBe(false);
   });
+
+  it("respects fpsLimit with setTimeout when delta is small", () => {
+    const fn = vi.fn();
+    const { result } = withSetup(() =>
+      useRafFn(fn, { immediate: false, fpsLimit: 60 }),
+    );
+
+    vi.stubGlobal("requestAnimationFrame", (cb: (t: number) => void) => {
+      setTimeout(() => cb(0), 0);
+      return 1;
+    });
+    vi.stubGlobal("cancelAnimationFrame", () => {});
+
+    result.resume();
+    vi.advanceTimersByTime(0);
+    expect(fn).toHaveBeenCalled();
+
+    vi.advanceTimersByTime(20);
+    result.pause();
+
+    vi.unstubAllGlobals();
+  });
+
+  it("resume is no-op when already active", () => {
+    const fn = vi.fn();
+    const { result } = withSetup(() => useRafFn(fn, { immediate: false }));
+
+    let rafCalls = 0;
+    vi.stubGlobal("requestAnimationFrame", (cb: (t: number) => void) => {
+      rafCalls++;
+      if (rafCalls <= 2) cb(rafCalls * 16);
+      return rafCalls;
+    });
+    vi.stubGlobal("cancelAnimationFrame", () => {});
+
+    result.resume();
+    result.resume();
+    result.resume();
+
+    expect(result.isActive.value).toBe(true);
+    vi.unstubAllGlobals();
+  });
 });

@@ -100,4 +100,26 @@ describe("useElementSize", () => {
     expect(result.width.value).toBe(200);
     expect(result.height.value).toBe(100);
   });
+
+  it("unobserves and resets when target changes to null", async () => {
+    const div = document.createElement("div");
+    const target = ref<HTMLElement | null>(div);
+
+    const { result, wrapper } = withSetup(() =>
+      useElementSize(target, { initialWidth: 10, initialHeight: 20 }),
+    );
+
+    await wrapper.vm.$nextTick();
+    resizeCallback([{
+      contentRect: { width: 50, height: 60, top: 0, left: 0, right: 50, bottom: 60, x: 0, y: 0, toJSON: () => ({}) } as DOMRect,
+    }]);
+    await wrapper.vm.$nextTick();
+
+    target.value = null;
+    await wrapper.vm.$nextTick();
+
+    expect(unobserveMock).toHaveBeenCalledWith(div);
+    expect(result.width.value).toBe(10);
+    expect(result.height.value).toBe(20);
+  });
 });

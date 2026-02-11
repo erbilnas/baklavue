@@ -113,5 +113,31 @@ describe("useLoading", () => {
       vi.advanceTimersByTime(200);
       expect(result.isLoading.value).toBe(false);
     });
+
+    it("showLoading is no-op when called again before delay completes", async () => {
+      const { result, wrapper } = withSetup(() =>
+        useLoading({ delay: 200 }),
+      );
+
+      result.showLoading();
+      result.showLoading();
+      result.showLoading();
+      vi.advanceTimersByTime(199);
+      await wrapper.vm.$nextTick();
+      expect(result.isLoading.value).toBe(false);
+    });
+
+    it("hideLoading clears delayTimer when called before delay", async () => {
+      const { result, wrapper } = withSetup(() =>
+        useLoading({ delay: 200 }),
+      );
+
+      result.showLoading();
+      vi.advanceTimersByTime(50);
+      result.hideLoading();
+      vi.advanceTimersByTime(200);
+      await wrapper.vm.$nextTick();
+      expect(result.isLoading.value).toBe(false);
+    });
   });
 });

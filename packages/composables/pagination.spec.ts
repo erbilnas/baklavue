@@ -82,4 +82,20 @@ describe("usePagination", () => {
     expect(result.totalItems.value).toBe(200);
     expect(result.totalPages.value).toBe(20);
   });
+
+  it("totalPages returns 0 when pageSize is 0", () => {
+    const { result } = withSetup(() =>
+      usePagination({ totalItems: 100, pageSize: 0 }),
+    );
+    expect(result.totalPages.value).toBe(0);
+  });
+
+  it("setPageSize does nothing when size <= 0", async () => {
+    const { result, wrapper } = withSetup(() =>
+      usePagination({ totalItems: 100, pageSize: 10 }),
+    );
+    result.setPageSize(0);
+    await wrapper.vm.$nextTick();
+    expect(result.pageSize.value).toBe(10);
+  });
 });

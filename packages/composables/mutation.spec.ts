@@ -147,4 +147,17 @@ describe("useMutation", () => {
 
     expect(onError).toHaveBeenCalledWith(err, {});
   });
+
+  it("mutate swallows errors (fire-and-forget)", async () => {
+    const mutationFn = vi.fn().mockRejectedValue(new Error("silent fail"));
+    const { result } = withSetup(() =>
+      useMutation({ mutationFn: mutationFn as () => Promise<unknown> }),
+    );
+
+    result.mutate({});
+    await new Promise((r) => setTimeout(r, 10));
+
+    expect(result.error.value).toBeTruthy();
+    expect(result.isError.value).toBe(true);
+  });
 });

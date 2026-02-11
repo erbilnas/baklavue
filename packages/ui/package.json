@@ -26,10 +26,18 @@
   "type": "module",
   "scripts": {
     "release": "semantic-release -e semantic-release-monorepo",
-    "release:dry-run": "semantic-release --dry-run -e semantic-release-monorepo"
+    "release:dry-run": "semantic-release --dry-run -e semantic-release-monorepo",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "@vitest/coverage-v8": "^4.0.18",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^20.6.1",
+    "vitest": "^4.0.18"
   },
   "peerDependencies": {
     "typescript": "^5.9.2"

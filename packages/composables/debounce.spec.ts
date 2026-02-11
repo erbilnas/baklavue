@@ -117,4 +117,16 @@ describe("useDebouncedRef", () => {
     vi.advanceTimersByTime(200);
     expect(result.value).toBe("initial");
   });
+
+  it("clears previous timeout when scheduleUpdate runs with pending timeout", async () => {
+    const source = ref("a");
+    const { result, wrapper } = withSetup(() => useDebouncedRef(source, 200));
+
+    source.value = "b";
+    await wrapper.vm.$nextTick();
+    source.value = "c";
+    await wrapper.vm.$nextTick();
+    vi.advanceTimersByTime(200);
+    expect(result.value).toBe("c");
+  });
 });

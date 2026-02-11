@@ -137,4 +137,106 @@ describe("useQueryClient", () => {
     await result.refetch();
     expect(result.data.value).toEqual({ id: 1 });
   });
+
+  it("prefetchQuery populates cache", async () => {
+    const client = useQueryClient();
+    const queryFn = vi.fn().mockResolvedValue({ prefetched: true });
+
+    await client.prefetchQuery({
+      queryKey: ["prefetch", "test"],
+      queryFn: queryFn as () => Promise<unknown>,
+    });
+
+    const data = client.getQueryData(["prefetch", "test"]);
+    expect(data).toEqual({ prefetched: true });
+  });
+
+  it("prefetchQuery stores error on failure", async () => {
+    const client = useQueryClient();
+    const err = new Error("prefetch failed");
+    const queryFn = vi.fn().mockRejectedValue(err);
+
+    await client.prefetchQuery({
+      queryKey: ["prefetch", "error"],
+      queryFn: queryFn as () => Promise<unknown>,
+    });
+
+    const { result } = withSetup(() =>
+      useQuery({
+        queryKey: ["prefetch", "error"],
+        queryFn: vi.fn().mockResolvedValue({}),
+        staleTime: 60_000,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    expect(result.error.value).toEqual(err);
+  });
+
+  it("invalidateQueries clears all when no queryKey", async () => {
+    const client = useQueryClient();
+    client.setQueryData(["a"], 1);
+    client.setQueryData(["b"], 2);
+
+    client.invalidateQueries();
+
+    expect(client.getQueryData(["a"])).toBeUndefined();
+    expect(client.getQueryData(["b"])).toBeUndefined();
+  });
+});
+
+describe("useQuery advanced", () => {
+  it("uses initialData as function", () => {
+    const initialDataFn = vi.fn().mockReturnValue({ id: 0 });
+    const queryFn = vi.fn().mockResolvedValue({ id: 1 });
+
+    const { result } = withSetup(() =>
+      useQuery({
+        queryKey: ["user"],
+        queryFn: queryFn as () => Promise<unknown>,
+        initialData: initialDataFn,
+      }),
+    );
+
+    expect(result.data.value).toEqual({ id: 0 });
+    expect(initialDataFn).toHaveBeenCalled();
+  });
+
+  it("does not fetch when enabled is false", async () => {
+    const queryFn = vi.fn().mockResolvedValue({});
+
+    withSetup(() =>
+      useQuery({
+        queryKey: ["disabled"],
+        queryFn: queryFn as () => Promise<unknown>,
+        enabled: false,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    expect(queryFn).not.toHaveBeenCalled();
+  });
+
+  it("uses cached data when not stale", async () => {
+    const client = useQueryClient();
+    client.setQueryData(["cached"], { value: 42 });
+
+    const queryFn = vi.fn().mockResolvedValue({ value: 99 });
+
+    const { result } = withSetup(() =>
+      useQuery({
+        queryKey: ["cached"],
+        queryFn: queryFn as () => Promise<unknown>,
+        staleTime: 60_000,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    expect(result.data.value).toEqual({ value: 42 });
+    expect(queryFn).not.toHaveBeenCalled();
+  });
 });

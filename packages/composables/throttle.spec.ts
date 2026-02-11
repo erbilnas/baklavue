@@ -69,6 +69,20 @@ describe("useThrottleFn", () => {
     expect(fn).not.toHaveBeenCalled();
   });
 
+  it("trailing: false with leading only invokes on leading edge", () => {
+    const fn = vi.fn();
+    const { result } = withSetup(() =>
+      useThrottleFn(fn, 200, { leading: true, trailing: false }),
+    );
+
+    result("a");
+    result("b");
+    result("c");
+    expect(fn).toHaveBeenCalledTimes(1);
+    vi.advanceTimersByTime(200);
+    expect(fn).toHaveBeenCalledTimes(1);
+  });
+
   it("cleans up on unmount", () => {
     const fn = vi.fn();
     const { result, wrapper } = withSetup(() => useThrottleFn(fn, 200));
@@ -136,5 +150,22 @@ describe("useThrottledRef", () => {
     wrapper.unmount();
     vi.advanceTimersByTime(200);
     expect(result.value).toBe("initial");
+  });
+
+  it("schedules trailing update when change happens in cooldown", async () => {
+    const source = ref("a");
+    const { result, wrapper } = withSetup(() => useThrottledRef(source, 200));
+
+    source.value = "b";
+    await wrapper.vm.$nextTick();
+    expect(result.value).toBe("b");
+
+    source.value = "c";
+    await wrapper.vm.$nextTick();
+    expect(result.value).toBe("b");
+
+    vi.advanceTimersByTime(200);
+    await wrapper.vm.$nextTick();
+    expect(result.value).toBe("c");
   });
 });

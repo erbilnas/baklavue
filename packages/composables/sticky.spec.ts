@@ -66,4 +66,57 @@ describe("useSticky", () => {
     expect(rectSpy).toHaveBeenCalled();
     expect(result.isSticky.value).toBe(true);
   });
+
+  it("detaches and cleans up RAF on unmount", async () => {
+    const el = document.createElement("div");
+    document.body.appendChild(el);
+    vi.spyOn(el, "getBoundingClientRect").mockReturnValue({
+      top: 100,
+      left: 0,
+      right: 100,
+      bottom: 120,
+      width: 100,
+      height: 20,
+      x: 0,
+      y: 100,
+      toJSON: () => ({}),
+    });
+
+    const target = ref<HTMLElement | null>(el);
+    const { result, wrapper } = withSetup(() => useSticky(target, { threshold: 0 }));
+
+    target.value = el;
+    await wrapper.vm.$nextTick();
+    expect(result.isSticky.value).toBe(false);
+
+    wrapper.unmount();
+    document.body.removeChild(el);
+  });
+
+  it("respects threshold option", async () => {
+    const el = document.createElement("div");
+    document.body.appendChild(el);
+    const rectSpy = vi.spyOn(el, "getBoundingClientRect").mockReturnValue({
+      top: 5,
+      left: 0,
+      right: 100,
+      bottom: 25,
+      width: 100,
+      height: 20,
+      x: 0,
+      y: 5,
+      toJSON: () => ({}),
+    });
+
+    const target = ref<HTMLElement | null>(el);
+    const { result, wrapper } = withSetup(() =>
+      useSticky(target, { threshold: 10 }),
+    );
+
+    await wrapper.vm.$nextTick();
+    expect(result.isSticky.value).toBe(true);
+
+    rectSpy.mockRestore();
+    document.body.removeChild(el);
+  });
 });

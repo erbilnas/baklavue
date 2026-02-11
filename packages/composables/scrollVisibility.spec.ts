@@ -68,4 +68,34 @@ describe("useScrollVisibility", () => {
 
     scrollToSpy.mockRestore();
   });
+
+  it("debounces rapid scroll events", async () => {
+    Object.defineProperty(window, "scrollY", {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+
+    const { result, wrapper } = withSetup(() => useScrollVisibility({ threshold: 300 }));
+
+    window.dispatchEvent(new Event("scroll"));
+    window.dispatchEvent(new Event("scroll"));
+    window.dispatchEvent(new Event("scroll"));
+    await wrapper.vm.$nextTick();
+
+    expect(result.isVisible.value).toBe(true);
+  });
+
+  it("removes scroll listener and cancels RAF on unmount", () => {
+    const removeSpy = vi.spyOn(window, "removeEventListener");
+    const cancelRafSpy = vi.spyOn(window, "cancelAnimationFrame");
+
+    const { wrapper } = withSetup(() => useScrollVisibility());
+    window.dispatchEvent(new Event("scroll"));
+    wrapper.unmount();
+
+    expect(removeSpy).toHaveBeenCalledWith("scroll", expect.any(Function));
+    removeSpy.mockRestore();
+    cancelRafSpy.mockRestore();
+  });
 });

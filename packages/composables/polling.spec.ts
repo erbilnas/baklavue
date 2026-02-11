@@ -100,4 +100,99 @@ describe("usePolling", () => {
     await wrapper.vm.$nextTick();
     expect(result.data.value).toBe("initial");
   });
+
+  it("pauses when tab is hidden and resumes when visible", async () => {
+    const fetchFn = vi.fn().mockResolvedValue("data");
+    const addSpy = vi.spyOn(document, "addEventListener");
+    const removeSpy = vi.spyOn(document, "removeEventListener");
+
+    Object.defineProperty(document, "hidden", {
+      value: false,
+      writable: true,
+      configurable: true,
+    });
+
+    const { result, wrapper } = withSetup(() =>
+      usePolling(fetchFn, {
+        interval: 1000,
+        immediate: true,
+        pauseInBackground: true,
+      }),
+    );
+
+    await wrapper.vm.$nextTick();
+    expect(addSpy).toHaveBeenCalledWith("visibilitychange", expect.any(Function));
+
+    const handler = addSpy.mock.calls.find(
+      (c) => c[0] === "visibilitychange",
+    )?.[1];
+
+    Object.defineProperty(document, "hidden", {
+      value: true,
+      writable: true,
+      configurable: true,
+    });
+    handler?.();
+    expect(result.isActive.value).toBe(false);
+
+    Object.defineProperty(document, "hidden", {
+      value: false,
+      writable: true,
+      configurable: true,
+    });
+    handler?.();
+    expect(result.isActive.value).toBe(true);
+
+    wrapper.unmount();
+    expect(removeSpy).toHaveBeenCalledWith("visibilitychange", expect.any(Function));
+
+    addSpy.mockRestore();
+    removeSpy.mockRestore();
+  });
+
+  it("starts paused when document.hidden is true", async () => {
+    const fetchFn = vi.fn().mockResolvedValue("data");
+    const originalHidden = Object.getOwnPropertyDescriptor(
+      document,
+      "hidden",
+    );
+    Object.defineProperty(document, "hidden", {
+      value: true,
+      writable: true,
+      configurable: true,
+    });
+
+    const { result, wrapper } = withSetup(() =>
+      usePolling(fetchFn, {
+        interval: 1000,
+        immediate: true,
+        pauseInBackground: true,
+      }),
+    );
+
+    await wrapper.vm.$nextTick();
+    expect(result.isActive.value).toBe(false);
+
+    if (originalHidden) {
+      Object.defineProperty(document, "hidden", originalHidden);
+    }
+  });
+
+  it("calls onSuccess when fetch succeeds", async () => {
+    vi.useRealTimers();
+    const onSuccess = vi.fn();
+    const fetchFn = vi.fn().mockResolvedValue({ id: 1 });
+    withSetup(() =>
+      usePolling(fetchFn, {
+        interval: 1000,
+        immediate: true,
+        pauseInBackground: false,
+        onSuccess,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    expect(onSuccess).toHaveBeenCalledWith({ id: 1 });
+    vi.useFakeTimers();
+  });
 });
