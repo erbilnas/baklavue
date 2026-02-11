@@ -44,6 +44,7 @@ import ImageLazyDemo from "./components/ImageLazyDemo.vue";
 import InputBasicDemo from "./components/InputBasicDemo.vue";
 import InputDisabledReadonlyDemo from "./components/InputDisabledReadonlyDemo.vue";
 import InputFormValidationDemo from "./components/InputFormValidationDemo.vue";
+import ZodFormValidationDemo from "./components/ZodFormValidationDemo.vue";
 import InputHelpTextDemo from "./components/InputHelpTextDemo.vue";
 import InputLoadingDemo from "./components/InputLoadingDemo.vue";
 import InputSizesDemo from "./components/InputSizesDemo.vue";
@@ -168,6 +169,7 @@ export default {
     app.component("InputBasicDemo", InputBasicDemo);
     app.component("InputDisabledReadonlyDemo", InputDisabledReadonlyDemo);
     app.component("InputFormValidationDemo", InputFormValidationDemo);
+    app.component("ZodFormValidationDemo", ZodFormValidationDemo);
     app.component("InputHelpTextDemo", InputHelpTextDemo);
     app.component("InputLoadingDemo", InputLoadingDemo);
     app.component("InputSizesDemo", InputSizesDemo);

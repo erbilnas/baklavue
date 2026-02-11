@@ -7,6 +7,7 @@ BaklaVue provides Vue 3 composables to enhance your application functionality.
 - [useCsv](/composables/csv) - Parse, create, and download CSV files
 - [useNotification](/composables/notification) - Programmatically manage notifications
 - [useScrollToError](/composables/scrollToError) - Scroll to element with validation error
+- [useZodForm](/composables/formValidation) - Form validation with Zod schemas
 - [useBaklavaTheme](/composables/theme) - Overwrite Baklava colors (Vue preset or custom)
 - [useDisclosure](/composables/disclosure) - Open/close state for Dialog, Drawer, Dropdown
 - [usePagination](/composables/pagination) - Pagination state for tables and lists

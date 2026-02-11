@@ -202,6 +202,7 @@ export default defineConfig({
             { text: "useCsv", link: "/composables/csv" },
             { text: "useNotification", link: "/composables/notification" },
             { text: "useScrollToError", link: "/composables/scrollToError" },
+            { text: "useZodForm", link: "/composables/formValidation" },
             { text: "useBaklavaTheme", link: "/composables/theme" },
             { text: "useDisclosure", link: "/composables/disclosure" },
             { text: "usePagination", link: "/composables/pagination" },

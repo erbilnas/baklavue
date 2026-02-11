@@ -550,6 +550,33 @@ scrollToError('[data-field="tags"]', {
 
 **ScrollToErrorOptions:** `scrollBehavior`, `block`, `shineClass`, `shineDuration`, `focus`, `focusDelay`
 
+### useZodForm
+
+[useZodForm](/composables/formValidation) · `import { useZodForm } from "@baklavue/composables"`
+
+Form validation with Zod schemas. Supports lazy (validate on submit, then real-time) or eager (validate on change) modes.
+
+```typescript
+const { validate, errors, isValid, getError, scrollToFirstError } = useZodForm(
+  schema,
+  formData,
+  { mode: "lazy" }
+);
+
+const handleSubmit = async () => {
+  const errs = await validate();
+  if (!errs) {
+    // submit
+  } else {
+    scrollToFirstError();
+  }
+};
+```
+
+**Returns:** `validate`, `errors`, `isValid`, `clearErrors`, `getError`, `scrollToFirstError`
+
+**UseZodFormOptions:** `mode?: 'lazy' | 'eager'`
+
 ### useBaklavaTheme
 
 [useBaklavaTheme](/composables/theme) · `import { useBaklavaTheme } from "@baklavue/composables"`
@@ -829,6 +856,9 @@ import type {
   // Scroll
   ScrollToErrorOptions,
   ScrollToErrorTarget,
+  // Form validation
+  FormErrors,
+  UseZodFormOptions,
   // Pagination
   UsePaginationOptions,
   // Confirm
@@ -858,6 +888,7 @@ import {
   useCsv,
   useNotification,
   useScrollToError,
+  useZodForm,
   useBaklavaTheme,
   useDisclosure,
   usePagination,

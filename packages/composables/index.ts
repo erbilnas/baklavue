@@ -14,6 +14,11 @@ export {
   type ScrollToErrorTarget,
 } from "./scrollToError";
 export {
+  useZodForm,
+  type FormErrors,
+  type UseZodFormOptions,
+} from "./formValidation";
+export {
   useBaklavaTheme,
   type ApplyThemeOptions,
   type BaklavaThemeBorderRadius,

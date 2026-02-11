@@ -106,6 +106,10 @@ export function listComposables(): ComposableInfo[] {
       description: "Scroll to element with validation error",
     },
     {
+      name: "useZodForm",
+      description: "Form validation with Zod schemas",
+    },
+    {
       name: "useBaklavaTheme",
       description: "Overwrite Baklava colors (Vue preset or custom)",
     },
@@ -186,6 +190,7 @@ const COMPOSABLE_TO_FILE: Record<string, string> = {
   useCsv: "csv",
   useNotification: "notification",
   useScrollToError: "scrollToError",
+  useZodForm: "formValidation",
   useBaklavaTheme: "theme",
   useDisclosure: "disclosure",
   usePagination: "pagination",

@@ -32,6 +32,7 @@
         "@baklavue/ui": "workspace:*",
         "@trendyol/baklava": "^3.4.2",
         "@trendyol/baklava-icons": "^1.1.0",
+        "zod": "^4.3.6",
       },
       "devDependencies": {
         "vitepress": "^1.5.0",
@@ -41,7 +42,7 @@
     },
     "packages/composables": {
       "name": "@baklavue/composables",
-      "version": "1.0.0-preview.5",
+      "version": "1.0.0-preview.2",
       "dependencies": {
         "papaparse": "^5.5.3",
       },
@@ -49,10 +50,12 @@
         "@trendyol/baklava": "^3.4.2",
         "@types/bun": "latest",
         "@types/papaparse": "^5.5.2",
+        "zod": "^4.3.6",
       },
       "peerDependencies": {
         "typescript": "^5.9.2",
         "vue": ">=3.0.0",
+        "zod": "^3.23.0 || ^4.0.0",
       },
     },
     "packages/mcp": {
@@ -72,7 +75,7 @@
     },
     "packages/ui": {
       "name": "@baklavue/ui",
-      "version": "1.0.0-preview.4",
+      "version": "1.0.0-preview.3",
       "dependencies": {
         "@trendyol/baklava": "^3.4.2",
         "@trendyol/baklava-icons": "^1.1.0",
