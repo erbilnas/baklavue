@@ -18,7 +18,7 @@ export interface SelectOption {
 }
 
 /**
- * Props for the Select Vue wrapper component.
+ * Props for the Select Vue UI kit component.
  * Wraps Baklava's `bl-select` web component with v-model support.
  */
 export interface SelectProps {

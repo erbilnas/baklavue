@@ -3,12 +3,12 @@
   
   # BaklaVue
   
-  A Vue 3 wrapper library for [Trendyol Baklava](https://github.com/Trendyol/baklava) design system components, providing a seamless integration between Vue 3 and Baklava's web components.
+  A Vue 3 UI kit for [Trendyol Baklava](https://github.com/Trendyol/baklava) design system components, providing a seamless integration between Vue 3 and Baklava's web components.
 </div>
 
 ## What is BaklaVue?
 
-BaklaVue is a comprehensive Vue 3 wrapper library for the [Trendyol Baklava Design System](https://github.com/Trendyol/baklava). It bridges the gap between Baklava's web components and Vue 3's reactive ecosystem, providing a seamless development experience with full TypeScript support, Vue-friendly APIs, and powerful composables.
+BaklaVue is a comprehensive Vue 3 UI kit for the [Trendyol Baklava Design System](https://github.com/Trendyol/baklava). It bridges the gap between Baklava's web components and Vue 3's reactive ecosystem, providing a seamless development experience with full TypeScript support, Vue-friendly APIs, and powerful composables.
 
 ### Why BaklaVue?
 
@@ -74,7 +74,7 @@ const handleClick = () => {
 ## Features
 
 - 🚀 **Vue 3 Integration**: Built with Vue 3 Composition API and TypeScript for modern development experience
-- 🎨 **Baklava Components**: Wraps Baklava web components with Vue-friendly APIs and full type safety
+- 🎨 **Baklava Components**: Provides BaklaVue UI kit with Vue-friendly APIs for Baklava web components and full type safety
 - 🔧 **Composable Utilities**: Powerful Vue composables for enhanced functionality and better developer experience
 - 📦 **Type Safe**: Full TypeScript support with proper type definitions for all components, props, events, and composables
 - ⚡ **Modern Build**: Uses Bun for fast package management and building. Optimized bundle sizes with tree-shaking support
@@ -82,7 +82,7 @@ const handleClick = () => {
 
 ## Components
 
-BaklaVue provides Vue 3 wrappers for all Baklava Design System components:
+BaklaVue provides Vue 3 UI kit for all Baklava Design System components:
 
 ### Form Components
 

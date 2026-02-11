@@ -1,6 +1,6 @@
 # Select
 
-A Vue wrapper for Baklava's `bl-select` component with v-model support. Supports both slot-based options (using `bl-select-option` children) and the `options` prop for programmatic rendering. Single and multiple selection modes are supported.
+A Vue UI kit component for Baklava's `bl-select` component with v-model support. Supports both slot-based options (using `bl-select-option` children) and the `options` prop for programmatic rendering. Single and multiple selection modes are supported.
 
 ## Basic Usage
 

@@ -28,8 +28,9 @@
     "release:dry-run": "semantic-release --dry-run -e semantic-release-monorepo"
   },
   "devDependencies": {
+    "@trendyol/baklava": "^3.4.2",
     "@types/bun": "latest",
-    "@trendyol/baklava": "^3.4.2"
+    "@types/papaparse": "^5.5.2"
   },
   "peerDependencies": {
     "typescript": "^5.9.2",
@@ -37,5 +38,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "papaparse": "^5.5.3"
   }
 }

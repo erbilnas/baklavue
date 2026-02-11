@@ -7,7 +7,7 @@
     title="Based on @trendyol/baklava"
   >
     <span class="baklava-version-badge__dot" aria-hidden="true" />
-    Based on Baklava v3.4.2
+    Builds on Baklava v3.4.2
   </a>
 </template>
 

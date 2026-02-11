@@ -1,6 +1,6 @@
 # Radio
 
-A Vue wrapper for Baklava's `bl-radio` and `bl-radio-group` components for single-choice selections. Use the `items` prop to create a radio group. Selected value is bound via v-model.
+A Vue UI kit component for Baklava's `bl-radio` and `bl-radio-group` components for single-choice selections. Use the `items` prop to create a radio group. Selected value is bound via v-model.
 
 ## Basic Usage
 

@@ -1,6 +1,6 @@
 # Alert
 
-A Vue wrapper for Baklava's `bl-alert` component for displaying alert messages.
+A Vue UI kit component for Baklava's `bl-alert` component for displaying alert messages.
 
 ## Basic Alert
 

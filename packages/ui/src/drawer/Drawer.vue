@@ -2,7 +2,7 @@
 /**
  * Drawer Component
  *
- * A Vue wrapper for Baklava's `bl-drawer` web component.
+ * A Vue UI kit component for Baklava's `bl-drawer` web component.
  * Provides a side drawer for supplemental content with support for caption,
  * embedded iframe content, external link, and programmable width.
  *

@@ -2,7 +2,7 @@
 /**
  * Dialog Component
  *
- * A Vue wrapper for Baklava's `bl-dialog` web component.
+ * A Vue UI kit component for Baklava's `bl-dialog` web component.
  * Provides a modal overlay for confirmations, forms, and important content
  * with support for header and footer slots, controllable visibility, and programmatic open/close.
  *

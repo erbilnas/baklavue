@@ -1,6 +1,6 @@
 # Icon
 
-A Vue wrapper for Baklava's `bl-icon` component for displaying icons. The Icon component provides icon display with support for name, size, color, and custom slot content. Size and color are applied via CSS (`font-size`, `color`) as per Baklava's API.
+A Vue UI kit component for Baklava's `bl-icon` component for displaying icons. The Icon component provides icon display with support for name, size, color, and custom slot content. Size and color are applied via CSS (`font-size`, `color`) as per Baklava's API.
 
 ## Basic Usage
 

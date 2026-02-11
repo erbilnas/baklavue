@@ -1,6 +1,6 @@
 # Checkbox
 
-A Vue wrapper for Baklava's `bl-checkbox` and `bl-checkbox-group` components for boolean or multi-value selections. The Checkbox component can work in two modes: as a single checkbox or as a group wrapper for multiple checkboxes.
+A Vue UI kit component for Baklava's `bl-checkbox` and `bl-checkbox-group` components for boolean or multi-value selections. The Checkbox component can work in two modes: as a single checkbox or as a group container for multiple checkboxes.
 
 ## Single Checkbox
 
@@ -332,7 +332,7 @@ interface CheckboxProps {
 
 ## Usage Notes
 
-- **Single vs Group Mode**: The component automatically switches between single checkbox mode and group mode based on whether the `items` prop is provided. When `items` is `undefined`, it acts as a single checkbox. When `items` is an array, it acts as a group wrapper using `bl-checkbox-group`.
+- **Single vs Group Mode**: The component automatically switches between single checkbox mode and group mode based on whether the `items` prop is provided. When `items` is `undefined`, it acts as a single checkbox. When `items` is an array, it acts as a group container using `bl-checkbox-group`.
 
 - **Items Prop Required**: In group mode, checkboxes are rendered from the `items` prop. Content for each item is provided via the `#item` scoped slot or defaults to `item.label`.
 

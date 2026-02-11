@@ -2,7 +2,7 @@
 /**
  * Spinner Component
  *
- * A Vue wrapper for Baklava's `bl-spinner` web component for loading indicators.
+ * A Vue UI kit component for Baklava's `bl-spinner` web component for loading indicators.
  * Displays an animated spinner with configurable size and variant.
  *
  * @component

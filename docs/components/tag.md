@@ -1,6 +1,6 @@
 # Tag
 
-A Vue wrapper for Baklava's `bl-tag` component for displaying tags or labels. Supports selectable and removable (closable) variants, sizes, and icons.
+A Vue UI kit component for Baklava's `bl-tag` component for displaying tags or labels. Supports selectable and removable (closable) variants, sizes, and icons.
 
 ## Basic Usage
 

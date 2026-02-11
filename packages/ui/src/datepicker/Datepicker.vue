@@ -2,7 +2,7 @@
 /**
  * Datepicker Component
  *
- * A Vue wrapper for Baklava's `bl-datepicker` web component with v-model support.
+ * A Vue UI kit component for Baklava's `bl-datepicker` web component with v-model support.
  * Provides a calendar picker input for date selection with min/max constraints,
  * placeholder text, and standard form states.
  *

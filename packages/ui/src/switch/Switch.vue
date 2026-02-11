@@ -2,7 +2,7 @@
 /**
  * Switch Component
  *
- * A Vue wrapper for Baklava's `bl-switch` web component with v-model support.
+ * A Vue UI kit component for Baklava's `bl-switch` web component with v-model support.
  * A toggle switch for boolean states. Supports v-model:checked for two-way binding.
  *
  * @component

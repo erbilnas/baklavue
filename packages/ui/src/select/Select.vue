@@ -2,7 +2,7 @@
 /**
  * Select Component
  *
- * A Vue wrapper for Baklava's `bl-select` web component with v-model support.
+ * A Vue UI kit component for Baklava's `bl-select` web component with v-model support.
  * Supports both slot-based options and the `options` prop for programmatic rendering.
  *
  * @component

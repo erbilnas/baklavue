@@ -1,6 +1,6 @@
 # Accordion
 
-A Vue wrapper for Baklava's `bl-accordion` and `bl-accordion-group` components for collapsible content sections. The Accordion component can work in two modes: as a single accordion item or as a group wrapper for multiple accordions.
+A Vue UI kit component for Baklava's `bl-accordion` and `bl-accordion-group` components for collapsible content sections. The Accordion component can work in two modes: as a single accordion item or as a group container for multiple accordions.
 
 ## Single Accordion
 
@@ -12,7 +12,7 @@ Use the Accordion component without the `multiple` prop to create a single colla
 
 <BvAccordion caption="What is BaklaVue?">
   <p style="color:black">
-    BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava
+    BaklaVue is a comprehensive Vue 3 UI kit for the Trendyol Baklava
     Design System. It provides Vue-friendly APIs with full TypeScript support.
   </p>
 </BvAccordion>
@@ -23,7 +23,7 @@ Use the Accordion component without the `multiple` prop to create a single colla
 <template>
   <BvAccordion caption="What is BaklaVue?">
     <p>
-      BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava
+      BaklaVue is a comprehensive Vue 3 UI kit for the Trendyol Baklava
       Design System. It provides Vue-friendly APIs with full TypeScript support.
     </p>
   </BvAccordion>
@@ -89,7 +89,7 @@ Use the Accordion component with the `multiple` and `items` props to create a gr
 <div class="component-demo">
 
 <BvAccordion :multiple="false" :items="[
-{ caption: 'What is BaklaVue?', content: 'BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.' },
+{ caption: 'What is BaklaVue?', content: 'BaklaVue is a comprehensive Vue 3 UI kit for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.' },
 { caption: 'How do I install BaklaVue?', content: 'Install BaklaVue using your preferred package manager: bun add @baklavue/ui @baklavue/composables' },
 { caption: 'Is BaklaVue free to use?', content: 'Yes, BaklaVue is open source and free to use in your projects.' },
 { caption: 'Does BaklaVue support TypeScript?', content: 'Yes, BaklaVue is built with TypeScript and provides comprehensive type definitions for all components, props, events, and composables.' }
@@ -117,7 +117,7 @@ const faqItems = [
   {
     caption: "What is BaklaVue?",
     content:
-      "BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.",
+      "BaklaVue is a comprehensive Vue 3 UI kit for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.",
   },
   {
     caption: "How do I install BaklaVue?",
@@ -321,7 +321,7 @@ A complete FAQ section using the `items` prop with the `#item` slot:
 <div>
   <h2 style="color: black; margin-bottom: 1rem">Frequently Asked Questions</h2>
   <BvAccordion :multiple="false" :items="[
-    { caption: 'What is BaklaVue?', content: 'BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.' },
+    { caption: 'What is BaklaVue?', content: 'BaklaVue is a comprehensive Vue 3 UI kit for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.' },
     { caption: 'How do I install BaklaVue?', content: 'Install BaklaVue using your preferred package manager:' },
     { caption: 'Is BaklaVue free to use?', content: 'Yes, BaklaVue is open source and free to use in your projects.' },
     { caption: 'Does BaklaVue support TypeScript?', content: 'Yes, BaklaVue is built with TypeScript and provides comprehensive type definitions for all components, props, events, and composables.' }
@@ -353,7 +353,7 @@ const faqItems = [
   {
     caption: "What is BaklaVue?",
     content:
-      "BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.",
+      "BaklaVue is a comprehensive Vue 3 UI kit for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.",
   },
   {
     caption: "How do I install BaklaVue?",
@@ -405,7 +405,7 @@ const faqItems = [
   {
     caption: "What is BaklaVue?",
     content:
-      "BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava Design System.",
+      "BaklaVue is a comprehensive Vue 3 UI kit for the Trendyol Baklava Design System.",
   },
   {
     caption: "How do I install BaklaVue?",
@@ -590,7 +590,7 @@ interface AccordionProps {
 
 ## Usage Notes
 
-- **Single vs Group Mode**: The component automatically switches between single accordion mode and group mode based on whether the `multiple` prop is provided. When `multiple` is `undefined`, it acts as a single accordion. When `multiple` is provided (even if `false`), it acts as a group wrapper using the `items` prop.
+- **Single vs Group Mode**: The component automatically switches between single accordion mode and group mode based on whether the `multiple` prop is provided. When `multiple` is `undefined`, it acts as a single accordion. When `multiple` is provided (even if `false`), it acts as a group container using the `items` prop.
 
 - **Items Prop Required**: In group mode, accordions are rendered from the `items` prop. There is no default slot for nested accordion children. Content for each item is provided via the `#item` scoped slot.
 

@@ -35,7 +35,7 @@ export interface RadioItem {
 /**
  * Props for the Radio component.
  *
- * When `items` prop is provided, the component acts as a radio group wrapper.
+ * When `items` prop is provided, the component acts as a radio group container.
  * Otherwise, it acts as a single radio option.
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio

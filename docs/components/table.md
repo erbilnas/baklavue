@@ -1,6 +1,6 @@
 # Table
 
-A Vue wrapper for Baklava's `bl-table` component for displaying tabular data. Supports columns, data, sorting, row selection, loading/empty states, pagination, title/header actions, and per-column custom slots.
+A Vue UI kit component for Baklava's `bl-table` component for displaying tabular data. Supports columns, data, sorting, row selection, loading/empty states, pagination, title/header actions, and per-column custom slots.
 
 ## Basic Usage
 

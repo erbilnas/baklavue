@@ -1,6 +1,6 @@
 # Spinner
 
-A Vue wrapper for Baklava's `bl-spinner` web component for loading indicators. Use the Spinner component to show loading states during async operations.
+A Vue UI kit component for Baklava's `bl-spinner` web component for loading indicators. Use the Spinner component to show loading states during async operations.
 
 ## Basic Usage
 

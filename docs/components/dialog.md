@@ -1,6 +1,6 @@
 # Dialog
 
-A Vue wrapper for Baklava's `bl-dialog` component for modal dialogs. The Dialog component provides a modal overlay for confirmations, forms, and important content with support for header and footer slots, controllable visibility, and programmatic open/close.
+A Vue UI kit component for Baklava's `bl-dialog` component for modal dialogs. The Dialog component provides a modal overlay for confirmations, forms, and important content with support for header and footer slots, controllable visibility, and programmatic open/close.
 
 ## Basic Usage
 

@@ -2,7 +2,7 @@
 /**
  * Alert Component
  *
- * A Vue wrapper for Baklava's `bl-alert` web component.
+ * A Vue UI kit component for Baklava's `bl-alert` web component.
  * Displays contextual feedback messages with variants (info, success, warning, danger).
  *
  * @component

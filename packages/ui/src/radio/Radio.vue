@@ -2,8 +2,8 @@
 /**
  * Radio Component
  *
- * A Vue wrapper for Baklava's `bl-radio` and `bl-radio-group` web components.
- * Can be used as either a single radio option or as a group wrapper for multiple radios.
+ * A Vue UI kit component for Baklava's `bl-radio` and `bl-radio-group` web components.
+ * Can be used as either a single radio option or as a group container for multiple radios.
  *
  * @component
  * @example
@@ -88,7 +88,7 @@ const emit = defineEmits<{
 }>();
 
 /**
- * Determines if the component should act as a group wrapper.
+ * Determines if the component should act as a group container.
  * When `items` prop is provided and is an array, it acts as a group.
  */
 const isGroupMode = computed(

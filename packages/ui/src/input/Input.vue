@@ -2,7 +2,7 @@
 /**
  * Input Component
  *
- * A Vue wrapper for Baklava's `bl-input` web component with full v-model support
+ * A Vue UI kit component for Baklava's `bl-input` web component with full v-model support
  * and TypeScript types. Supports text, email, password, number, date, time, and
  * other input types with validation, help text, loading state, and icons.
  *

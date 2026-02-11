@@ -47,10 +47,72 @@ export interface BaklavaThemeColors {
   neutralFull?: string;
 }
 
+/**
+ * Border radius overrides for Baklava design tokens.
+ * Maps to --bl-border-radius-* CSS variables.
+ */
+export interface BaklavaThemeBorderRadius {
+  xs?: string;
+  s?: string;
+  m?: string;
+  l?: string;
+  pill?: string;
+  circle?: string;
+}
+
+/**
+ * Size and spacing overrides for Baklava design tokens.
+ * Maps to --bl-size-* CSS variables.
+ */
+export interface BaklavaThemeSize {
+  "4xs"?: string;
+  "3xs"?: string;
+  "2xs"?: string;
+  xs?: string;
+  s?: string;
+  m?: string;
+  l?: string;
+  xl?: string;
+  "2xl"?: string;
+  "3xl"?: string;
+  "4xl"?: string;
+  "5xl"?: string;
+  "6xl"?: string;
+}
+
+/**
+ * Typography overrides for Baklava design tokens.
+ * Maps to --bl-font-* CSS variables.
+ */
+export interface BaklavaThemeTypography {
+  fontFamily?: string;
+  fontSize?: Record<string, string>;
+  fontWeight?: Record<string, number>;
+}
+
+/**
+ * Z-index overrides for Baklava design tokens.
+ * Maps to --bl-index-* CSS variables.
+ */
+export interface BaklavaThemeZIndex {
+  deep?: number;
+  base?: number;
+  popover?: number;
+  tooltip?: number;
+  sticky?: number;
+  overlay?: number;
+  dialog?: number;
+  notification?: number;
+}
+
 export interface ApplyThemeOptions {
   /** Built-in preset name ('vue', 'default') or your own preset object */
   preset?: BaklavaThemePreset | BaklavaThemePresetRecord;
   colors?: Partial<BaklavaThemeColors>;
+  borderRadius?: Partial<BaklavaThemeBorderRadius>;
+  size?: Partial<BaklavaThemeSize>;
+  typography?: Partial<BaklavaThemeTypography>;
+  zIndex?: Partial<BaklavaThemeZIndex>;
 }
 
 const VUE_PRESET: Record<string, string> = {
@@ -64,11 +126,45 @@ const VUE_PRESET: Record<string, string> = {
   "--bl-color-neutral-darkest": "#2c3e50",
 };
 
-function buildCssVariables(
-  preset?: BaklavaThemePreset | BaklavaThemePresetRecord,
-  colors?: Partial<BaklavaThemeColors>
-): string {
+const BORDER_RADIUS_MAP: Record<keyof BaklavaThemeBorderRadius, string> = {
+  xs: "--bl-border-radius-xs",
+  s: "--bl-border-radius-s",
+  m: "--bl-border-radius-m",
+  l: "--bl-border-radius-l",
+  pill: "--bl-border-radius-pill",
+  circle: "--bl-border-radius-circle",
+};
+
+const SIZE_MAP: Record<keyof BaklavaThemeSize, string> = {
+  "4xs": "--bl-size-4xs",
+  "3xs": "--bl-size-3xs",
+  "2xs": "--bl-size-2xs",
+  xs: "--bl-size-xs",
+  s: "--bl-size-s",
+  m: "--bl-size-m",
+  l: "--bl-size-l",
+  xl: "--bl-size-xl",
+  "2xl": "--bl-size-2xl",
+  "3xl": "--bl-size-3xl",
+  "4xl": "--bl-size-4xl",
+  "5xl": "--bl-size-5xl",
+  "6xl": "--bl-size-6xl",
+};
+
+const Z_INDEX_MAP: Record<keyof BaklavaThemeZIndex, string> = {
+  deep: "--bl-index-deep",
+  base: "--bl-index-base",
+  popover: "--bl-index-popover",
+  tooltip: "--bl-index-tooltip",
+  sticky: "--bl-index-sticky",
+  overlay: "--bl-index-overlay",
+  dialog: "--bl-index-dialog",
+  notification: "--bl-index-notification",
+};
+
+function buildCssVariables(options: ApplyThemeOptions = {}): string {
   const vars: Record<string, string> = {};
+  const { preset, colors, borderRadius, size, typography, zIndex } = options;
 
   if (preset) {
     if (typeof preset === "string") {
@@ -111,6 +207,44 @@ function buildCssVariables(
     }
   }
 
+  if (borderRadius) {
+    for (const [key, value] of Object.entries(borderRadius)) {
+      if (value && key in BORDER_RADIUS_MAP) {
+        vars[BORDER_RADIUS_MAP[key as keyof BaklavaThemeBorderRadius]] = value;
+      }
+    }
+  }
+
+  if (size) {
+    for (const [key, value] of Object.entries(size)) {
+      if (value && key in SIZE_MAP) {
+        vars[SIZE_MAP[key as keyof BaklavaThemeSize]] = value;
+      }
+    }
+  }
+
+  if (typography) {
+    if (typography.fontFamily) vars["--bl-font-family"] = typography.fontFamily;
+    if (typography.fontSize) {
+      for (const [key, value] of Object.entries(typography.fontSize)) {
+        if (value) vars[`--bl-font-size-${key}`] = value;
+      }
+    }
+    if (typography.fontWeight) {
+      for (const [key, value] of Object.entries(typography.fontWeight)) {
+        if (value != null) vars[`--bl-font-weight-${key}`] = String(value);
+      }
+    }
+  }
+
+  if (zIndex) {
+    for (const [key, value] of Object.entries(zIndex)) {
+      if (value != null && key in Z_INDEX_MAP) {
+        vars[Z_INDEX_MAP[key as keyof BaklavaThemeZIndex]] = String(value);
+      }
+    }
+  }
+
   const rules = Object.entries(vars)
     .map(([prop, val]) => `  ${prop}: ${val};`)
     .join("\n");
@@ -149,8 +283,7 @@ export const useBaklavaTheme = () => {
   const applyTheme = (options: ApplyThemeOptions = {}): void => {
     if (typeof document === "undefined") return;
 
-    const { preset, colors } = options;
-    const css = buildCssVariables(preset, colors);
+    const css = buildCssVariables(options);
 
     if (!css) return;
 

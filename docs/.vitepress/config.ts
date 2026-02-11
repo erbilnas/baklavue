@@ -1,15 +1,32 @@
 import { resolve } from "path";
 import { defineConfig } from "vitepress";
+import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 
 const badge = (label: string, type: "wip" | "new" | "broken") =>
   ` <span class="VPBadge ${type === "wip" ? "warning" : type === "new" ? "tip" : type === "broken" ? "error" : "info"}">${label.toUpperCase()}</span>`;
 
 export default defineConfig({
+  markdown: {
+    config(md) {
+      md.use(tabsMarkdownPlugin);
+    },
+  },
   title: "BaklaVue",
-  description: "Vue 3 wrapper library for Trendyol Baklava Design System",
+  description: "Vue 3 UI kit for Trendyol Baklava Design System",
   base: "/baklavue/",
 
-  head: [["link", { rel: "icon", href: "/baklavue/logo.png" }]],
+  head: [
+    ["link", { rel: "icon", href: "/baklavue/logo.png" }],
+    ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
+    ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
+    [
+      "link",
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap",
+      },
+    ],
+  ],
 
   themeConfig: {
     logo: "/logo.png",
@@ -29,6 +46,30 @@ export default defineConfig({
             { text: "Introduction", link: "/guide/getting-started" },
             { text: "Installation", link: "/guide/installation" },
             { text: "Contributing", link: "/guide/contributing" },
+          ],
+        },
+        {
+          text: "Design Tokens",
+          items: [
+            { text: "Overview", link: "/guide/design-tokens" },
+            { text: "Colors", link: "/tokens/colors" },
+            { text: "Border Radius", link: "/tokens/border-radius" },
+            { text: "Size & Spacing", link: "/tokens/size-spacing" },
+            { text: "Typography", link: "/tokens/typography" },
+            { text: "Z-Index", link: "/tokens/z-index" },
+          ],
+        },
+      ],
+      "/tokens/": [
+        {
+          text: "Design Tokens",
+          items: [
+            { text: "Overview", link: "/guide/design-tokens" },
+            { text: "Colors", link: "/tokens/colors" },
+            { text: "Border Radius", link: "/tokens/border-radius" },
+            { text: "Size & Spacing", link: "/tokens/size-spacing" },
+            { text: "Typography", link: "/tokens/typography" },
+            { text: "Z-Index", link: "/tokens/z-index" },
           ],
         },
       ],
@@ -136,7 +177,9 @@ export default defineConfig({
           text: "Composables",
           items: [
             { text: "Overview", link: "/composables/" },
+            { text: "useCsv", link: "/composables/csv" },
             { text: "useNotification", link: "/composables/notification" },
+            { text: "useScrollToError", link: "/composables/scrollToError" },
             { text: "useBaklavaTheme", link: "/composables/theme" },
           ],
         },
@@ -154,10 +197,6 @@ export default defineConfig({
         },
       ],
     },
-
-    socialLinks: [
-      { icon: "github", link: "https://github.com/erbilnas/baklavue" },
-    ],
 
     search: {
       provider: "local",

@@ -2,7 +2,7 @@
 /**
  * Textarea Component
  *
- * A Vue wrapper for Baklava's `bl-textarea` web component with v-model support.
+ * A Vue UI kit component for Baklava's `bl-textarea` web component with v-model support.
  * Supports label, placeholder, validation, character counter, and help text.
  *
  * @component

@@ -2,7 +2,7 @@
 /**
  * Notification Component
  *
- * A Vue wrapper for Baklava's `bl-notification` web component for toast notifications.
+ * A Vue UI kit component for Baklava's `bl-notification` web component for toast notifications.
  * Place this component once in your app (typically at root or layout level). Notifications
  * are triggered programmatically via the `useNotification` composable.
  *

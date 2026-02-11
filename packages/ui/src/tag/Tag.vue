@@ -2,7 +2,7 @@
 /**
  * Tag Component
  *
- * A Vue wrapper for Baklava's `bl-tag` web component for displaying tags or labels.
+ * A Vue UI kit component for Baklava's `bl-tag` web component for displaying tags or labels.
  * Supports selectable and removable (closable) variants, sizes, and icons.
  *
  * @component

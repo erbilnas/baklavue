@@ -5,7 +5,7 @@ const faqItems = [
   {
     caption: "What is BaklaVue?",
     content:
-      "BaklaVue is a comprehensive Vue 3 wrapper library for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.",
+      "BaklaVue is a comprehensive Vue 3 UI kit for the Trendyol Baklava Design System. It provides Vue-friendly APIs with full TypeScript support.",
   },
   {
     caption: "How do I install BaklaVue?",

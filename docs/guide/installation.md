@@ -1,38 +1,67 @@
 # Installation
 
-This guide covers detailed installation instructions for BaklaVue in different scenarios.
+This guide covers installation of BaklaVue in various setups: new projects, existing Vue 3 apps, Vite, Nuxt, and Vue CLI. It also includes configuration requirements and troubleshooting.
 
 ## Package Installation
 
-### Install Core Packages
+### Core Packages
 
-BaklaVue consists of two main packages:
+BaklaVue is split into two packages:
 
-- `@baklavue/ui` - Vue component wrappers
-- `@baklavue/composables` - Vue composables
+| Package | Description |
+| ------- | ----------- |
+| `@baklavue/ui` | Vue 3 components wrapping Baklava web components |
+| `@baklavue/composables` | Vue composables (theme, notifications, CSV, scroll-to-error, etc.) |
+
+Install both:
 
 ```bash
 npm install @baklavue/ui @baklavue/composables
 ```
 
+Or with other package managers:
+
+```bash
+# yarn
+yarn add @baklavue/ui @baklavue/composables
+
+# pnpm
+pnpm add @baklavue/ui @baklavue/composables
+
+# bun
+bun add @baklavue/ui @baklavue/composables
+```
+
 ### Peer Dependencies
 
-BaklaVue requires the following peer dependencies:
+BaklaVue expects these peer dependencies in your project:
 
-- `vue` ^3.5.21
-- `typescript` ^5.9.2 (recommended)
+| Dependency | Version | Notes |
+| ---------- | ------- | ----- |
+| `vue` | ^3.5.21 | Required for components |
+| `typescript` | ^5.9.2 | Recommended for type support |
 
-These should already be installed in your Vue 3 project. If not:
+These are usually already present in a Vue 3 project. If not:
 
 ```bash
 npm install vue@^3.5.21 typescript@^5.9.2
 ```
 
+### Transitive Dependencies
+
+BaklaVue brings in:
+
+- `@trendyol/baklava` ^3.4.2 — Core design system
+- `@trendyol/baklava-icons` ^1.1.0 — Icons (used by components)
+- `papaparse` — Used by `useCsv` (in `@baklavue/composables` only)
+
+You do not need to install these manually.
+
 ## Framework Integration
 
-### Vue 3 with Vite
+### Vite + Vue 3
 
-BaklaVue works seamlessly with Vite:
+BaklaVue works out of the box with Vite. Create a new project and add BaklaVue:
 
 ```bash
 npm create vue@latest my-app
@@ -40,27 +69,7 @@ cd my-app
 npm install @baklavue/ui @baklavue/composables
 ```
 
-### Vue 3 with Nuxt
-
-For Nuxt 3 projects:
-
-```bash
-npx nuxi@latest init my-app
-cd my-app
-npm install @baklavue/ui @baklavue/composables
-```
-
-### Vue 3 with Vue CLI
-
-```bash
-vue create my-app
-cd my-app
-npm install @baklavue/ui @baklavue/composables
-```
-
-## Vite Configuration
-
-BaklaVue components wrap Baklava web components (custom elements with `bl-*` tags). When using Vite, configure the Vue plugin to treat these as custom elements so Vue does not try to resolve them as components:
+**Required Vite config:** BaklaVue components render Baklava web components (`bl-*` custom elements). Vue must treat these as custom elements, not Vue components. Add this to `vite.config.ts`:
 
 ```ts
 // vite.config.ts
@@ -80,70 +89,198 @@ export default defineConfig({
 });
 ```
 
+Without this, Vue may warn: `Failed to resolve component: bl-*`.
+
+### Nuxt 3
+
+For Nuxt 3:
+
+```bash
+npx nuxi@latest init my-app
+cd my-app
+npm install @baklavue/ui @baklavue/composables
+```
+
+Configure Nuxt to treat `bl-*` as custom elements. Create or edit `nuxt.config.ts`:
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag.startsWith("bl-"),
+    },
+  },
+});
+```
+
+**Optional:** For tree-shaking and a smaller bundle, you can auto-import components via a Nuxt module or `components/` directory. The default approach is to import components explicitly where needed.
+
+### Vue CLI
+
+For Vue CLI projects:
+
+```bash
+vue create my-app
+cd my-app
+npm install @baklavue/ui @baklavue/composables
+```
+
+Add custom element configuration in `vue.config.js`:
+
+```js
+// vue.config.js
+const { defineConfig } = require("@vue/cli-service");
+
+module.exports = defineConfig({
+  chainWebpack: (config) => {
+    config.module
+      .rule("vue")
+      .use("vue-loader")
+      .tap((options) => {
+        options.compilerOptions = {
+          ...options.compilerOptions,
+          isCustomElement: (tag) => tag.startsWith("bl-"),
+        };
+        return options;
+      });
+  },
+});
+```
+
+## Vite Configuration (Detailed)
+
+### Custom Element Detection
+
+Baklava components are implemented as web components with tags like `bl-button`, `bl-input`, `bl-dialog`. Vue’s template compiler must not resolve these as Vue components. The `isCustomElement` option tells Vue to leave them as native custom elements:
+
+```ts
+vue({
+  template: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag.startsWith("bl-"),
+    },
+  },
+});
+```
+
+### Path Aliases (Optional)
+
+If you use `@` for `src`:
+
+```ts
+// vite.config.ts
+import { resolve } from "path";
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "src"),
+    },
+  },
+});
+```
+
+BaklaVue does not require path aliases; imports from `@baklavue/ui` and `@baklavue/composables` work as-is.
+
 ## TypeScript Configuration
 
-If using TypeScript, ensure your `tsconfig.json` includes proper module resolution:
+For TypeScript, ensure your `tsconfig.json` supports module resolution and includes Vue types:
 
 ```json
 {
   "compilerOptions": {
     "moduleResolution": "bundler",
-    "types": ["vite/client"]
-  }
+    "types": ["vite/client"],
+    "strict": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue"]
 }
 ```
 
-## Import Styles
+BaklaVue types are distributed with the packages; no extra `@types` packages are needed.
 
-BaklaVue components automatically load Baklava styles. However, if you need to import them manually:
+## Importing Styles
+
+BaklaVue components load Baklava styles automatically when they mount. In typical usage you do not need to import anything manually.
+
+If you prefer to load styles yourself (e.g. in the entry file):
 
 ```typescript
-// In your main.ts or main.js
-import "@trendyol/baklava/dist/baklava.css";
+// main.ts or main.js
+import "@trendyol/baklava/dist/themes/default.css";
 ```
+
+When using the CDN (via `loadBaklavaResources`), styles are injected from jsDelivr; no manual import is needed.
 
 ## Verify Installation
 
-Create a test component to verify everything is working:
+Create a simple test component:
 
 ```vue
 <template>
-  <Button variant="primary">Test Button</Button>
+  <BvButton variant="primary">Test Button</BvButton>
 </template>
 
 <script setup>
-import { Button } from "@baklavue/ui";
+import { BvButton } from "@baklavue/ui";
 </script>
 ```
 
-If the button renders correctly, installation is successful!
+If the button renders with correct styling, installation is working.
 
 ## Troubleshooting
 
 ### "Failed to resolve component: bl-*" warning
 
-BaklaVue uses Baklava web components under the hood. Configure `compilerOptions.isCustomElement` in your Vite config so Vue treats `bl-*` tags as custom elements. See [Vite Configuration](#vite-configuration) above.
+**Cause:** Vue is trying to resolve `bl-*` tags as Vue components.
 
-### Components not rendering
+**Fix:** Add `isCustomElement` so Vue treats them as custom elements. See [Vite Configuration](#vite-configuration-detailed) above.
 
-- Ensure Baklava CSS is loaded
-- Check that Vue 3 is installed correctly
-- Verify component imports are correct
+### Components not rendering or look unstyled
+
+**Possible causes:**
+
+1. **Baklava CSS not loaded** — Components load it on mount. If you render before components mount, styles may be missing. Ensure at least one BaklaVue component is mounted, or call `loadBaklavaResources()` manually.
+2. **Wrong Vue version** — BaklaVue requires Vue 3.0+. Check with `npm list vue`.
+3. **Incorrect imports** — Use `BvButton`, not `Button`, and import from `@baklavue/ui`.
 
 ### TypeScript errors
 
-- Ensure TypeScript version is 5.9.2 or higher
-- Check that type definitions are being resolved
-- Verify `tsconfig.json` configuration
+1. **Module not found** — Ensure `@baklavue/ui` and `@baklavue/composables` are installed.
+2. **Type errors** — Use TypeScript 5.9.2+. Run `npm list typescript`.
+3. **Vue types** — If using Vite, include `"types": ["vite/client"]` in `tsconfig.json`.
 
 ### Build errors
 
-- Clear node_modules and reinstall dependencies
-- Check for version conflicts
-- Ensure all peer dependencies are installed
+1. **Peer dependency warnings** — Install `vue` and `typescript` at the versions above.
+2. **Version conflicts** — Try a clean install:
+
+   ```bash
+   rm -rf node_modules
+   rm package-lock.json  # or bun.lock, pnpm-lock.yaml
+   npm install
+   ```
+
+3. **Custom element errors** — Confirm `isCustomElement` is configured for your bundler.
+
+### SSR (Nuxt, etc.)
+
+BaklaVue components rely on Baklava web components, which are client-side. For SSR:
+
+- Use `<ClientOnly>` (or equivalent) around BaklaVue components that must not run on the server.
+- Or defer mounting until the client; the documentation site uses this approach.
+
+## Version Compatibility
+
+| BaklaVue | Vue | Baklava | Node |
+| -------- | --- | ------- | ---- |
+| 1.x      | ^3.5.21 | ^3.4.2 | 18+ |
+
+See the [GitHub releases](https://github.com/erbilnas/baklavue/releases) for specific version notes.
 
 ## Next Steps
 
-- Read the [Getting Started Guide](/guide/getting-started)
-- Explore [Components](/components/)
-- Check [API Reference](/api/reference)
+- [Getting Started](/guide/getting-started) — First steps with BaklaVue
+- [Components](/components/) — Component catalog
+- [API Reference](/api/reference) — Full API docs

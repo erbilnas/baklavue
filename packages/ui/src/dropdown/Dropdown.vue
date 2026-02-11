@@ -2,7 +2,7 @@
 /**
  * Dropdown Component
  *
- * A Vue wrapper for Baklava's `bl-dropdown`, `bl-dropdown-group`, and `bl-dropdown-item`
+ * A Vue UI kit component for Baklava's `bl-dropdown`, `bl-dropdown-group`, and `bl-dropdown-item`
  * web components. Can be used in two modes: slot mode (custom content via slots) or items
  * mode (declarative menu items with optional grouping).
  *

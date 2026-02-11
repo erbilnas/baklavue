@@ -48,7 +48,7 @@ export interface AccordionItem {
 /**
  * Props for the Accordion component.
  *
- * When `multiple` prop is provided, the component acts as an accordion group wrapper.
+ * When `multiple` prop is provided, the component acts as an accordion group container.
  * Otherwise, it acts as a single accordion.
  *
  * @interface AccordionProps
@@ -93,7 +93,7 @@ export interface AccordionProps {
 
   /**
    * Allow multiple accordions to be open at once.
-   * When this prop is provided, the component acts as an accordion group wrapper.
+   * When this prop is provided, the component acts as an accordion group container.
    * When not provided, the component acts as a single accordion.
    *
    * @default false (when used as group)

@@ -2,7 +2,7 @@
 /**
  * Tooltip Component
  *
- * A Vue wrapper for Baklava's `bl-tooltip` web component for displaying contextual
+ * A Vue UI kit component for Baklava's `bl-tooltip` web component for displaying contextual
  * information on hover or focus. The trigger is provided via the default slot;
  * content can be set via the `content` prop or the `#content` slot.
  *

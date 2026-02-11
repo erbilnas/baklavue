@@ -1,6 +1,6 @@
 # Split Button
 
-A Vue wrapper for Baklava's `bl-split-button` web component for buttons with a primary action and a dropdown for secondary actions. Dropdown content is provided via the `dropdown-content` slot.
+A Vue UI kit component for Baklava's `bl-split-button` web component for buttons with a primary action and a dropdown for secondary actions. Dropdown content is provided via the `dropdown-content` slot.
 
 ## Basic Usage
 

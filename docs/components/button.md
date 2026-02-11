@@ -1,6 +1,6 @@
 # Button
 
-A Vue wrapper for Baklava's `bl-button` component with enhanced features and full TypeScript support.
+A Vue UI kit component for Baklava's `bl-button` component with enhanced features and full TypeScript support.
 
 ## Basic Button
 

@@ -1,6 +1,6 @@
 # Drawer
 
-A Vue wrapper for Baklava's `bl-drawer` component for side drawers. The Drawer component provides a slide-in panel for supplemental content with support for caption, embedded iframe content, external link, and programmable width. The underlying bl-drawer has a fixed header with title and close button; content is provided via the default slot or an iframe when using `embedUrl`.
+A Vue UI kit component for Baklava's `bl-drawer` component for side drawers. The Drawer component provides a slide-in panel for supplemental content with support for caption, embedded iframe content, external link, and programmable width. The underlying bl-drawer has a fixed header with title and close button; content is provided via the default slot or an iframe when using `embedUrl`.
 
 ## Basic Usage
 

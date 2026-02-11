@@ -7,16 +7,16 @@ A composable for managing notifications programmatically.
 ```vue
 <template>
   <div>
-    <Button @click="showSuccess">Success</Button>
-    <Button @click="showError">Error</Button>
-    <Button @click="showWarning">Warning</Button>
-    <Button @click="showInfo">Info</Button>
-    <Notification />
+    <BvButton @click="showSuccess">Success</BvButton>
+    <BvButton @click="showError">Error</BvButton>
+    <BvButton @click="showWarning">Warning</BvButton>
+    <BvButton @click="showInfo">Info</BvButton>
+    <BvNotification />
   </div>
 </template>
 
 <script setup>
-import { Button, Notification } from "@baklavue/ui";
+import { BvButton, BvNotification } from "@baklavue/ui";
 import { useNotification } from "@baklavue/composables";
 
 const { success, error, warning, info } = useNotification();
@@ -91,7 +91,7 @@ Uses Baklava's `NotificationProps`. Key options:
 
 ```typescript
 interface NotificationOptions {
-  caption?: string;    // Notification title
+  caption?: string; // Notification title
   description: string; // Notification message (required)
   duration?: number;
   permanent?: boolean;

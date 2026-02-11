@@ -1,6 +1,6 @@
 # Pagination
 
-A Vue wrapper for Baklava's `bl-pagination` web component for page navigation. Supports v-model for two-way binding of the current page and emits change events when the user navigates.
+A Vue UI kit component for Baklava's `bl-pagination` web component for page navigation. Supports v-model for two-way binding of the current page and emits change events when the user navigates.
 
 ## Basic Usage
 

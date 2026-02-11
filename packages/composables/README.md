@@ -34,6 +34,85 @@ bun add @baklavue/composables
 
 ## 📚 Available Composables
 
+### `useCsv`
+
+A composable for CSV parsing, creating, and downloading. Uses PapaParse for RFC 4180-compliant handling of quoted fields, commas in values, and edge cases.
+
+#### Basic Usage
+
+```vue
+<script setup lang="ts">
+import { useCsv } from "@baklavue/composables";
+
+const { parse, parseFile, create, download } = useCsv();
+
+// Parse CSV string
+const result = parse("name,age\nAlice,30\nBob,25", { header: true });
+console.log(result.data); // [{ name: "Alice", age: "30" }, ...]
+
+// Parse file (async)
+const handleFileUpload = async (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    const fileResult = await parseFile(file, { header: true });
+    console.log(fileResult.data);
+  }
+};
+
+// Create CSV from array of objects
+const csv = create(
+  [
+    { name: "Alice", age: 30 },
+    { name: "Bob", age: 25 },
+  ]
+);
+
+// Download CSV file
+const exportData = () => {
+  download(
+    [{ name: "Alice", age: 30 }, { name: "Bob", age: 25 }],
+    "export.csv"
+  );
+};
+</script>
+```
+
+#### API Reference
+
+The `useCsv` composable returns an object with the following methods:
+
+##### `parse(csv: string, options?: CsvParseOptions)`
+
+Parses a CSV string and returns `{ data, errors, meta }`. Synchronous.
+
+##### `parseFile(file: File, options?: CsvParseOptions)`
+
+Parses a File or Blob asynchronously. Returns `Promise<ParseResult>`.
+
+##### `create(data: CsvData, options?: CsvCreateOptions)`
+
+Creates a CSV string from an array of objects, array of arrays, or `{ fields, data }` object.
+
+##### `download(data: CsvData, filename?: string, options?: CsvCreateOptions)`
+
+Creates a CSV string and triggers a browser download. Adds UTF-8 BOM for Excel compatibility.
+
+#### Options
+
+**CsvParseOptions:**
+
+- `delimiter` – Delimiter character (default: auto-detect)
+- `header` – If true, first row is header (returns array of objects)
+- `dynamicTyping` – If true, numbers and booleans are converted
+- `skipEmptyLines` – Skip empty lines (`true` or `'greedy'`)
+
+**CsvCreateOptions:**
+
+- `delimiter` – Delimiter character (default: comma)
+- `header` – Include header row (default: true)
+- `columns` – Column order for array of objects
+- `escapeFormulae` – Escape leading `=`, `+`, `-`, `@` to prevent CSV injection
+
 ### `useNotification`
 
 A composable for managing Baklava notification system with a simple and intuitive API.
@@ -138,6 +217,7 @@ interface NotificationProps {
 ```
 packages/composables/
 ├── index.ts              # Main export file
+├── csv.ts                # CSV parsing, creating, and download composable
 ├── notification.ts       # Notification composable
 ├── package.json          # Package configuration
 ├── tsconfig.json         # TypeScript configuration

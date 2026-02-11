@@ -1,6 +1,6 @@
 # Stepper
 
-A Vue wrapper for Baklava's `bl-stepper` web component for step indicators. Displays progress through a sequence of steps. Use the `steps` prop for declarative configuration or the default slot for custom step content.
+A Vue UI kit component for Baklava's `bl-stepper` web component for step indicators. Displays progress through a sequence of steps. Use the `steps` prop for declarative configuration or the default slot for custom step content.
 
 ## Basic Usage
 

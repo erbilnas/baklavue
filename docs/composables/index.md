@@ -4,7 +4,9 @@ BaklaVue provides Vue 3 composables to enhance your application functionality.
 
 ## Available Composables
 
+- [useCsv](/composables/csv) - Parse, create, and download CSV files
 - [useNotification](/composables/notification) - Programmatically manage notifications
+- [useScrollToError](/composables/scrollToError) - Scroll to element with validation error
 - [useBaklavaTheme](/composables/theme) - Overwrite Baklava colors (Vue preset or custom)
 
 ## Usage Pattern
@@ -36,7 +38,7 @@ import { useNotification } from "@baklavue/composables";
 All composables are fully typed:
 
 ```typescript
-import type { UseNotificationReturn } from "@baklavue/composables";
+import type { ApplyThemeOptions } from "@baklavue/composables";
 ```
 
 ## Next Steps

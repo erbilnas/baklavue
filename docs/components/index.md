@@ -1,6 +1,6 @@
 # Components
 
-BaklaVue provides Vue 3 wrappers for all Baklava Design System components. Each component is fully typed and follows Vue 3 best practices.
+BaklaVue provides Vue 3 UI kit for all Baklava Design System components. Each component is fully typed and follows Vue 3 best practices.
 
 ## Form Components
 
@@ -57,14 +57,14 @@ Components for displaying data and content.
 ```vue
 <template>
   <div>
-    <Button variant="primary" @click="handleClick"> Submit </Button>
-    <Input v-model="email" label="Email" type="email" />
+    <BvButton variant="primary" @click="handleClick"> Submit </BvButton>
+    <BvInput v-model="email" label="Email" type="email" />
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { Button, Input } from "@baklavue/ui";
+import { BvButton, BvInput } from "@baklavue/ui";
 
 const email = ref("");
 
@@ -79,7 +79,7 @@ const handleClick = () => {
 You can import components individually:
 
 ```typescript
-import { Button, Input, Checkbox } from "@baklavue/ui";
+import { BvButton, BvInput, BvCheckbox } from "@baklavue/ui";
 ```
 
 Or import all components:

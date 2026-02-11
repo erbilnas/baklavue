@@ -1,6 +1,6 @@
 # Link
 
-A Vue wrapper for Baklava's `bl-link` component for navigation links. Supports inline (text within content) and standalone (button-like) variants with full TypeScript support.
+A Vue UI kit component for Baklava's `bl-link` component for navigation links. Supports inline (text within content) and standalone (button-like) variants with full TypeScript support.
 
 ## Basic Usage
 

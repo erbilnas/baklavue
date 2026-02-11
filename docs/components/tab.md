@@ -1,6 +1,6 @@
 # Tab
 
-A Vue wrapper for Baklava's `bl-tabs` (bl-tab-group / bl-tab / bl-tab-panel) components for tab navigation. Use the `tabs` prop for declarative configuration or the default slot for custom tab content and panels.
+A Vue UI kit component for Baklava's `bl-tabs` (bl-tab-group / bl-tab / bl-tab-panel) components for tab navigation. Use the `tabs` prop for declarative configuration or the default slot for custom tab content and panels.
 
 ## Basic Usage
 

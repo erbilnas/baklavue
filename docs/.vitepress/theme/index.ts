@@ -1,8 +1,7 @@
-import { h } from "vue";
-import { useBaklavaTheme } from "@baklavue/composables";
 import * as BaklaVue from "@baklavue/ui";
 import "@trendyol/baklava/dist/themes/default.css";
 import Theme from "vitepress/theme";
+import { enhanceAppWithTabs } from "vitepress-plugin-tabs/client";
 import BaklavaVersionBadge from "./components/BaklavaVersionBadge.vue";
 import AlertProgrammaticDemo from "./components/AlertProgrammaticDemo.vue";
 import CheckboxCustomSlotDemo from "./components/CheckboxCustomSlotDemo.vue";
@@ -103,17 +102,19 @@ import TextareaBasicDemo from "./components/TextareaBasicDemo.vue";
 import TextareaValidationDemo from "./components/TextareaValidationDemo.vue";
 import TooltipBasicDemo from "./components/TooltipBasicDemo.vue";
 import TooltipPlacementDemo from "./components/TooltipPlacementDemo.vue";
+import TokenBorderRadiusDemo from "./components/TokenBorderRadiusDemo.vue";
+import TokenColorsDemo from "./components/TokenColorsDemo.vue";
+import TokenSizeDemo from "./components/TokenSizeDemo.vue";
+import TokenTypographyDemo from "./components/TokenTypographyDemo.vue";
 import "./style.css";
+
+import Layout from "./Layout.vue";
 
 export default {
   extends: Theme,
-  Layout: () => {
-    return h(Theme.Layout, null, {
-      "nav-bar-title-after": () => h(BaklavaVersionBadge),
-    });
-  },
+  Layout,
   enhanceApp({ app }) {
-    useBaklavaTheme().applyTheme({ preset: "vue" });
+    enhanceAppWithTabs(app);
     app.component("AlertProgrammaticDemo", AlertProgrammaticDemo);
     app.component("CheckboxCustomSlotDemo", CheckboxCustomSlotDemo);
     app.component("CheckboxDisabledDemo", CheckboxDisabledDemo);
@@ -202,6 +203,10 @@ export default {
     app.component("TextareaValidationDemo", TextareaValidationDemo);
     app.component("TooltipBasicDemo", TooltipBasicDemo);
     app.component("TooltipPlacementDemo", TooltipPlacementDemo);
+    app.component("TokenBorderRadiusDemo", TokenBorderRadiusDemo);
+    app.component("TokenColorsDemo", TokenColorsDemo);
+    app.component("TokenSizeDemo", TokenSizeDemo);
+    app.component("TokenTypographyDemo", TokenTypographyDemo);
     app.component("StepperChangeEventDemo", StepperChangeEventDemo);
     app.component("StepperDescriptionDemo", StepperDescriptionDemo);
     app.component("StepperDisabledDemo", StepperDisabledDemo);

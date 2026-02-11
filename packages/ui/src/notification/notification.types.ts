@@ -1,7 +1,7 @@
 /**
  * Props for the Notification component.
  *
- * The Notification component is a Vue wrapper for Baklava's `bl-notification` web component.
+ * The Notification component is a Vue UI kit component for Baklava's `bl-notification` web component.
  * It acts as a container for toast notifications triggered via the `useNotification` composable.
  *
  * @interface NotificationProps

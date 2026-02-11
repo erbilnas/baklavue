@@ -1,7 +1,7 @@
 {
   "name": "@baklavue/ui",
   "version": "1.0.0-preview.4",
-  "description": "Vue 3 component wrappers for Trendyol Baklava Design System",
+  "description": "Vue 3 UI kit for Trendyol Baklava Design System",
   "author": "erbilnas",
   "license": "MIT",
   "homepage": "https://github.com/erbilnas/baklavue/tree/main/packages/ui#readme",

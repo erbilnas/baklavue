@@ -49,7 +49,7 @@ export interface CheckboxItem {
 /**
  * Props for the Checkbox component.
  *
- * When `items` prop is provided, the component acts as a checkbox group wrapper.
+ * When `items` prop is provided, the component acts as a checkbox group container.
  * Otherwise, it acts as a single checkbox.
  *
  * @interface CheckboxProps

@@ -1,6 +1,6 @@
 # Badge
 
-A Vue wrapper for Baklava's `bl-badge` component for displaying status badges.
+A Vue UI kit component for Baklava's `bl-badge` component for displaying status badges.
 
 ## Basic Badge
 

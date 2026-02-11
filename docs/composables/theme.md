@@ -1,6 +1,6 @@
 # useBaklavaTheme
 
-A composable for overwriting Baklava design system colors. Use the Vue preset, pass your own preset object, or override specific colors.
+A composable for overwriting Baklava design system tokens. Use the Vue preset, pass your own preset object, or override specific colors, border radius, size/spacing, typography, and z-index.
 
 ## Basic Usage
 
@@ -16,7 +16,7 @@ useBaklavaTheme().applyTheme({ preset: "vue" });
 </script>
 
 <template>
-  <Button variant="primary">Primary Button</Button>
+  <BvButton variant="primary">Primary Button</BvButton>
 </template>
 ```
 
@@ -56,6 +56,59 @@ useBaklavaTheme().applyTheme({
 </script>
 ```
 
+### Border Radius
+
+Override border radius tokens:
+
+```vue
+<script setup>
+import { useBaklavaTheme } from "@baklavue/composables";
+
+useBaklavaTheme().applyTheme({
+  borderRadius: {
+    s: "0.5rem",
+    m: "0.75rem",
+    l: "1rem",
+  },
+});
+</script>
+```
+
+### Size & Spacing
+
+Override size and spacing tokens:
+
+```vue
+<script setup>
+import { useBaklavaTheme } from "@baklavue/composables";
+
+useBaklavaTheme().applyTheme({
+  size: {
+    s: "0.875rem",
+    m: "1rem",
+    l: "1.25rem",
+  },
+});
+</script>
+```
+
+### Typography
+
+Override typography tokens:
+
+```vue
+<script setup>
+import { useBaklavaTheme } from "@baklavue/composables";
+
+useBaklavaTheme().applyTheme({
+  typography: {
+    fontFamily: "'Inter', sans-serif",
+    fontSize: { s: "0.75rem", m: "0.875rem", l: "1rem" },
+  },
+});
+</script>
+```
+
 ### With VitePress or App Setup
 
 Call `applyTheme` when your app mounts (e.g. in `main.ts` or VitePress `enhanceApp`):
@@ -84,8 +137,12 @@ applyTheme(options?: ApplyThemeOptions): void
 
 ```typescript
 interface ApplyThemeOptions {
-  preset?: "vue" | "default" | BaklavaThemePresetRecord; // Built-in or your own preset
-  colors?: Partial<BaklavaThemeColors>; // Custom color overrides
+  preset?: "vue" | "default" | BaklavaThemePresetRecord;
+  colors?: Partial<BaklavaThemeColors>;
+  borderRadius?: Partial<BaklavaThemeBorderRadius>;
+  size?: Partial<BaklavaThemeSize>;
+  typography?: Partial<BaklavaThemeTypography>;
+  zIndex?: Partial<BaklavaThemeZIndex>;
 }
 
 // Custom preset: map of CSS variable names to values
@@ -105,6 +162,44 @@ Custom color keys map to Baklava's `--bl-color-*` CSS variables:
 | `danger`, `warning`, `info`                            | `--bl-color-{semantic}-*`      |
 | `neutralDarkest`, `neutralDarker`, `neutralDark`, etc. | `--bl-color-neutral-*`         |
 
+### BaklavaThemeBorderRadius
+
+| Key      | Baklava Variable            |
+| -------- | --------------------------- |
+| `xs`     | `--bl-border-radius-xs`     |
+| `s`      | `--bl-border-radius-s`      |
+| `m`      | `--bl-border-radius-m`      |
+| `l`      | `--bl-border-radius-l`      |
+| `pill`   | `--bl-border-radius-pill`   |
+| `circle` | `--bl-border-radius-circle` |
+
+### BaklavaThemeSize
+
+| Key         | Baklava Variable                        |
+| ----------- | --------------------------------------- |
+| `4xs`–`6xl` | `--bl-size-4xs` through `--bl-size-6xl` |
+
+### BaklavaThemeTypography
+
+| Key          | Baklava Variable         |
+| ------------ | ------------------------ |
+| `fontFamily` | `--bl-font-family`       |
+| `fontSize`   | `--bl-font-size-{key}`   |
+| `fontWeight` | `--bl-font-weight-{key}` |
+
+### BaklavaThemeZIndex
+
+| Key            | Baklava Variable          |
+| -------------- | ------------------------- |
+| `deep`         | `--bl-index-deep`         |
+| `base`         | `--bl-index-base`         |
+| `popover`      | `--bl-index-popover`      |
+| `tooltip`      | `--bl-index-tooltip`      |
+| `sticky`       | `--bl-index-sticky`       |
+| `overlay`      | `--bl-index-overlay`      |
+| `dialog`       | `--bl-index-dialog`       |
+| `notification` | `--bl-index-notification` |
+
 ## Vue Preset Colors
 
 The `vue` preset applies:
@@ -116,15 +211,23 @@ The `vue` preset applies:
 - **Neutral Darker**: #34495E (Police Blue)
 - **Neutral Darkest**: #2c3e50
 
+## Design Tokens Reference
+
+For a full reference of all Baklava design tokens with live preview examples, see [Design Tokens](/guide/design-tokens).
+
 ## TypeScript Support
 
 ```typescript
 import {
   useBaklavaTheme,
+  type ApplyThemeOptions,
+  type BaklavaThemeBorderRadius,
+  type BaklavaThemeColors,
   type BaklavaThemePreset,
   type BaklavaThemePresetRecord,
-  type BaklavaThemeColors,
-  type ApplyThemeOptions,
+  type BaklavaThemeSize,
+  type BaklavaThemeTypography,
+  type BaklavaThemeZIndex,
 } from "@baklavue/composables";
 
 const { applyTheme } = useBaklavaTheme();
@@ -138,5 +241,12 @@ applyTheme({
     "--bl-color-primary": "#ea4c89",
     "--bl-color-primary-highlight": "#d6427a",
   },
+});
+
+// Full customization
+applyTheme({
+  colors: { primary: "#41B883" },
+  borderRadius: { m: "0.5rem" },
+  size: { m: "1rem" },
 });
 ```

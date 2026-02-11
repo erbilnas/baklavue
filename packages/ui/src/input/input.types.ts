@@ -22,7 +22,7 @@ type InputMode =
 /**
  * Props for the Input component.
  *
- * A Vue wrapper for Baklava's bl-input web component with full v-model support
+ * A Vue UI kit component for Baklava's bl-input web component with full v-model support
  * and TypeScript types.
  *
  * @interface InputProps

@@ -2,8 +2,8 @@
 /**
  * Accordion Component
  *
- * A Vue wrapper for Baklava's `bl-accordion` and `bl-accordion-group` web components.
- * Can be used as either a single accordion or as a group wrapper for multiple accordions.
+ * A Vue UI kit component for Baklava's `bl-accordion` and `bl-accordion-group` web components.
+ * Can be used as either a single accordion or as a group container for multiple accordions.
  *
  * @component
  * @example
@@ -75,7 +75,7 @@ const emit = defineEmits<{
 const accordionRef = ref<HTMLElement | null>(null);
 
 /**
- * Determines if the component should act as a group wrapper.
+ * Determines if the component should act as a group container.
  * When `multiple` prop is provided and `items` is defined, it acts as a group.
  */
 const isGroupMode = computed(

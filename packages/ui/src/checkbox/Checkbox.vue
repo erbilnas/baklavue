@@ -2,8 +2,8 @@
 /**
  * Checkbox Component
  *
- * A Vue wrapper for Baklava's `bl-checkbox` and `bl-checkbox-group` web components.
- * Can be used as either a single checkbox or as a group wrapper for multiple checkboxes.
+ * A Vue UI kit component for Baklava's `bl-checkbox` and `bl-checkbox-group` web components.
+ * Can be used as either a single checkbox or as a group container for multiple checkboxes.
  *
  * @component
  * @example
@@ -45,7 +45,7 @@ const emit = defineEmits<{
 }>();
 
 /**
- * Determines if the component should act as a group wrapper.
+ * Determines if the component should act as a group container.
  * When `items` prop is provided and is an array, it acts as a group.
  */
 const isGroupMode = computed(

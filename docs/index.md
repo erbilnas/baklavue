@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: "BaklaVue"
-  text: "Vue 3 wrapper for Baklava"
-  tagline: "Seamlessly integrate Trendyol Baklava Design System components into your Vue 3 applications with full type safety, Vue-friendly APIs, and powerful composables"
+  text: "Enhanced Baklava experience for Vue 3"
+  tagline: "Type-safe, composable and ready to go. Bring Baklava Design System easily to Vue."
   image:
     src: /logo.png
     alt: BaklaVue Logo
@@ -19,328 +19,73 @@ hero:
 features:
   - icon: 🚀
     title: Vue 3 Integration
-    details: Built with Vue 3 Composition API and TypeScript for modern development experience. Leverage reactive data binding, computed properties, and lifecycle hooks seamlessly with Baklava components.
-  - icon: 🎨
-    title: Baklava Components
-    details: Wraps Baklava web components with Vue-friendly APIs and full type safety. All components are properly typed, support v-model, and follow Vue 3 best practices for a native Vue development experience.
-  - icon: 🔧
-    title: Composable Utilities
-    details: Powerful Vue composables for enhanced functionality and better developer experience. Manage notifications, handle component state, and access advanced features through intuitive composable functions.
+    details: Composition API, reactive binding, and lifecycle hooks. Baklava components feel native in Vue.
   - icon: 📦
     title: Type Safe
-    details: Full TypeScript support with proper type definitions for all components, props, events, and composables. Get autocomplete, type checking, and IntelliSense support in your IDE.
-  - icon: ⚡
-    title: Modern Build
-    details: Uses Bun for fast package management and building. Optimized bundle sizes with tree-shaking support. Components are tree-shakeable, so you only include what you use.
+    details: Full TypeScript with autocomplete, type checking, and IntelliSense for every component.
+  - icon: 🔧
+    title: Composable Utilities
+    details: Enhanced DX and programmatic control.
   - icon: 📚
     title: Well Documented
-    details: Comprehensive documentation with examples and interactive playground. Every component includes detailed API documentation, usage examples, and best practices to help you build faster.
+    details: API docs, examples, and interactive playgrounds for every component.
 ---
 
 ## What is BaklaVue?
 
-::: info Baklava Version
-BaklaVue is based on [@trendyol/baklava](https://www.npmjs.com/package/@trendyol/baklava) **v3.4.2**.
+::: tip Disclaimer
+BaklaVue builds on [@trendyol/baklava](https://www.npmjs.com/package/@trendyol/baklava) v3.4.2. Not all Baklava components and features are yet available in BaklaVue. Check the [components list](/components/) for what's supported. Contributions welcome.
 :::
 
-BaklaVue is a comprehensive Vue 3 wrapper library for the [Trendyol Baklava Design System](https://github.com/Trendyol/baklava). It bridges the gap between Baklava's web components and Vue 3's reactive ecosystem, providing a seamless development experience with full TypeScript support, Vue-friendly APIs, and powerful composables.
-
-### Why BaklaVue?
-
-- **Native Vue Experience**: Components feel like native Vue components with proper v-model support, event handling, and reactive props
-- **Type Safety**: Complete TypeScript definitions for all components, props, events, and composables
-- **Developer Experience**: Intuitive APIs, comprehensive documentation, and helpful composables
-- **Production Ready**: Battle-tested components used in real-world applications
-- **Active Development**: Regular updates and improvements based on community feedback
+BaklaVue brings the [Trendyol Baklava Design System](https://github.com/Trendyol/baklava) to Vue 3. All components support v-model, TypeScript, and Vue-friendly APIs for a native development experience.
 
 ## Quick Start
 
-Get started with BaklaVue in minutes. Install the packages using your preferred package manager:
+:::tabs
+== npm
 
-::: code-group
-
-```bash [bun]
-bun add @baklavue/ui @baklavue/composables
-```
-
-```bash [npm]
+```bash
 npm install @baklavue/ui @baklavue/composables
 ```
 
-```bash [yarn]
+== pnpm
+
+```bash
+pnpm add @baklavue/ui @baklavue/composables
+```
+
+== yarn
+
+```bash
 yarn add @baklavue/ui @baklavue/composables
 ```
 
-```bash [pnpm]
-pnpm add @baklavue/ui @baklavue/composables
+== bun
+
+```bash
+bun add @baklavue/ui @baklavue/composables
 ```
 
 :::
 
-### Basic Example
-
-Once installed, start using components immediately:
-
-```vue
-<template>
-  <div class="example">
-    <Button variant="primary" @click="handleClick"> Click me </Button>
-    <Input
-      v-model="email"
-      label="Email"
-      type="email"
-      placeholder="Enter your email"
-    />
-  </div>
-</template>
-
-<script setup>
-import { ref } from "vue";
-import { Button, Input } from "@baklavue/ui";
-
-const email = ref("");
-
-const handleClick = () => {
-  console.log("Email:", email.value);
-};
-</script>
-```
-
-### Requirements
-
-- **Vue 3.0+**: BaklaVue requires Vue 3 with Composition API support
-- **Node.js 18+** or **Bun**: For package management and development
-- **TypeScript 5.9.2+** (recommended): For full type safety and IntelliSense support
+See the [Getting Started Guide](/guide/getting-started) for full setup.
 
 ## Components
 
-BaklaVue provides Vue 3 wrappers for all Baklava Design System components, organized into logical categories:
+25+ Baklava components—forms, feedback, layout, navigation, and data display.
 
-### Form Components
-
-Build interactive forms with a complete set of form controls:
-
-- **[Button](/components/button)** - Interactive button component with multiple variants, sizes, and loading states
-- **[Input](/components/input)** - Text input field with label, placeholder, and validation support
-- **[Checkbox](/components/checkbox)** - Checkbox input for boolean selections
-- **[Radio](/components/radio)** - Radio button input for single-choice selections
-- **[Switch](/components/switch)** - Toggle switch component for on/off states
-- **[Select](/components/select)** - Dropdown select component with search and multi-select support
-- **[Textarea](/components/textarea)** - Multi-line text input for longer content
-- **[Datepicker](/components/datepicker)** - Date selection input with calendar picker
-
-### Feedback Components
-
-Display status messages, alerts, and loading indicators:
-
-- **[Alert](/components/alert)** - Alert messages for important information, warnings, and errors
-- **[Badge](/components/badge)** - Status badges for displaying counts, labels, and status indicators
-- **[Tag](/components/tag)** - Tag labels for categorization and filtering
-- **[Notification](/components/notification)** - Toast notifications for user feedback and system messages
-- **[Spinner](/components/spinner)** - Loading spinner for async operations
-
-### Layout Components
-
-Organize content and create complex layouts:
-
-- **[Dialog](/components/dialog)** - Modal dialog for confirmations, forms, and important content
-- **[Drawer](/components/drawer)** - Side drawer for navigation and secondary content
-- **[Dropdown](/components/dropdown)** - Dropdown menu for actions and navigation
-- **[Tooltip](/components/tooltip)** - Tooltip popover for additional information
-- **[Accordion](/components/accordion)** - Collapsible accordion for organizing content
-- **[Tab](/components/tab)** - Tab navigation for switching between content sections
-- **[Stepper](/components/stepper)** - Step indicator for multi-step processes
-
-### Navigation Components
-
-Navigate through your application:
-
-- **[Link](/components/link)** - Navigation link component with routing support
-- **[Pagination](/components/pagination)** - Page navigation for large datasets
-- **[Split Button](/components/split-button)** - Button with dropdown menu for multiple actions
-
-### Data Display
-
-Present data and content effectively:
-
-- **[Table](/components/table)** - Data table component with sorting, filtering, and pagination
-- **[Icon](/components/icon)** - Icon component for displaying Baklava icons
-
-All components support:
-
-- ✅ Full TypeScript types
-- ✅ v-model binding
-- ✅ Vue event handling
-- ✅ Reactive props
-- ✅ Slot support
-- ✅ Accessibility features
+**[Browse all components →](/components/)**
 
 ## Composables
 
-Enhance your application with powerful Vue composables that provide advanced functionality:
+More for programmatic control and DX.
 
-### useNotification
-
-Programmatically manage notifications throughout your application:
-
-```vue
-<template>
-  <div>
-    <Button @click="showSuccess">Success</Button>
-    <Button @click="showError">Error</Button>
-    <Notification />
-  </div>
-</template>
-
-<script setup>
-import { Button, Notification } from "@baklavue/ui";
-import { useNotification } from "@baklavue/composables";
-
-const { success, error, info, warning } = useNotification();
-
-const showSuccess = () => {
-  success({
-    caption: "Operation Successful",
-    description: "Your changes have been saved",
-  });
-};
-
-const showError = () => {
-  error({
-    caption: "Error Occurred",
-    description: "Please try again later",
-  });
-};
-</script>
-```
-
-**Features:**
-
-- Multiple notification types (success, error, info, warning)
-- Programmatic control
-- Automatic positioning and stacking
-- Customizable duration and styling
-
-More composables are coming soon! Check the [Composables Documentation](/composables/) for updates.
-
-## TypeScript Support
-
-BaklaVue is built with TypeScript and provides comprehensive type definitions:
-
-```typescript
-import type { ButtonProps, InputProps } from "@baklavue/ui";
-
-// Type-safe component props
-const buttonProps: ButtonProps = {
-  variant: "primary",
-  size: "medium",
-  disabled: false,
-  loading: false,
-};
-
-const inputProps: InputProps = {
-  label: "Email",
-  type: "email",
-  placeholder: "Enter email",
-  required: true,
-};
-```
-
-All components, props, events, and composables are fully typed, providing excellent IDE support and catching errors at compile time.
-
-## Examples
-
-### Form with Validation
-
-```vue
-<template>
-  <form @submit.prevent="handleSubmit">
-    <Input
-      v-model="form.email"
-      label="Email"
-      type="email"
-      :required="true"
-      :error="errors.email"
-    />
-    <Input
-      v-model="form.password"
-      label="Password"
-      type="password"
-      :required="true"
-      :error="errors.password"
-    />
-    <Button type="submit" variant="primary" :loading="isSubmitting">
-      Submit
-    </Button>
-  </form>
-</template>
-
-<script setup>
-import { ref } from "vue";
-import { Button, Input } from "@baklavue/ui";
-
-const form = ref({
-  email: "",
-  password: "",
-});
-
-const errors = ref({
-  email: "",
-  password: "",
-});
-
-const isSubmitting = ref(false);
-
-const handleSubmit = async () => {
-  // Validation and submission logic
-};
-</script>
-```
-
-### Using Composables
-
-```vue
-<template>
-  <div>
-    <Button @click="handleAction">Perform Action</Button>
-    <Notification />
-  </div>
-</template>
-
-<script setup>
-import { Button, Notification } from "@baklavue/ui";
-import { useNotification } from "@baklavue/composables";
-
-const { success, error } = useNotification();
-
-const handleAction = async () => {
-  try {
-    // Perform async operation
-    await performAction();
-    success({ caption: "Success", description: "Action completed" });
-  } catch (err) {
-    error({ caption: "Error", description: "Action failed" });
-  }
-};
-</script>
-```
+**[Composables docs →](/composables/)**
 
 ## Learn More
 
-Ready to dive deeper? Explore these resources:
-
-- **[Getting Started Guide](/guide/getting-started)** - Complete setup instructions and first steps with BaklaVue
-- **[Installation Guide](/guide/installation)** - Detailed installation instructions and configuration options
-- **[Component Documentation](/components/)** - Browse all available components with examples and API reference
-- **[Composables Documentation](/composables/)** - Learn about available composables and their usage
-- **[API Reference](/api/reference)** - Complete API documentation for all components and utilities
-- **[Contributing Guide](/guide/contributing)** - Help improve BaklaVue by contributing code, documentation, or feedback
-
-## Community & Support
-
-- **GitHub**: [View source code and report issues](https://github.com/erbilnas/baklavue)
-- **Issues**: Found a bug or have a feature request? [Open an issue](https://github.com/erbilnas/baklavue/issues)
-- **Contributions**: We welcome contributions! See our [Contributing Guide](/guide/contributing)
+- [Getting Started](/guide/getting-started) · [Installation](/guide/installation)
+- [Components](/components/) · [API Reference](/api/reference) · [Contributing](/guide/contributing)
 
 ---
 

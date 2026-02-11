@@ -1,6 +1,6 @@
 # Dropdown
 
-A Vue wrapper for Baklava's `bl-dropdown`, `bl-dropdown-group`, and `bl-dropdown-item` components for dropdown menus. The Dropdown component can work in two modes: slot mode (custom content via default slot) or items mode (declarative menu items with optional grouping via `bl-dropdown-group`).
+A Vue UI kit component for Baklava's `bl-dropdown`, `bl-dropdown-group`, and `bl-dropdown-item` components for dropdown menus. The Dropdown component can work in two modes: slot mode (custom content via default slot) or items mode (declarative menu items with optional grouping via `bl-dropdown-group`).
 
 ## Slot Mode
 
