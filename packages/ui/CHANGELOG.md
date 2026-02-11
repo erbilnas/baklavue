@@ -1,3 +1,10 @@
+# [@baklavue/ui-v1.0.0-preview.2](https://github.com/erbilnas/baklavue/compare/@baklavue/ui-v1.0.0-preview.1...@baklavue/ui-v1.0.0-preview.2) (2026-02-11)
+
+
+### Features
+
+* add theme customizer tool for docs ([70c08cf](https://github.com/erbilnas/baklavue/commit/70c08cf505ff02b1ab6c3e569055b703674bb822))
+
 # @baklavue/ui-v1.0.0-preview.1 (2026-02-11)
 
 
