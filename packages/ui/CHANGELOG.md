@@ -1,3 +1,11 @@
+# [@baklavue/ui-v1.0.0-preview.4](https://github.com/erbilnas/baklavue/compare/@baklavue/ui-v1.0.0-preview.3...@baklavue/ui-v1.0.0-preview.4) (2026-02-11)
+
+
+### Features
+
+* add file upload component ([7aa41b1](https://github.com/erbilnas/baklavue/commit/7aa41b1766c72572be97c84bddc2ca5dccac9be8))
+* add image component ([609eefe](https://github.com/erbilnas/baklavue/commit/609eefe9a4a9f74fc19c7e2a8aa2ab0d7529686f))
+
 # [@baklavue/ui-v1.0.0-preview.3](https://github.com/erbilnas/baklavue/compare/@baklavue/ui-v1.0.0-preview.2...@baklavue/ui-v1.0.0-preview.3) (2026-02-11)
 
 
