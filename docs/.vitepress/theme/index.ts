@@ -33,6 +33,8 @@ import FormSubmitButtonDemo from "./components/FormSubmitButtonDemo.vue";
 import IconBasicDemo from "./components/IconBasicDemo.vue";
 import IconColorDemo from "./components/IconColorDemo.vue";
 import IconSizeDemo from "./components/IconSizeDemo.vue";
+import ImageBasicDemo from "./components/ImageBasicDemo.vue";
+import ImageLazyDemo from "./components/ImageLazyDemo.vue";
 import InputBasicDemo from "./components/InputBasicDemo.vue";
 import InputDisabledReadonlyDemo from "./components/InputDisabledReadonlyDemo.vue";
 import InputFormValidationDemo from "./components/InputFormValidationDemo.vue";
@@ -149,6 +151,8 @@ export default {
     app.component("IconBasicDemo", IconBasicDemo);
     app.component("IconColorDemo", IconColorDemo);
     app.component("IconSizeDemo", IconSizeDemo);
+    app.component("ImageBasicDemo", ImageBasicDemo);
+    app.component("ImageLazyDemo", ImageLazyDemo);
     app.component("InputBasicDemo", InputBasicDemo);
     app.component("InputDisabledReadonlyDemo", InputDisabledReadonlyDemo);
     app.component("InputFormValidationDemo", InputFormValidationDemo);

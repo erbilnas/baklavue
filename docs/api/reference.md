@@ -434,6 +434,26 @@ Components for displaying data and content.
 | `size`  | `string`      | CSS size (e.g. "24px")       |
 | `color` | `string`      | CSS color                    |
 
+### BvImage
+
+[Image](/components/image) · `import { BvImage } from "@baklavue/ui"`
+
+| Prop          | Type               | Description                          |
+| ------------- | ------------------ | ------------------------------------ |
+| `src`         | `string`           | Image URL (required)                 |
+| `alt`         | `string`           | Accessible description (required)    |
+| `width`       | `string`           | CSS width (prevents CLS)              |
+| `height`      | `string`           | CSS height                           |
+| `loading`     | `"lazy" \| "eager"` | Native loading behavior (default: lazy) |
+| `placeholder` | `"skeleton" \| "none"` | Placeholder type (default: skeleton) |
+| `objectFit`   | `string`           | CSS object-fit (default: cover)       |
+| `srcset`      | `string`           | Responsive image sources              |
+| `sizes`       | `string`           | Sizes attribute for srcset            |
+
+**Events:** `load`, `error`
+
+**Slots:** `placeholder`, `fallback`
+
 ---
 
 ## Composables
@@ -765,6 +785,7 @@ import type {
   TableRow,
   TablePaginationProps,
   IconProps,
+  ImageProps,
 } from "@baklavue/ui";
 ```
 

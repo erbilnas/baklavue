@@ -14,9 +14,9 @@ Each component wraps Baklava's battle-tested web components under the hood, so y
 | Feedback | 6 | Alerts, badges, tags, notifications, spinners, and skeleton loaders |
 | Layout | 7 | Dialogs, drawers, dropdowns, tooltips, accordions, tabs, steppers |
 | Navigation | 4 | Links, pagination, split buttons, scroll-to-top |
-| Data | 2 | Tables and icons |
+| Data | 3 | Tables, icons, and images |
 
-**27 components** in total—ready to build beautiful, consistent interfaces.
+**28 components** in total—ready to build beautiful, consistent interfaces.
 
 ---
 
@@ -89,6 +89,7 @@ Render data and assets with consistent styling.
 | --------- | ----------- |
 | [**Table**](/components/table) | Data tables with sorting, pagination, loading states • Custom cell slots |
 | [**Icon**](/components/icon) | Icon component with size and color props |
+| [**Image**](/components/image) | Performance-focused image with lazy loading, skeleton placeholder, and error fallback |
 
 ---
 

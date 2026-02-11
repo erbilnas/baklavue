@@ -33,6 +33,7 @@ export const COMPONENT_CATEGORIES: Record<string, string> = {
   // Data Display
   Table: "data",
   Icon: "data",
+  Image: "data",
 };
 
 export const CATEGORY_LABELS: Record<string, string> = {

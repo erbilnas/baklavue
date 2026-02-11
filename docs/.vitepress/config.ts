@@ -18,7 +18,10 @@ export default defineConfig({
   head: [
     ["link", { rel: "icon", href: "/baklavue/logo.png" }],
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
-    ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
+    [
+      "link",
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" },
+    ],
     [
       "link",
       {
@@ -82,63 +85,67 @@ export default defineConfig({
           items: [
             { text: "Overview", link: "/components/" },
             {
-              text: `Accordion${badge("new", "new")}`,
+              text: `Accordion`,
               link: "/components/accordion",
             },
             {
-              text: `Alert${badge("new", "new")}`,
+              text: `Alert`,
               link: "/components/alert",
             },
             {
-              text: `Badge${badge("new", "new")}`,
+              text: `Badge`,
               link: "/components/badge",
             },
             {
-              text: `Button${badge("new", "new")}`,
+              text: `Button`,
               link: "/components/button",
             },
             {
-              text: `Checkbox${badge("new", "new")}`,
+              text: `Checkbox`,
               link: "/components/checkbox",
             },
             {
-              text: `Datepicker${badge("new", "new")}`,
+              text: `Datepicker`,
               link: "/components/datepicker",
             },
             {
-              text: `Dialog${badge("new", "new")}`,
+              text: `Dialog`,
               link: "/components/dialog",
             },
             {
-              text: `Drawer${badge("new", "new")}`,
+              text: `Drawer`,
               link: "/components/drawer",
             },
             {
-              text: `Dropdown${badge("new", "new")}`,
+              text: `Dropdown`,
               link: "/components/dropdown",
             },
             {
-              text: `Icon${badge("new", "new")}`,
+              text: `Icon`,
               link: "/components/icon",
             },
             {
-              text: `Input${badge("new", "new")}`,
+              text: `Image${badge("new", "new")}`,
+              link: "/components/image",
+            },
+            {
+              text: `Input`,
               link: "/components/input",
             },
             {
-              text: `Link${badge("new", "new")}`,
+              text: `Link`,
               link: "/components/link",
             },
             {
-              text: `Notification${badge("new", "new")}`,
+              text: `Notification`,
               link: "/components/notification",
             },
             {
-              text: `Pagination${badge("new", "new")}`,
+              text: `Pagination`,
               link: "/components/pagination",
             },
             {
-              text: `Radio${badge("new", "new")}`,
+              text: `Radio`,
               link: "/components/radio",
             },
             {
@@ -146,7 +153,7 @@ export default defineConfig({
               link: "/components/scroll-to-top",
             },
             {
-              text: `Select${badge("new", "new")}`,
+              text: `Select`,
               link: "/components/select",
             },
             {
@@ -154,30 +161,30 @@ export default defineConfig({
               link: "/components/skeleton",
             },
             {
-              text: `Spinner${badge("new", "new")}`,
+              text: `Spinner`,
               link: "/components/spinner",
             },
             {
-              text: `Split Button${badge("new", "new")}`,
+              text: `Split Button`,
               link: "/components/split-button",
             },
             {
-              text: `Stepper${badge("new", "new")}`,
+              text: `Stepper`,
               link: "/components/stepper",
             },
             {
-              text: `Switch${badge("new", "new")}`,
+              text: `Switch`,
               link: "/components/switch",
             },
-            { text: `Tab${badge("new", "new")}`, link: "/components/tab" },
-            { text: `Table${badge("new", "new")}`, link: "/components/table" },
-            { text: `Tag${badge("new", "new")}`, link: "/components/tag" },
+            { text: `Tab`, link: "/components/tab" },
+            { text: `Table`, link: "/components/table" },
+            { text: `Tag`, link: "/components/tag" },
             {
-              text: `Textarea${badge("new", "new")}`,
+              text: `Textarea`,
               link: "/components/textarea",
             },
             {
-              text: `Tooltip${badge("new", "new")}`,
+              text: `Tooltip`,
               link: "/components/tooltip",
             },
           ],
