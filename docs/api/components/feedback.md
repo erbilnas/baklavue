@@ -1,0 +1,74 @@
+# Feedback Components
+
+Components for displaying feedback and status information.
+
+## BvAlert
+
+[Alert](/components/alert) · `import { BvAlert } from "@baklavue/ui"`
+
+| Prop          | Type                     | Description                    |
+| ------------- | ------------------------ | ------------------------------ |
+| `variant`     | `AlertVariant`           | success, danger, info, warning |
+| `caption`     | `string`                 | Alert title                    |
+| `description` | `string`                 | Alert message                  |
+| `icon`        | `boolean \| BaklavaIcon` | Icon config                    |
+| `closable`    | `boolean`                | Show close button              |
+| `closed`      | `boolean`                | Closed state                   |
+
+**Events:** Emits via `BlAlertElement` ref (open, close)
+
+## BvBadge
+
+[Badge](/components/badge) · `import { BvBadge } from "@baklavue/ui"`
+
+| Prop   | Type          | Description |
+| ------ | ------------- | ----------- |
+| `size` | `BadgeSize`   | Badge size  |
+| `icon` | `BaklavaIcon` | Icon name   |
+
+## BvTag
+
+[Tag](/components/tag) · `import { BvTag } from "@baklavue/ui"`
+
+| Prop       | Type          | Description           |
+| ---------- | ------------- | --------------------- |
+| `variant`  | `TagVariant`  | selectable, removable |
+| `size`     | `TagSize`     | small, medium, large  |
+| `closable` | `boolean`     | Show close button     |
+| `selected` | `boolean`     | Selected state        |
+| `disabled` | `boolean`     | Disabled state        |
+| `icon`     | `BaklavaIcon` | Icon name             |
+
+**Events:** `update:selected`, `close`
+
+## BvNotification
+
+[Notification](/components/notification) · `import { BvNotification } from "@baklavue/ui"`
+
+| Prop          | Type      | Description                |
+| ------------- | --------- | -------------------------- |
+| `duration`    | `number`  | Default duration (seconds) |
+| `noAnimation` | `boolean` | Disable animations         |
+
+Container for toast notifications triggered via `useNotification`. Must be mounted for composable to work.
+
+## BvSkeleton
+
+[Skeleton](/components/skeleton) · `import { BvSkeleton } from "@baklavue/ui"`
+
+| Prop      | Type             | Description                         |
+| --------- | ---------------- | ----------------------------------- |
+| `variant` | `SkeletonVariant` | text, rectangle, circle             |
+| `width`   | `string`         | Width (CSS value)                   |
+| `height`  | `string`         | Height (CSS value)                  |
+| `count`   | `number`         | Number of elements (for text lines) |
+
+## BvSpinner
+
+[Spinner](/components/spinner) · `import { BvSpinner } from "@baklavue/ui"`
+
+| Prop      | Type     | Description                           |
+| --------- | -------- | ------------------------------------- |
+| `size`    | `string` | CSS size (e.g. var(--bl-font-size-m)) |
+| `variant` | `string` | Spinner style                         |
+| `label`   | `string` | Accessible label                      |

@@ -90,15 +90,40 @@ Default breakpoints:
 
 - `Ref<boolean>` — `true` when the query matches
 
+## useWindowSize {#use-window-size}
+
+Reactive viewport width and height. Useful for layout calculations and charts that need actual dimensions.
+
+```vue
+<template>
+  <p>Viewport: {{ width }} × {{ height }}</p>
+</template>
+
+<script setup>
+import { useWindowSize } from "@baklavue/composables";
+
+const { width, height } = useWindowSize();
+</script>
+```
+
+#### Return Value
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `width` | `Ref<number>` | Window inner width |
+| `height` | `Ref<number>` | Window inner height |
+
 ## TypeScript Support
 
 ```typescript
 import {
   useBreakpoints,
   useMediaQuery,
+  useWindowSize,
   type BreakpointOptions,
 } from "@baklavue/composables";
 
 const { isMobile } = useBreakpoints({ mobile: 640 });
 const darkMode = useMediaQuery("(prefers-color-scheme: dark)");
+const { width, height } = useWindowSize();
 ```

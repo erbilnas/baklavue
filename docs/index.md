@@ -97,7 +97,7 @@ More for programmatic control and DX.
 ## Learn More
 
 - [Getting Started](/guide/getting-started) · [Installation](/guide/installation)
-- [Components](/components/) · [API Reference](/api/reference) · [Changelog](/changelog) · [MCP Support](/guide/mcp) · [Localization](/guide/localization) · [Contributing](/guide/contributing)
+- [Components](/components/) · [API Reference](/api/) · [Changelog](/changelog) · [MCP Support](/guide/mcp) · [Localization](/guide/localization) · [Contributing](/guide/contributing)
 
 ---
 

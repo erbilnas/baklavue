@@ -52,7 +52,7 @@ baklavue/
 │   └── composables/            # @baklavue/composables
 │       ├── theme.ts
 │       ├── notification.ts
-│       ├── csv.ts
+│       ├── file.ts
 │       ├── scrollToError.ts
 │       ├── index.ts
 │       └── package.json
@@ -358,7 +358,7 @@ See the [Release Guide](/release/guide) for:
 ## Getting Help
 
 - **Issues:** Open an issue on [GitHub](https://github.com/erbilnas/baklavue/issues)
-- **Documentation:** Check the [docs](/guide/getting-started) and [API Reference](/api/reference)
+- **Documentation:** Check the [docs](/guide/getting-started) and [API Reference](/api/)
 - **Examples:** Review existing components in `packages/ui/src/` for patterns
 
 Thank you for contributing to BaklaVue!

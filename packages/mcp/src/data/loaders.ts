@@ -96,7 +96,7 @@ export function listComposables(): ComposableInfo[] {
   if (!existsSync(indexPath)) return [];
 
   const composables: ComposableInfo[] = [
-    { name: "useCsv", description: "Parse, create, and download CSV files" },
+    { name: "useFile", description: "Parse, create, and download CSV, TSV, and JSON files" },
     {
       name: "useNotification",
       description: "Programmatically manage notifications",
@@ -127,7 +127,40 @@ export function listComposables(): ComposableInfo[] {
     },
     {
       name: "useClipboard",
-      description: "Copy text to clipboard",
+      description:
+        "Copy text to clipboard. Supports source, copiedDuring, legacy fallback, isSupported",
+    },
+    {
+      name: "useShare",
+      description: "Share text, URLs, or files via Web Share API",
+    },
+    {
+      name: "useBase64",
+      description: "Convert Blob/File/ArrayBuffer/canvas to Base64 data URLs",
+    },
+    {
+      name: "usePrevious",
+      description: "Track previous value of a ref for diffing or undo logic",
+    },
+    {
+      name: "useToggle",
+      description: "Simple boolean toggle",
+    },
+    {
+      name: "useDateFormat",
+      description: "Reactive locale-aware date formatting (Intl)",
+    },
+    {
+      name: "useNumberFormat",
+      description: "Reactive locale-aware number/currency formatting (Intl)",
+    },
+    {
+      name: "useSlug",
+      description: "Convert string to URL-friendly slug",
+    },
+    {
+      name: "useAsyncState",
+      description: "Generic async state (loading, error, data) without fetch",
     },
     {
       name: "useBreakpoints",
@@ -136,6 +169,10 @@ export function listComposables(): ComposableInfo[] {
     {
       name: "useMediaQuery",
       description: "Single media query matcher",
+    },
+    {
+      name: "useCookie",
+      description: "Reactive sync with document.cookie",
     },
     {
       name: "useLocalStorage",
@@ -184,6 +221,22 @@ export function listComposables(): ComposableInfo[] {
     {
       name: "useQueryClient",
       description: "Cache invalidation and manual cache access for useQuery",
+    },
+    {
+      name: "useMutation",
+      description: "Mutations (POST/PUT/DELETE) with cache invalidation",
+    },
+    {
+      name: "useInfiniteQuery",
+      description: "Infinite scroll / cursor-based pagination",
+    },
+    {
+      name: "useLazyQuery",
+      description: "On-demand queries that fetch when execute() is called",
+    },
+    {
+      name: "usePolling",
+      description: "Polling with fetch state for non-query scenarios",
     },
     {
       name: "useIntersectionObserver",
@@ -243,7 +296,7 @@ export function listComposables(): ComposableInfo[] {
 }
 
 const COMPOSABLE_TO_FILE: Record<string, string> = {
-  useCsv: "csv",
+  useFile: "file",
   useNotification: "notification",
   useScrollToError: "scrollToError",
   useZodForm: "formValidation",
@@ -252,8 +305,17 @@ const COMPOSABLE_TO_FILE: Record<string, string> = {
   usePagination: "pagination",
   useConfirmDialog: "confirmDialog",
   useClipboard: "clipboard",
+  useShare: "share",
+  useBase64: "base64",
+  usePrevious: "previous",
+  useToggle: "toggle",
+  useDateFormat: "format",
+  useNumberFormat: "format",
+  useSlug: "slug",
+  useAsyncState: "asyncState",
   useBreakpoints: "breakpoints",
   useMediaQuery: "breakpoints",
+  useCookie: "cookie",
   useLocalStorage: "storage",
   useSessionStorage: "storage",
   useDebounceFn: "debounce",
@@ -266,6 +328,10 @@ const COMPOSABLE_TO_FILE: Record<string, string> = {
   useFetch: "fetch",
   useQuery: "query",
   useQueryClient: "query",
+  useMutation: "mutation",
+  useInfiniteQuery: "infiniteQuery",
+  useLazyQuery: "lazyQuery",
+  usePolling: "polling",
   useIntersectionObserver: "intersectionObserver",
   useRafFn: "raf",
   useStepper: "stepper",

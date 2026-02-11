@@ -53,7 +53,8 @@ BaklaVue brings in:
 
 - `@trendyol/baklava` ^3.4.2 — Core design system
 - `@trendyol/baklava-icons` ^1.1.0 — Icons (used by components)
-- `papaparse` — Used by `useCsv` (in `@baklavue/composables` only)
+- `papaparse` — Used by `useFile` for CSV/TSV (in `@baklavue/composables` only)
+- `xlsx` — Used by `useFile` for Excel (in `@baklavue/composables` only)
 
 You do not need to install these manually.
 
@@ -283,4 +284,4 @@ See the [GitHub releases](https://github.com/erbilnas/baklavue/releases) for spe
 
 - [Getting Started](/guide/getting-started) — First steps with BaklaVue
 - [Components](/components/) — Component catalog
-- [API Reference](/api/reference) — Full API docs
+- [API Reference](/api/) — Full API docs

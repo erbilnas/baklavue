@@ -161,7 +161,7 @@ const buttonProps: ButtonProps = {
 };
 ```
 
-Types are exported from `@baklavue/ui` and `@baklavue/composables`. Check the [API Reference](/api/reference) for available types.
+Types are exported from `@baklavue/ui` and `@baklavue/composables`. Check the [API Reference](/api/) for available types.
 
 ## Component Naming Convention
 
@@ -177,5 +177,5 @@ This convention helps avoid conflicts with native HTML elements and other librar
 - **[Components](/components/)** — Browse all available components with examples
 - **[Composables](/composables/)** — Explore composables for notifications, theming, CSV, and more
 - **[Design Tokens](/guide/design-tokens)** — Customize colors, typography, spacing, and more
-- **[API Reference](/api/reference)** — Full API documentation
+- **[API Reference](/api/)** — Full API documentation
 - **[Contributing](/guide/contributing)** — Help improve BaklaVue

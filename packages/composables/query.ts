@@ -7,6 +7,7 @@ import {
   type MaybeRefOrGetter,
   type Ref,
 } from "vue";
+import { useIntervalFn } from "./timer";
 
 /** Query key - array of values that uniquely identifies the query */
 export type QueryKey = readonly unknown[];
@@ -54,6 +55,10 @@ export interface UseQueryOptions<T = unknown> {
   refetchOnWindowFocus?: boolean;
   /** Refetch when network reconnects. Default: true */
   refetchOnReconnect?: boolean;
+  /** Refetch interval in ms. 0 = no polling. Default: 0 */
+  refetchInterval?: number;
+  /** Continue polling when tab is in background. Default: false */
+  refetchIntervalInBackground?: boolean;
   /** Initial data before first fetch */
   initialData?: T | (() => T);
 }
@@ -82,11 +87,21 @@ export interface InvalidateQueriesOptions {
   queryKey?: QueryKey;
 }
 
+/** Options for prefetchQuery */
+export interface PrefetchQueryOptions<T = unknown> {
+  /** Query key to prefetch */
+  queryKey: QueryKey;
+  /** Async function that fetches data */
+  queryFn: (context: { queryKey: QueryKey }) => Promise<T>;
+}
+
 /** Query client for cache invalidation and manual cache access */
 export interface QueryClient {
   invalidateQueries: (options?: InvalidateQueriesOptions) => void;
   getQueryData: <T>(queryKey: QueryKey) => T | undefined;
   setQueryData: <T>(queryKey: QueryKey, data: T | null) => void;
+  /** Prefetch and cache data. Returns promise that resolves when done. */
+  prefetchQuery: <T>(options: PrefetchQueryOptions<T>) => Promise<void>;
 }
 
 function createQueryClient(): QueryClient {
@@ -122,6 +137,29 @@ function createQueryClient(): QueryClient {
         error: null,
         updatedAt: Date.now(),
       });
+    },
+
+    async prefetchQuery<T>(
+      options: PrefetchQueryOptions<T>,
+    ): Promise<void> {
+      const { queryKey, queryFn } = options;
+      const cacheKey = hashQueryKey(queryKey);
+      try {
+        const result = await queryFn({ queryKey });
+        queryCache.set(cacheKey, {
+          data: result,
+          error: null,
+          updatedAt: Date.now(),
+        });
+      } catch (e) {
+        const err = e instanceof Error ? e : new Error(String(e));
+        queryCache.set(cacheKey, {
+          data: null,
+          error: err,
+          updatedAt: Date.now(),
+        });
+        // Don't throw - cache stores error so useQuery can use it
+      }
     },
   };
 }
@@ -175,6 +213,8 @@ export function useQuery<T = unknown>(
     enabled = true,
     refetchOnWindowFocus = true,
     refetchOnReconnect = true,
+    refetchInterval = 0,
+    refetchIntervalInBackground = false,
     initialData,
   } = options;
 
@@ -282,10 +322,7 @@ export function useQuery<T = unknown>(
   }
 
   async function refetch(): Promise<void> {
-    const enabledVal = toValue(enabled);
-    if (!enabledVal) return;
-
-    // Force refetch by invalidating cache for this key
+    // Force refetch by invalidating cache for this key (ignores enabled for manual refetch)
     const key = toValue(queryKey) as QueryKey;
     const cacheKey = hashQueryKey(key);
     queryCache.delete(cacheKey);
@@ -338,6 +375,31 @@ export function useQuery<T = unknown>(
     };
     window.addEventListener("online", onOnline);
     onUnmounted(() => window.removeEventListener("online", onOnline));
+  }
+
+  if (refetchInterval > 0 && typeof window !== "undefined") {
+    const { pause, resume } = useIntervalFn(refetch, refetchInterval, {
+      immediate: false,
+    });
+
+    if (refetchIntervalInBackground) {
+      resume();
+    } else {
+      const onVisibilityChange = () => {
+        if (document.hidden) {
+          pause();
+        } else if (toValue(enabled)) {
+          resume();
+        }
+      };
+      document.addEventListener("visibilitychange", onVisibilityChange);
+      if (!document.hidden && toValue(enabled)) {
+        resume();
+      }
+      onUnmounted(() =>
+        document.removeEventListener("visibilitychange", onVisibilityChange),
+      );
+    }
   }
 
   return {

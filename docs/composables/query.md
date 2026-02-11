@@ -104,6 +104,46 @@ const cachedUser = queryClient.getQueryData(["users", 1]);
 </script>
 ```
 
+## Polling (refetchInterval)
+
+Poll data at a fixed interval:
+
+```vue
+<script setup>
+import { useQuery } from "@baklavue/composables";
+
+const { data } = useQuery({
+  queryKey: ["live-status"],
+  queryFn: () => fetch("/api/status").then((r) => r.json()),
+  refetchInterval: 5000,
+  refetchIntervalInBackground: false, // Pause when tab is hidden
+});
+</script>
+```
+
+## Prefetch
+
+Preload data before navigation (e.g. on link hover):
+
+```vue
+<script setup>
+import { useQueryClient } from "@baklavue/composables";
+
+const queryClient = useQueryClient();
+
+const prefetchUser = (id) => {
+  queryClient.prefetchQuery({
+    queryKey: ["users", id],
+    queryFn: () => fetch(`/api/users/${id}`).then((r) => r.json()),
+  });
+};
+</script>
+
+<template>
+  <a href="/user/1" @mouseenter="prefetchUser(1)">User 1</a>
+</template>
+```
+
 ## Refetch Triggers
 
 By default, queries refetch when the window regains focus or when the network reconnects. Disable with options:
@@ -165,6 +205,8 @@ useQuery<T>(options: UseQueryOptions<T>): UseQueryReturn<T>
 | `enabled` | `MaybeRefOrGetter<boolean>` | `true` | If false, query won't run |
 | `refetchOnWindowFocus` | `boolean` | `true` | Refetch when window regains focus |
 | `refetchOnReconnect` | `boolean` | `true` | Refetch when network reconnects |
+| `refetchInterval` | `number` | `0` | Polling interval in ms (0 = no polling) |
+| `refetchIntervalInBackground` | `boolean` | `false` | Continue polling when tab is hidden |
 | `initialData` | `T \| (() => T)` | - | Initial data before first fetch |
 
 #### Return Value
@@ -192,6 +234,7 @@ useQueryClient(): QueryClient
 | `invalidateQueries(options?)` | Remove matching entries from cache. `{ queryKey: ["users"] }` invalidates all keys starting with `["users"]` |
 | `getQueryData<T>(queryKey)` | Get cached data for a key |
 | `setQueryData<T>(queryKey, data)` | Manually set cache for a key |
+| `prefetchQuery(options)` | Prefetch and cache data. `{ queryKey, queryFn }` |
 
 ## useQuery vs useFetch
 

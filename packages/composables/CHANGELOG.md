@@ -1,3 +1,37 @@
+# [Unreleased]
+
+### Features
+
+* add useColorScheme composable - Light/dark/system color scheme with persistence
+* add useThemePreset composable - Persist Baklava theme preset across sessions
+* add useElementSize composable - Reactive element dimensions via ResizeObserver
+* add useWindowSize composable - Reactive viewport width and height
+* add useContainerScroll composable - Scroll position inside a scrollable container
+* add useSticky composable - Detect when sticky element is stuck
+* add useMutation composable - Mutations (POST/PUT/DELETE) with onSuccess, onError, onSettled
+* add refetchInterval and refetchIntervalInBackground to useQuery - Polling with optional pause when tab hidden
+* add useInfiniteQuery composable - Infinite scroll / cursor-based pagination
+* add prefetchQuery to useQueryClient - Preload data before navigation
+* add useLazyQuery composable - On-demand queries that fetch when execute() is called
+* add usePolling composable - Polling with fetch state for non-query scenarios
+* add useShare composable - Web Share API for sharing text, URLs, or files
+* add useBase64 composable - Convert Blob/File/ArrayBuffer/canvas to Base64
+* add usePrevious composable - Track previous value of a ref
+* add useToggle composable - Simple boolean toggle
+* add useDateFormat composable - Reactive locale-aware date formatting (Intl)
+* add useNumberFormat composable - Reactive locale-aware number/currency formatting (Intl)
+* add useSlug composable - Convert string to URL-friendly slug
+* add useAsyncState composable - Generic async state (loading, error, data)
+* rename csv.ts to file.ts and add useFile composable
+* add multi-format support (CSV, TSV, JSON) for parse, create, and download
+* add parseStream for chunked parsing of large CSV/TSV files
+* add preview for parsing first N rows without full load
+* add Zod schema validation option for parsed data
+* add transform hook for row-level transformation/filtering
+* add typed generics for parse, parseFile, and preview results
+* add Excel (.xlsx, .xls) support for parseFile, preview, create, and download
+* add Blob support for parseFile, preview, and parseStream (in addition to File)
+
 # [@baklavue/composables-v1.0.0-preview.2](https://github.com/erbilnas/baklavue/compare/@baklavue/composables-v1.0.0-preview.1...@baklavue/composables-v1.0.0-preview.2) (2026-02-11)
 
 

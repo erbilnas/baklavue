@@ -144,6 +144,6 @@ const props: ButtonProps = {
 ## Next Steps
 
 - [**Browse components**](/components/button) — Each component has examples, API docs, and live demos
-- [**API Reference**](/api/reference) — Full programmatic API
+- [**API Reference**](/api/) — Full programmatic API
 - [**Getting Started**](/guide/getting-started) — Project setup and configuration
 - [**Design Tokens**](/guide/design-tokens) — Customize colors, spacing, typography

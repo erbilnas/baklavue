@@ -34,23 +34,23 @@ bun add @baklavue/composables
 
 ## 📚 Available Composables
 
-### `useCsv`
+### `useFile`
 
-A composable for CSV parsing, creating, and downloading. Uses PapaParse for RFC 4180-compliant handling of quoted fields, commas in values, and edge cases.
+A composable for file parsing, creating, and downloading. Supports CSV, TSV, and JSON formats with streaming, Zod validation, transforms, and preview. Uses PapaParse for RFC 4180-compliant CSV/TSV handling.
 
 #### Basic Usage
 
 ```vue
 <script setup lang="ts">
-import { useCsv } from "@baklavue/composables";
+import { useFile } from "@baklavue/composables";
 
-const { parse, parseFile, create, download } = useCsv();
+const { parse, parseFile, create, download } = useFile();
 
 // Parse CSV string
-const result = parse("name,age\nAlice,30\nBob,25", { header: true });
+const result = parse("name,age\nAlice,30\nBob,25", { format: "csv", header: true });
 console.log(result.data); // [{ name: "Alice", age: "30" }, ...]
 
-// Parse file (async)
+// Parse file (async), format auto-detected from filename
 const handleFileUpload = async (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
@@ -79,23 +79,31 @@ const exportData = () => {
 
 #### API Reference
 
-The `useCsv` composable returns an object with the following methods:
+The `useFile` composable returns an object with the following methods:
 
-##### `parse(csv: string, options?: CsvParseOptions)`
+##### `parse(content: string, options?: FileParseOptions<T>)`
 
-Parses a CSV string and returns `{ data, errors, meta }`. Synchronous.
+Parses a string (CSV, TSV, or JSON) and returns `{ data, errors, meta }`. Synchronous.
 
-##### `parseFile(file: File, options?: CsvParseOptions)`
+##### `parseFile(file: File, options?: FileParseOptions<T>)`
 
-Parses a File or Blob asynchronously. Returns `Promise<ParseResult>`.
+Parses a File asynchronously. Format auto-detected from filename when omitted.
 
-##### `create(data: CsvData, options?: CsvCreateOptions)`
+##### `parseStream(file: File, options)` 
 
-Creates a CSV string from an array of objects, array of arrays, or `{ fields, data }` object.
+Chunked parsing for large CSV/TSV files. Returns `{ abort }`. Use `step` or `chunk` callbacks.
 
-##### `download(data: CsvData, filename?: string, options?: CsvCreateOptions)`
+##### `preview(file: File, options?)`
 
-Creates a CSV string and triggers a browser download. Adds UTF-8 BOM for Excel compatibility.
+Parses only the first N rows. Returns `Promise<{ data, meta?, truncated }>`.
+
+##### `create(data: FileData, options?: FileCreateOptions)`
+
+Creates a string from an array of objects, array of arrays, or `{ fields, data }` object. Supports CSV, TSV, JSON.
+
+##### `download(data: FileData, filename?: string, options?: FileCreateOptions)`
+
+Creates a string and triggers a browser download. Adds UTF-8 BOM for CSV/TSV (Excel compatibility).
 
 #### Options
 
@@ -285,6 +293,16 @@ const pageSize = useLocalStorage("table-page-size", 10);
 const draft = useSessionStorage("form-draft", null);
 ```
 
+### `useCookie`
+
+Reactive sync with `document.cookie`. Returns `{ value, get, set, remove }`. Use for auth tokens or when values must be sent to the server.
+
+```ts
+const { value: token, set, remove } = useCookie("auth-token", "", { path: "/", maxAge: 86400 });
+set("new-token");
+remove();
+```
+
 ### `useDebounceFn` / `useDebouncedRef`
 
 Debounce function execution or ref value. `useDebounceFn` returns a debounced function. `useDebouncedRef` returns a ref that updates after the delay. Useful for search inputs, autocomplete.
@@ -348,7 +366,7 @@ const { pause, resume } = useRafFn(({ delta }) => {
 ```
 packages/composables/
 ├── index.ts              # Main export file
-├── csv.ts                # CSV parsing, creating, and download composable
+├── file.ts               # File parsing, creating, download (CSV, TSV, JSON) composable
 ├── notification.ts       # Notification composable
 ├── scrollToError.ts      # Scroll to validation error composable
 ├── theme.ts              # Baklava theme composable
@@ -356,6 +374,7 @@ packages/composables/
 ├── pagination.ts         # Pagination state composable
 ├── confirmDialog.ts      # Confirm dialog composable
 ├── clipboard.ts          # Clipboard composable
+├── cookie.ts             # useCookie composable
 ├── breakpoints.ts        # Responsive breakpoints composable
 ├── storage.ts            # useLocalStorage, useSessionStorage composables
 ├── debounce.ts           # useDebounceFn, useDebouncedRef

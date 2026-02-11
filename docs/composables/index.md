@@ -28,9 +28,18 @@ BaklaVue provides Vue 3 composables to enhance your application functionality.
 
 ### Data & Utilities
 
-- [CSV](/composables/csv) (`useCsv`) - Parse, create, and download CSV files
+- [File](/composables/file) (`useFile`) - Parse, create, and download CSV, TSV, and JSON files
 - [Clipboard](/composables/clipboard) (`useClipboard`) - Copy text to clipboard
-- [Storage](/composables/storage) (`useLocalStorage` / `useSessionStorage`) - Reactive sync with localStorage/sessionStorage
+- [Storage](/composables/storage) (`useLocalStorage` / `useSessionStorage`) - Reactive sync with localStorage and sessionStorage
+- [Cookie](/composables/cookie) (`useCookie`) - Reactive sync with document.cookie
+- [Share](/composables/share) (`useShare`) - Share text, URLs, or files via Web Share API
+- [Base64](/composables/base64) (`useBase64`) - Convert Blob/File/ArrayBuffer/canvas to Base64
+- [Previous](/composables/previous) (`usePrevious`) - Track previous value of a ref
+- [Toggle](/composables/toggle) (`useToggle`) - Simple boolean toggle
+- [DateFormat](/composables/format) (`useDateFormat`) - Reactive locale-aware date formatting
+- [NumberFormat](/composables/format) (`useNumberFormat`) - Reactive locale-aware number/currency formatting
+- [Slug](/composables/slug) (`useSlug`) - Convert string to URL-friendly slug
+- [Async State](/composables/asyncState) (`useAsyncState`) - Generic async state (loading, error, data)
 
 ### Performance
 
@@ -42,16 +51,26 @@ BaklaVue provides Vue 3 composables to enhance your application functionality.
 ### Browser APIs
 
 - [Breakpoints](/composables/breakpoints) (`useBreakpoints`) - Responsive breakpoints (isMobile, isTablet, isDesktop)
+- [Window Size](/composables/breakpoints#use-window-size) (`useWindowSize`) - Reactive viewport width and height
 - [Intersection Observer](/composables/intersectionObserver) (`useIntersectionObserver`) - Detect element visibility in viewport
+- [Element Size](/composables/elementSize) (`useElementSize`) - Reactive element dimensions via ResizeObserver
+- [Container Scroll](/composables/containerScroll) (`useContainerScroll`) - Scroll position inside a scrollable div
+- [Sticky](/composables/sticky) (`useSticky`) - Detect when sticky element is stuck
 
 ### Data Fetching
 
 - [Fetch](/composables/fetch) (`useFetch`) - Reactive fetch with loading/error/data
 - [Query](/composables/query) (`useQuery`) - Data fetching with caching, retries, and invalidation
+- [Mutation](/composables/mutation) (`useMutation`) - Mutations (POST/PUT/DELETE) with cache invalidation
+- [Infinite Query](/composables/infiniteQuery) (`useInfiniteQuery`) - Infinite scroll / cursor-based pagination
+- [Lazy Query](/composables/lazyQuery) (`useLazyQuery`) - On-demand queries that fetch when execute() is called
+- [Polling](/composables/polling) (`usePolling`) - Polling with fetch state (non-cached)
 
 ### Theme & Layout
 
 - [Theme](/composables/theme) (`useBaklavaTheme`) - Overwrite Baklava colors (Vue preset or custom)
+- [Color Scheme](/composables/colorScheme) (`useColorScheme`) - Light/dark/system with persistence
+- [Theme Preset](/composables/themePreset) (`useThemePreset`) - Persist Baklava theme preset
 - [Pagination](/composables/pagination) (`usePagination`) - Pagination state for tables and lists
 
 ## Usage Pattern
@@ -89,5 +108,5 @@ import type { ApplyThemeOptions } from "@baklavue/composables";
 ## Next Steps
 
 - Explore individual composable documentation
-- Check [API Reference](/api/reference) for detailed API
+- Check [API Reference](/api/) for detailed API
 - See [Getting Started Guide](/guide/getting-started) for setup

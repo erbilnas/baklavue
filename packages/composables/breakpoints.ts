@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, type Ref } from "vue";
 
 /**
  * Default breakpoint values (in pixels).
@@ -93,3 +93,43 @@ export const useMediaQuery = (query: string) => {
 
   return matches;
 };
+
+/**
+ * Composable for reactive viewport width and height.
+ * Useful for layout calculations, charts, and responsive logic that needs
+ * actual dimensions rather than breakpoint flags.
+ *
+ * @example
+ * ```ts
+ * const { width, height } = useWindowSize();
+ *
+ * // Use for canvas or chart sizing
+ * const chartWidth = computed(() => Math.min(width.value, 800));
+ * ```
+ *
+ * @returns Object with width and height refs
+ */
+export function useWindowSize(): { width: Ref<number>; height: Ref<number> } {
+  const width = ref(0);
+  const height = ref(0);
+
+  const update = () => {
+    if (typeof window === "undefined") return;
+    width.value = window.innerWidth;
+    height.value = window.innerHeight;
+  };
+
+  onMounted(() => {
+    update();
+    window.addEventListener("resize", update);
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener("resize", update);
+  });
+
+  return {
+    width,
+    height,
+  };
+}

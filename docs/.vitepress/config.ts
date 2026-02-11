@@ -34,11 +34,20 @@ export default defineConfig({
   themeConfig: {
     logo: "/logo.png",
     nav: [
-      { text: "Guide", link: "/guide/getting-started" },
+      {
+        text: "Guide",
+        items: [
+          { text: "Getting Started", link: "/guide/getting-started" },
+          { text: "Design Tokens", link: "/guide/design-tokens" },
+          { text: "Localization", link: "/guide/localization" },
+          { text: "MCP Support", link: "/guide/mcp" },
+          { text: "Changelog", link: "/changelog" },
+          { text: "Release", link: "/release/guide" },
+        ],
+      },
       { text: "Components", link: "/components/" },
       { text: "Composables", link: "/composables/" },
-      { text: "API", link: "/api/reference" },
-      { text: "Changelog", link: "/changelog" },
+      { text: "API", link: "/api/" },
       { text: "GitHub", link: "https://github.com/erbilnas/baklavue" },
     ],
 
@@ -231,9 +240,17 @@ export default defineConfig({
           text: "Data & Utilities",
           collapsed: false,
           items: [
+            { text: "Async State", link: "/composables/asyncState" },
+            { text: "Base64", link: "/composables/base64" },
             { text: "Clipboard", link: "/composables/clipboard" },
-            { text: "CSV", link: "/composables/csv" },
+            { text: "Cookie", link: "/composables/cookie" },
+            { text: "File", link: "/composables/file" },
+            { text: "Format", link: "/composables/format" },
+            { text: "Previous", link: "/composables/previous" },
+            { text: "Share", link: "/composables/share" },
+            { text: "Slug", link: "/composables/slug" },
             { text: "Storage", link: "/composables/storage" },
+            { text: "Toggle", link: "/composables/toggle" },
           ],
         },
         {
@@ -255,6 +272,13 @@ export default defineConfig({
               text: "Intersection Observer",
               link: "/composables/intersectionObserver",
             },
+            { text: "Element Size", link: "/composables/elementSize" },
+            {
+              text: "Window Size",
+              link: "/composables/breakpoints#use-window-size",
+            },
+            { text: "Container Scroll", link: "/composables/containerScroll" },
+            { text: "Sticky", link: "/composables/sticky" },
           ],
         },
         {
@@ -263,6 +287,10 @@ export default defineConfig({
           items: [
             { text: "Fetch", link: "/composables/fetch" },
             { text: "Query", link: "/composables/query" },
+            { text: "Mutation", link: "/composables/mutation" },
+            { text: "Infinite Query", link: "/composables/infiniteQuery" },
+            { text: "Lazy Query", link: "/composables/lazyQuery" },
+            { text: "Polling", link: "/composables/polling" },
           ],
         },
         {
@@ -271,14 +299,41 @@ export default defineConfig({
           items: [
             { text: "Pagination", link: "/composables/pagination" },
             { text: "Theme", link: "/composables/theme" },
+            { text: "Color Scheme", link: "/composables/colorScheme" },
+            { text: "Theme Preset", link: "/composables/themePreset" },
           ],
         },
       ],
       "/api/": [
+        { text: "Overview", link: "/api/" },
         {
-          text: "API Reference",
-          items: [{ text: "Reference", link: "/api/reference" }],
+          text: "Components",
+          collapsed: false,
+          items: [
+            { text: "Form", link: "/api/components/form" },
+            { text: "Feedback", link: "/api/components/feedback" },
+            { text: "Layout", link: "/api/components/layout" },
+            { text: "Navigation", link: "/api/components/navigation" },
+            { text: "Data Display", link: "/api/components/data-display" },
+          ],
         },
+        {
+          text: "Composables",
+          collapsed: false,
+          items: [
+            { text: "Overview", link: "/api/composables/" },
+            { text: "UI & Feedback", link: "/api/composables/ui-feedback" },
+            { text: "Forms", link: "/api/composables/forms" },
+            { text: "Data & Utilities", link: "/api/composables/data-utilities" },
+            { text: "Performance", link: "/api/composables/performance" },
+            { text: "Browser APIs", link: "/api/composables/browser-apis" },
+            { text: "Data Fetching", link: "/api/composables/data-fetching" },
+            { text: "Theme & Layout", link: "/api/composables/theme-layout" },
+          ],
+        },
+        { text: "Utilities", link: "/api/utilities" },
+        { text: "Type Exports", link: "/api/types" },
+        { text: "Import Patterns", link: "/api/import-patterns" },
       ],
       "/release/": [
         {
