@@ -1,6 +1,17 @@
 ---
 layout: home
 
+head:
+  - - meta
+    - property: og:title
+      content: "BaklaVue - Vue 3 UI Kit for Trendyol Baklava Design System"
+  - - meta
+    - property: og:description
+      content: "Type-safe Vue 3 components, 50+ composables, and design tokens built on the Trendyol Baklava Design System. v-model support, TypeScript, and composable utilities."
+  - - meta
+    - name: description
+      content: "Type-safe Vue 3 components, 50+ composables, and design tokens built on the Trendyol Baklava Design System. v-model support, TypeScript, and composable utilities."
+
 hero:
   name: "BaklaVue"
   text: "Enhanced Baklava experience for Vue 3"
@@ -96,6 +107,12 @@ See the [Getting Started Guide](/guide/getting-started) for full setup.
 More for programmatic control and DX.
 
 **[Composables docs →](/composables/)**
+
+## MCP Support
+
+AI-powered development with Cursor, Claude, and Windsurf. The Baklavue MCP server gives AI assistants direct access to component docs, composable APIs, and usage examples — so they generate accurate Baklavue code out of the box.
+
+**[MCP setup guide →](/guide/mcp)**
 
 ## Learn More
 
