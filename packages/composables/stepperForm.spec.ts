@@ -1,6 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { defineComponent } from "vue";
 import { describe, expect, it } from "vitest";
+import type { FormErrors } from "./formValidation";
 import { useStepper } from "./stepper";
 import { useStepperForm } from "./stepperForm";
 
@@ -56,7 +57,8 @@ describe("useStepperForm", () => {
   it("nextWithValidation does not advance when validate returns errors", async () => {
     const { result, stepper } = withStepperForm();
 
-    const validate = () => Promise.resolve({ email: "Required" });
+    const validate = () =>
+      Promise.resolve({ email: "Required" } as unknown as FormErrors);
     const ok = await result.nextWithValidation(validate);
 
     expect(ok).toBe(false);
@@ -67,7 +69,7 @@ describe("useStepperForm", () => {
     const { result, stepper } = withStepperForm();
 
     await result.nextWithValidation(() =>
-      Promise.resolve({ email: "Invalid" }),
+      Promise.resolve({ email: "Invalid" } as unknown as FormErrors),
     );
 
     expect(stepper.steps.value[0]?.error).toBe(true);
@@ -79,7 +81,7 @@ describe("useStepperForm", () => {
     });
 
     const ok = await result.nextWithValidation(() =>
-      Promise.resolve({ other: "Error" }),
+      Promise.resolve({ other: "Error" } as unknown as FormErrors),
     );
 
     expect(ok).toBe(false);

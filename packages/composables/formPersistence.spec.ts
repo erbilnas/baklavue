@@ -40,7 +40,7 @@ describe("useFormPersistence", () => {
 
   it("persists form to storage when data changes", async () => {
     const form = ref({ email: "initial@test.com" });
-    const { result, wrapper } = withSetup(() =>
+    const { wrapper } = withSetup(() =>
       useFormPersistence(key, form, { debounce: 300 }),
     );
 

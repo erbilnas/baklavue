@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { defineComponent } from "vue";
 import { describe, expect, it, vi } from "vitest";
+import { defineComponent } from "vue";
 import { useMutation } from "./mutation";
 
 function withSetup<T>(composable: () => T) {
@@ -34,7 +34,9 @@ describe("useMutation", () => {
     const mutationFn = vi.fn().mockResolvedValue(mockData);
 
     const { result, wrapper } = withSetup(() =>
-      useMutation({ mutationFn: mutationFn as (v: unknown) => Promise<unknown> }),
+      useMutation({
+        mutationFn: mutationFn as (v: unknown) => Promise<unknown>,
+      }),
     );
 
     const promise = result.mutateAsync({ name: "test" });
@@ -59,7 +61,9 @@ describe("useMutation", () => {
       useMutation({ mutationFn: mutationFn as () => Promise<unknown> }),
     );
 
-    await expect(result.mutateAsync({})).rejects.toThrow("mutation failed");
+    await expect(result.mutateAsync(undefined!)).rejects.toThrow(
+      "mutation failed",
+    );
     await wrapper.vm.$nextTick();
 
     expect(result.data.value).toBeNull();
@@ -74,10 +78,12 @@ describe("useMutation", () => {
     const mutationFn = vi.fn().mockResolvedValue(mockData);
 
     const { result, wrapper } = withSetup(() =>
-      useMutation({ mutationFn: mutationFn as (v: unknown) => Promise<unknown> }),
+      useMutation({
+        mutationFn: mutationFn as (v: unknown) => Promise<unknown>,
+      }),
     );
 
-    result.mutate({});
+    result.mutate(undefined!);
     await wrapper.vm.$nextTick();
 
     expect(result.isPending.value).toBe(true);
@@ -93,7 +99,9 @@ describe("useMutation", () => {
     const mutationFn = vi.fn().mockResolvedValue(mockData);
 
     const { result, wrapper } = withSetup(() =>
-      useMutation({ mutationFn: mutationFn as (v: unknown) => Promise<unknown> }),
+      useMutation({
+        mutationFn: mutationFn as (v: unknown) => Promise<unknown>,
+      }),
     );
 
     await result.mutateAsync({});
@@ -142,10 +150,10 @@ describe("useMutation", () => {
       }),
     );
 
-    await expect(result.mutateAsync({})).rejects.toThrow("failed");
+    await expect(result.mutateAsync(undefined!)).rejects.toThrow("failed");
     await wrapper.vm.$nextTick();
 
-    expect(onError).toHaveBeenCalledWith(err, {});
+    expect(onError).toHaveBeenCalledWith(err, undefined);
   });
 
   it("mutate swallows errors (fire-and-forget)", async () => {
@@ -154,10 +162,23 @@ describe("useMutation", () => {
       useMutation({ mutationFn: mutationFn as () => Promise<unknown> }),
     );
 
-    result.mutate({});
+    result.mutate(undefined!);
     await new Promise((r) => setTimeout(r, 10));
 
     expect(result.error.value).toBeTruthy();
     expect(result.isError.value).toBe(true);
+  });
+
+  it("wraps non-Error throws as Error", async () => {
+    const mutationFn = vi.fn().mockRejectedValue("string error");
+    const { result, wrapper } = withSetup(() =>
+      useMutation({ mutationFn: mutationFn as () => Promise<unknown> }),
+    );
+
+    await expect(result.mutateAsync(undefined!)).rejects.toBe("string error");
+    await wrapper.vm.$nextTick();
+
+    expect(result.error.value).toBeInstanceOf(Error);
+    expect(result.error.value?.message).toBe("string error");
   });
 });

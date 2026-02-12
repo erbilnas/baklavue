@@ -104,6 +104,29 @@ describe("useRafFn", () => {
     vi.unstubAllGlobals();
   });
 
+  it("uses setTimeout when elapsed < minInterval for fpsLimit", () => {
+    const fn = vi.fn();
+    const callbackRef = { current: null as ((t: number) => void) | null };
+    vi.stubGlobal("requestAnimationFrame", (cb: (t: number) => void) => {
+      callbackRef.current = cb;
+      return 1;
+    });
+    vi.stubGlobal("cancelAnimationFrame", () => {});
+
+    const { result } = withSetup(() =>
+      useRafFn(fn, { immediate: false, fpsLimit: 10 }),
+    );
+
+    result.resume();
+    callbackRef.current?.(0);
+    callbackRef.current?.(5);
+
+    vi.advanceTimersByTime(100);
+    expect(fn).toHaveBeenCalled();
+
+    vi.unstubAllGlobals();
+  });
+
   it("resume is no-op when already active", () => {
     const fn = vi.fn();
     const { result } = withSetup(() => useRafFn(fn, { immediate: false }));

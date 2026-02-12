@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { defineComponent, ref } from "vue";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useElementSize } from "./elementSize";
 
 function withSetup<T>(composable: () => T) {
@@ -121,5 +121,55 @@ describe("useElementSize", () => {
     expect(unobserveMock).toHaveBeenCalledWith(div);
     expect(result.width.value).toBe(10);
     expect(result.height.value).toBe(20);
+  });
+
+  it("resets to initial when target changes from element to null with no oldEl", async () => {
+    const target = ref<HTMLElement | null>(null);
+    const { result, wrapper } = withSetup(() =>
+      useElementSize(target, { initialWidth: 5, initialHeight: 8 }),
+    );
+
+    expect(result.width.value).toBe(5);
+    expect(result.height.value).toBe(8);
+
+    const div = document.createElement("div");
+    target.value = div;
+    await wrapper.vm.$nextTick();
+    resizeCallback([{
+      contentRect: { width: 100, height: 50, top: 0, left: 0, right: 100, bottom: 50, x: 0, y: 0, toJSON: () => ({}) } as DOMRect,
+    }]);
+    await wrapper.vm.$nextTick();
+
+    target.value = null;
+    await wrapper.vm.$nextTick();
+
+    expect(result.width.value).toBe(5);
+    expect(result.height.value).toBe(8);
+  });
+
+  it("handles empty ResizeObserver entries", async () => {
+    const div = document.createElement("div");
+    const target = ref<HTMLElement | null>(div);
+
+    const { result, wrapper } = withSetup(() => useElementSize(target));
+
+    await wrapper.vm.$nextTick();
+    resizeCallback([]);
+    await wrapper.vm.$nextTick();
+
+    expect(result.width.value).toBe(0);
+    expect(result.height.value).toBe(0);
+  });
+
+  it("unobserves on unmount", async () => {
+    const div = document.createElement("div");
+    const target = ref<HTMLElement | null>(div);
+
+    const { wrapper } = withSetup(() => useElementSize(target));
+    await wrapper.vm.$nextTick();
+
+    wrapper.unmount();
+
+    expect(unobserveMock).toHaveBeenCalledWith(div);
   });
 });

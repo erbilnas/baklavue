@@ -1,7 +1,10 @@
 import { mount } from "@vue/test-utils";
 import { defineComponent } from "vue";
+import type { NotificationProps } from "@trendyol/baklava/dist/components/notification/bl-notification";
 import { describe, expect, it, vi } from "vitest";
 import { useNotification } from "./notification";
+
+type NotificationOptions = Omit<NotificationProps, "variant">;
 
 function withSetup<T>(composable: () => T) {
   let result: T;
@@ -35,7 +38,7 @@ describe("useNotification", () => {
 
     const { result } = withSetup(() => useNotification());
 
-    result.success({ title: "Success", description: "Done" });
+    result.success({ title: "Success", description: "Done" } as NotificationOptions);
     expect(addNotification).toHaveBeenCalledWith(
       expect.objectContaining({
         title: "Success",
@@ -45,17 +48,17 @@ describe("useNotification", () => {
       }),
     );
 
-    result.error({ title: "Error", description: "Failed" });
+    result.error({ title: "Error", description: "Failed" } as NotificationOptions);
     expect(addNotification).toHaveBeenLastCalledWith(
       expect.objectContaining({ variant: "error" }),
     );
 
-    result.warning({ title: "Warning", description: "Careful" });
+    result.warning({ title: "Warning", description: "Careful" } as NotificationOptions);
     expect(addNotification).toHaveBeenLastCalledWith(
       expect.objectContaining({ variant: "warning" }),
     );
 
-    result.info({ title: "Info", description: "Note" });
+    result.info({ title: "Info", description: "Note" } as NotificationOptions);
     expect(addNotification).toHaveBeenLastCalledWith(
       expect.objectContaining({ variant: "info" }),
     );
@@ -70,7 +73,7 @@ describe("useNotification", () => {
     const { result } = withSetup(() => useNotification());
 
     expect(() =>
-      result.success({ title: "Test", description: "Test" }),
+      result.success({ title: "Test", description: "Test" } as NotificationOptions),
     ).not.toThrow();
   });
 });

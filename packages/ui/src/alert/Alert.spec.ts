@@ -28,7 +28,7 @@ describe("BvAlert", () => {
 
   it("exposes open and close methods", async () => {
     const wrapper = mount(BvAlert, { props: { closable: true } });
-    const vm = wrapper.vm as { open: () => Promise<void>; close: () => Promise<void> };
+    const vm = wrapper.vm as unknown as { open: () => Promise<void>; close: () => Promise<void> };
     expect(typeof vm.open).toBe("function");
     expect(typeof vm.close).toBe("function");
     await vm.close();

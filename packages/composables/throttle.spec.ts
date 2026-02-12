@@ -93,6 +93,37 @@ describe("useThrottleFn", () => {
     vi.advanceTimersByTime(200);
     expect(fn).toHaveBeenCalledTimes(1);
   });
+
+  it("clears trailing timeout when call arrives after cooldown", () => {
+    const fn = vi.fn();
+    const { result } = withSetup(() => useThrottleFn(fn, 200));
+
+    result("a");
+    vi.advanceTimersByTime(50);
+    result("b");
+    result("c");
+    vi.advanceTimersByTime(150);
+    expect(fn).toHaveBeenCalledTimes(2);
+    expect(fn).toHaveBeenNthCalledWith(1, "a");
+    expect(fn).toHaveBeenNthCalledWith(2, "c");
+  });
+
+
+  it("clears trailing timeout when new call arrives after cooldown", () => {
+    const fn = vi.fn();
+    const { result } = withSetup(() => useThrottleFn(fn, 200));
+
+    result("a");
+    vi.advanceTimersByTime(50);
+    result("b");
+    vi.advanceTimersByTime(50);
+    result("c");
+    vi.advanceTimersByTime(200);
+    expect(fn).toHaveBeenCalledTimes(2);
+    expect(fn).toHaveBeenNthCalledWith(1, "a");
+    expect(fn).toHaveBeenNthCalledWith(2, "c");
+  });
+
 });
 
 describe("useThrottledRef", () => {
@@ -167,5 +198,23 @@ describe("useThrottledRef", () => {
     vi.advanceTimersByTime(200);
     await wrapper.vm.$nextTick();
     expect(result.value).toBe("c");
+  });
+
+  it("clears pending timeout when new change arrives after delay", async () => {
+    const source = ref("a");
+    const { result, wrapper } = withSetup(() => useThrottledRef(source, 200));
+
+    source.value = "b";
+    await wrapper.vm.$nextTick();
+    expect(result.value).toBe("b");
+
+    source.value = "c";
+    await wrapper.vm.$nextTick();
+    vi.advanceTimersByTime(100);
+    source.value = "d";
+    await wrapper.vm.$nextTick();
+    vi.advanceTimersByTime(200);
+    await wrapper.vm.$nextTick();
+    expect(result.value).toBe("d");
   });
 });

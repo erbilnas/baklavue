@@ -34,7 +34,7 @@ describe("useIntervalFn", () => {
 
   it("runs callback at interval", () => {
     const fn = vi.fn();
-    const { result } = withSetup(() => useIntervalFn(fn, 1000));
+    withSetup(() => useIntervalFn(fn, 1000));
 
     vi.advanceTimersByTime(1000);
     expect(fn).toHaveBeenCalledTimes(2);
@@ -94,7 +94,7 @@ describe("useIntervalFn", () => {
 
   it("cleans up on unmount", () => {
     const fn = vi.fn();
-    const { result, wrapper } = withSetup(() => useIntervalFn(fn, 1000));
+    const { wrapper } = withSetup(() => useIntervalFn(fn, 1000));
 
     wrapper.unmount();
     vi.advanceTimersByTime(2000);

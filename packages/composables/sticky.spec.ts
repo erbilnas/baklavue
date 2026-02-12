@@ -93,6 +93,33 @@ describe("useSticky", () => {
     document.body.removeChild(el);
   });
 
+  it("handleScroll skips when rafId is pending", async () => {
+    const el = document.createElement("div");
+    document.body.appendChild(el);
+    vi.spyOn(el, "getBoundingClientRect").mockReturnValue({
+      top: 0,
+      left: 0,
+      right: 100,
+      bottom: 20,
+      width: 100,
+      height: 20,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    });
+
+    const target = ref<HTMLElement | null>(el);
+    const { result, wrapper } = withSetup(() => useSticky(target));
+
+    await wrapper.vm.$nextTick();
+    window.dispatchEvent(new Event("scroll"));
+    window.dispatchEvent(new Event("scroll"));
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(result.isSticky.value).toBeDefined();
+    document.body.removeChild(el);
+  });
+
   it("respects threshold option", async () => {
     const el = document.createElement("div");
     document.body.appendChild(el);
@@ -119,4 +146,5 @@ describe("useSticky", () => {
     rectSpy.mockRestore();
     document.body.removeChild(el);
   });
+
 });

@@ -60,6 +60,26 @@ describe("useLocalStorage", () => {
 
     localStorage.removeItem(key2);
   });
+
+  it("returns defaultValue when localStorage access throws", () => {
+    const key2 = "test-throw-" + Math.random();
+    const originalLocalStorage = window.localStorage;
+    Object.defineProperty(window, "localStorage", {
+      get: () => {
+        throw new Error("Storage unavailable");
+      },
+      configurable: true,
+    });
+
+    const result = useLocalStorage(key2, "fallback");
+
+    expect(result.value).toBe("fallback");
+
+    Object.defineProperty(window, "localStorage", {
+      value: originalLocalStorage,
+      configurable: true,
+    });
+  });
 });
 
 describe("useSessionStorage", () => {
@@ -163,6 +183,46 @@ describe("storage options", () => {
     expect(localStorage.getItem(key)).toBeNull();
   });
 
+  it("syncs to defaultValue when storage event has null newValue", async () => {
+    const { result, wrapper } = withSetup(() =>
+      useLocalStorage(key, "default"),
+    );
+
+    result.value = "set";
+    await wrapper.vm.$nextTick();
+
+    window.dispatchEvent(
+      new StorageEvent("storage", {
+        key,
+        newValue: null,
+        storageArea: localStorage,
+      }),
+    );
+    await wrapper.vm.$nextTick();
+
+    expect(result.value).toBe("default");
+  });
+
+  it("calls onError when watch setItem throws", async () => {
+    const onError = vi.fn();
+    const { result, wrapper } = withSetup(() =>
+      useLocalStorage(key, "default", {
+        onError,
+        serializer: {
+          read: (raw) => JSON.parse(raw),
+          write: () => {
+            throw new Error("QuotaExceeded");
+          },
+        },
+      }),
+    );
+
+    result.value = "fail";
+    await wrapper.vm.$nextTick();
+
+    expect(onError).toHaveBeenCalled();
+  });
+
   it("syncs storage event from other tab", async () => {
     const { result, wrapper } = withSetup(() =>
       useLocalStorage(key, "default"),
@@ -181,4 +241,36 @@ describe("storage options", () => {
 
     expect(result.value).toBe("from-other-tab");
   });
+
+  it("calls onError when storage event has invalid value", async () => {
+    const onError = vi.fn();
+    const { result, wrapper } = withSetup(() =>
+      useLocalStorage(key, "default", {
+        onError,
+        serializer: {
+          read: (raw) => {
+            if (raw === "invalid") throw new Error("Parse failed");
+            return JSON.parse(raw);
+          },
+          write: (v) => JSON.stringify(v),
+        },
+      }),
+    );
+
+    result.value = "valid";
+    await wrapper.vm.$nextTick();
+
+    window.dispatchEvent(
+      new StorageEvent("storage", {
+        key,
+        newValue: "invalid",
+        storageArea: localStorage,
+      }),
+    );
+    await wrapper.vm.$nextTick();
+
+    expect(onError).toHaveBeenCalled();
+    expect(result.value).toBe("valid");
+  });
+
 });

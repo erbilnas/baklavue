@@ -233,6 +233,65 @@ describe("useFocusTrap", () => {
     expect(removeSpy).toHaveBeenCalledWith("keydown", expect.any(Function), true);
   });
 
+  it("handleKeyDown does nothing when no focusable elements", () => {
+    container = document.createElement("div");
+    container.innerHTML = "<span>no focusable</span>";
+    document.body.appendChild(container);
+
+    const target = ref<HTMLElement | null>(container);
+    const { result } = withSetup(() => useFocusTrap({ target }));
+
+    result.activate();
+
+    const keydownEvent = new KeyboardEvent("keydown", { key: "Tab" });
+    expect(() => document.dispatchEvent(keydownEvent)).not.toThrow();
+  });
+
+  it("handleKeyDown when focus is outside container (currentIndex -1)", () => {
+    container = document.createElement("div");
+    const btn1 = document.createElement("button");
+    btn1.textContent = "First";
+    const btn2 = document.createElement("button");
+    btn2.textContent = "Second";
+    container.appendChild(btn1);
+    container.appendChild(btn2);
+    document.body.appendChild(container);
+
+    const target = ref<HTMLElement | null>(container);
+    const { result } = withSetup(() => useFocusTrap({ target }));
+
+    result.activate();
+    document.body.focus();
+
+    const keydownEvent = new KeyboardEvent("keydown", { key: "Tab", shiftKey: false });
+    Object.defineProperty(keydownEvent, "preventDefault", {
+      value: vi.fn(),
+      writable: true,
+    });
+    const focusSpy = vi.spyOn(btn1, "focus");
+    document.dispatchEvent(keydownEvent);
+
+    expect(keydownEvent.preventDefault).toHaveBeenCalled();
+    expect(focusSpy).toHaveBeenCalled();
+  });
+
+  it("activate with initialFocus false does not focus first element", () => {
+    container = document.createElement("div");
+    const btn = document.createElement("button");
+    container.appendChild(btn);
+    document.body.appendChild(container);
+
+    const target = ref<HTMLElement | null>(container);
+    const focusSpy = vi.spyOn(btn, "focus");
+    const { result } = withSetup(() =>
+      useFocusTrap({ target, initialFocus: false }),
+    );
+
+    result.activate();
+
+    expect(focusSpy).not.toHaveBeenCalled();
+  });
+
   it("activates when active ref becomes true and target is set", async () => {
     container = document.createElement("div");
     const btn = document.createElement("button");

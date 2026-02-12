@@ -165,4 +165,45 @@ describe("useColorScheme", () => {
     expect(result.scheme.value).toBe("light");
     getItem.mockRestore();
   });
+
+  it("syncAttribute does nothing when selector returns no element", async () => {
+    const { result, wrapper } = withSetup(() =>
+      useColorScheme({
+        storageKey: false,
+        defaultScheme: "dark",
+        selector: "#nonexistent-element-12345",
+      }),
+    );
+
+    await wrapper.vm.$nextTick();
+    expect(result.isDark.value).toBe(true);
+  });
+
+  it("responds to prefers-color-scheme change when scheme is system", async () => {
+    const handlerRef = { current: null as (() => void) | null };
+    const mq = {
+      matches: false,
+      addEventListener: vi.fn((_ev: string, h: () => void) => {
+        handlerRef.current = h;
+      }),
+      removeEventListener: vi.fn(),
+      media: "(prefers-color-scheme: dark)",
+    };
+    vi.stubGlobal("matchMedia", vi.fn(() => mq));
+
+    const { result, wrapper } = withSetup(() =>
+      useColorScheme({ storageKey: false, defaultScheme: "system" }),
+    );
+
+    await wrapper.vm.$nextTick();
+    expect(result.isDark.value).toBe(false);
+
+    mq.matches = true;
+    handlerRef.current?.();
+
+    await wrapper.vm.$nextTick();
+    expect(result.isDark.value).toBe(true);
+
+    vi.unstubAllGlobals();
+  });
 });

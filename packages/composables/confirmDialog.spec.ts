@@ -28,7 +28,7 @@ describe("useConfirmDialog", () => {
   it("confirm() opens dialog and sets options", async () => {
     const { result, wrapper } = withSetup(() => useConfirmDialog());
 
-    const promise = result.confirm({
+    result.confirm({
       caption: "Delete?",
       description: "Are you sure?",
     });

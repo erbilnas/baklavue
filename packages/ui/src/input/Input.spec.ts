@@ -25,7 +25,7 @@ describe("BvInput", () => {
 
   it("emits update:modelValue when bl-input fires bl-input", async () => {
     const wrapper = mount(BvInput);
-    const blInput = wrapper.find("bl-input").element as HTMLInputElement & {
+    const blInput = wrapper.find("bl-input").element as unknown as HTMLInputElement & {
       value: string;
     };
     blInput.value = "test value";

@@ -98,4 +98,29 @@ describe("useScrollVisibility", () => {
     removeSpy.mockRestore();
     cancelRafSpy.mockRestore();
   });
+
+  it("debounces when rapid scroll fires before RAF runs", async () => {
+    Object.defineProperty(window, "scrollY", {
+      writable: true,
+      configurable: true,
+      value: 100,
+    });
+
+    const { result } = withSetup(() => useScrollVisibility({ threshold: 50 }));
+    const requestRaf = vi.spyOn(window, "requestAnimationFrame");
+
+    let rafCallback: (() => void) | null = null;
+    requestRaf.mockImplementation((cb: (t: number) => void) => {
+      rafCallback = () => cb(0);
+      return 1;
+    });
+
+    window.dispatchEvent(new Event("scroll"));
+    window.dispatchEvent(new Event("scroll"));
+    expect(requestRaf).toHaveBeenCalledTimes(1);
+    (rafCallback as (() => void) | null)?.();
+    expect(result.isVisible.value).toBe(true);
+
+    requestRaf.mockRestore();
+  });
 });

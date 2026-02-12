@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { defineComponent, ref } from "vue";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { defineComponent, ref } from "vue";
 import { createFetch, useFetch } from "./fetch";
 
 function withSetup<T>(composable: () => T) {
@@ -122,9 +122,7 @@ describe("useFetch", () => {
       vi.fn().mockRejectedValue(new Error("Network error")),
     );
 
-    const { result } = withSetup(() =>
-      useFetch("/api/user", { retry: false }),
-    );
+    const { result } = withSetup(() => useFetch("/api/user", { retry: false }));
 
     await new Promise((r) => setTimeout(r, 50));
 
@@ -183,7 +181,8 @@ describe("useFetch", () => {
     const { result } = withSetup(() =>
       useFetch("/api/user", {
         immediate: true,
-        afterFetch: ({ data }) => ({ ...data, transformed: true }),
+        afterFetch: ({ data }) =>
+          ({ ...(data as Record<string, unknown>), transformed: true }),
       }),
     );
 
@@ -475,14 +474,15 @@ describe("useFetch", () => {
     );
 
     await new Promise((r) => setTimeout(r, 50));
-    const initialCalls = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length;
+    const initialCalls = vi.mocked(globalThis.fetch).mock
+      .calls.length;
 
     await result.execute(true);
     await new Promise((r) => setTimeout(r, 50));
 
-    expect((globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length).toBeGreaterThan(
-      initialCalls,
-    );
+    expect(
+      vi.mocked(globalThis.fetch).mock.calls.length,
+    ).toBeGreaterThan(initialCalls);
   });
 
   it("abort clears timeout", async () => {
@@ -492,10 +492,7 @@ describe("useFetch", () => {
       vi.fn().mockImplementation(
         () =>
           new Promise((_, reject) => {
-            setTimeout(
-              () => reject(new Error("timeout")),
-              1000,
-            );
+            setTimeout(() => reject(new Error("timeout")), 1000);
           }),
       ),
     );
@@ -544,8 +541,8 @@ describe("useFetch", () => {
 
     await new Promise((r) => setTimeout(r, 50));
 
-    const call = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls[0][1];
-    expect(call.body).toBeUndefined();
+    const call = vi.mocked(globalThis.fetch).mock.calls[0]?.[1];
+    expect(call?.body).toBeUndefined();
   });
 
   it("retries on 5xx status", async () => {
@@ -589,7 +586,7 @@ describe("useFetch", () => {
 
   it("refetchOnUrlChange refetches when url getter changes", async () => {
     const url = ref("/api/a");
-    const { result } = withSetup(() =>
+    withSetup(() =>
       useFetch(() => url.value, {
         immediate: true,
         refetchOnUrlChange: true,
@@ -597,20 +594,22 @@ describe("useFetch", () => {
     );
 
     await new Promise((r) => setTimeout(r, 50));
-    expect((globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls[0][0]).toBe(
-      "/api/a",
-    );
+    expect(
+      vi.mocked(globalThis.fetch).mock.calls[0][0],
+    ).toBe("/api/a");
 
     url.value = "/api/b";
     await new Promise((r) => setTimeout(r, 150));
 
-    expect((globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.some(
-      (c) => c[0] === "/api/b",
-    )).toBe(true);
+    expect(
+      vi.mocked(globalThis.fetch).mock.calls.some(
+        (c) => c[0] === "/api/b",
+      ),
+    ).toBe(true);
   });
 
   it("refetchOnWindowFocus refetches on focus", async () => {
-    const { result } = withSetup(() =>
+    withSetup(() =>
       useFetch("/api/user", {
         immediate: true,
         refetchOnWindowFocus: true,
@@ -618,18 +617,78 @@ describe("useFetch", () => {
     );
 
     await new Promise((r) => setTimeout(r, 50));
-    const initialCalls = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length;
+    const initialCalls = vi.mocked(globalThis.fetch).mock
+      .calls.length;
 
     window.dispatchEvent(new Event("focus"));
     await new Promise((r) => setTimeout(r, 50));
 
-    expect((globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length).toBeGreaterThan(
-      initialCalls,
+    expect(
+      vi.mocked(globalThis.fetch).mock.calls.length,
+    ).toBeGreaterThan(initialCalls);
+  });
+
+  it("buildRequestBody converts non-object body to string", async () => {
+    withSetup(() =>
+      useFetch("/api/user", {
+        immediate: true,
+        method: "POST",
+        body: 123,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        body: "123",
+      }),
     );
   });
 
-  it("refetchOnReconnect refetches on online", async () => {
+  it("returns early on AbortError", async () => {
+    const abortError = new Error("Aborted");
+    abortError.name = "AbortError";
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(abortError));
+
     const { result } = withSetup(() =>
+      useFetch("/api/user", { immediate: true, retry: false }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(result.error.value).toBeNull();
+    expect(result.data.value).toBeNull();
+  });
+
+  it("clears timeout when fetch succeeds before timeout", async () => {
+    const clearSpy = vi.spyOn(globalThis, "clearTimeout");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        headers: new Headers({ "content-type": "application/json" }),
+        json: () => Promise.resolve({ id: 1 }),
+        text: () => Promise.resolve(""),
+        blob: () => Promise.resolve(new Blob()),
+        arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+      }),
+    );
+
+    const { result } = withSetup(() =>
+      useFetch("/api/user", { immediate: true, timeout: 5000 }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(clearSpy).toHaveBeenCalled();
+    expect(result.data.value).toEqual({ id: 1 });
+  });
+
+  it("refetchOnReconnect refetches on online", async () => {
+    withSetup(() =>
       useFetch("/api/user", {
         immediate: true,
         refetchOnReconnect: true,
@@ -637,14 +696,15 @@ describe("useFetch", () => {
     );
 
     await new Promise((r) => setTimeout(r, 50));
-    const initialCalls = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length;
+    const initialCalls = vi.mocked(globalThis.fetch).mock
+      .calls.length;
 
     window.dispatchEvent(new Event("online"));
     await new Promise((r) => setTimeout(r, 50));
 
-    expect((globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length).toBeGreaterThan(
-      initialCalls,
-    );
+    expect(
+      vi.mocked(globalThis.fetch).mock.calls.length,
+    ).toBeGreaterThan(initialCalls);
   });
 });
 

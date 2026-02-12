@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { defineComponent, ref } from "vue";
 import { describe, expect, it, vi } from "vitest";
+import { defineComponent, ref } from "vue";
 import { useContainerScroll } from "./containerScroll";
 
 function withSetup<T>(composable: () => T) {
@@ -87,7 +87,83 @@ describe("useContainerScroll", () => {
     const container = ref<HTMLElement | null>(div);
     withSetup(() => useContainerScroll(container, { passive: false }));
 
-    expect(addSpy).toHaveBeenCalledWith("scroll", expect.any(Function), { passive: false });
+    expect(addSpy).toHaveBeenCalledWith("scroll", expect.any(Function), {
+      passive: false,
+    });
     addSpy.mockRestore();
+  });
+
+  it("cancels RAF and detaches on unmount when element exists", async () => {
+    const div = document.createElement("div");
+    div.style.overflow = "auto";
+    const container = ref<HTMLElement | null>(div);
+    const cancelSpy = vi.spyOn(window, "cancelAnimationFrame");
+    const removeSpy = vi.spyOn(div, "removeEventListener");
+
+    const { wrapper } = withSetup(() => useContainerScroll(container));
+    await wrapper.vm.$nextTick();
+
+    div.dispatchEvent(new Event("scroll"));
+    wrapper.unmount();
+
+    expect(removeSpy).toHaveBeenCalledWith("scroll", expect.any(Function));
+    cancelSpy.mockRestore();
+    removeSpy.mockRestore();
+  });
+
+  it("handleScroll skips when scrollEl is null during RAF", async () => {
+    const div = document.createElement("div");
+    div.style.overflow = "auto";
+    const container = ref<HTMLElement | null>(div);
+    const { result, wrapper } = withSetup(() => useContainerScroll(container));
+
+    await wrapper.vm.$nextTick();
+    container.value = null;
+    await wrapper.vm.$nextTick();
+
+    div.dispatchEvent(new Event("scroll"));
+    await new Promise((r) => setTimeout(r, 50));
+    expect(result.scrollTop.value).toBe(0);
+  });
+
+  it("handleScroll skips when rafId is already pending", async () => {
+    const div = document.createElement("div");
+    div.style.overflow = "auto";
+    div.style.height = "100px";
+    div.innerHTML = "<div style='height:1000px'></div>";
+    document.body.appendChild(div);
+
+    const container = ref<HTMLElement | null>(div);
+    const { result, wrapper } = withSetup(() => useContainerScroll(container));
+
+    await wrapper.vm.$nextTick();
+    div.dispatchEvent(new Event("scroll"));
+    div.dispatchEvent(new Event("scroll"));
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(result.scrollTop.value).toBe(0);
+    document.body.removeChild(div);
+  });
+
+  it("detaches from old element when target changes", async () => {
+    const div1 = document.createElement("div");
+    const div2 = document.createElement("div");
+    const container = ref<HTMLElement | null>(div1);
+    const removeSpy1 = vi.spyOn(div1, "removeEventListener");
+
+    const { wrapper } = withSetup(() => useContainerScroll(container));
+    await wrapper.vm.$nextTick();
+
+    container.value = div2;
+    await wrapper.vm.$nextTick();
+
+    expect(removeSpy1).toHaveBeenCalledWith("scroll", expect.any(Function));
+    removeSpy1.mockRestore();
+  });
+
+  it("does not detach on unmount when target is null", () => {
+    const container = ref<HTMLElement | null>(null);
+    const { wrapper } = withSetup(() => useContainerScroll(container));
+    expect(() => wrapper.unmount()).not.toThrow();
   });
 });

@@ -247,7 +247,7 @@ const hasError = computed(() => !!props.invalidText);
           'file-upload-zone--invalid': hasError,
         },
       ]"
-      @click="openFilePicker"
+      @click="(e) => e.target !== inputRef && openFilePicker()"
       @drop="handleDrop"
       @dragover="handleDragOver"
       @dragleave="handleDragLeave"

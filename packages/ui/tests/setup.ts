@@ -101,7 +101,10 @@ if (!customElements.get("bl-textarea")) {
     connectedCallback() {
       this.addEventListener("input", () => {
         this.dispatchEvent(
-          new CustomEvent("bl-input", { bubbles: true, detail: { target: this } }),
+          new CustomEvent("bl-input", {
+            bubbles: true,
+            detail: { target: this },
+          }),
         );
       });
     }
@@ -202,7 +205,10 @@ if (!customElements.get("bl-select")) {
     connectedCallback() {
       this.addEventListener("change", () => {
         this.dispatchEvent(
-          new CustomEvent("bl-change", { bubbles: true, detail: { target: this } }),
+          new CustomEvent("bl-change", {
+            bubbles: true,
+            detail: { target: this },
+          }),
         );
       });
     }
@@ -271,12 +277,15 @@ if (!customElements.get("bl-radio-group")) {
 
 if (!customElements.get("bl-dropdown")) {
   class BlDropdownStub extends HTMLElement {
-    _open = false;
+    _opened = false;
+    get opened() {
+      return this._opened;
+    }
     open() {
-      this._open = true;
+      this._opened = true;
     }
     close() {
-      this._open = false;
+      this._opened = false;
     }
     connectedCallback() {}
   }
@@ -297,13 +306,36 @@ if (!customElements.get("bl-datepicker")) {
   customElements.define("bl-datepicker", BlDatepickerStub);
 }
 
+if (!customElements.get("bl-accordion")) {
+  class BlAccordionStub extends HTMLElement {
+    open = false;
+    expand() {
+      this.open = true;
+    }
+    collapse() {
+      this.open = false;
+    }
+    connectedCallback() {}
+  }
+  customElements.define("bl-accordion", BlAccordionStub);
+}
+
+if (!customElements.get("bl-accordion-group")) {
+  customElements.define("bl-accordion-group", class extends HTMLElement {});
+}
+
+if (!customElements.get("bl-drawer")) {
+  class BlDrawerStub extends HTMLElement {
+    open = false;
+    connectedCallback() {}
+  }
+  customElements.define("bl-drawer", BlDrawerStub);
+}
+
 [
   "bl-icon",
   "bl-select-option",
   "bl-tooltip",
-  "bl-accordion",
-  "bl-accordion-group",
-  "bl-drawer",
   "bl-dropdown-group",
   "bl-dropdown-item",
   "bl-notification",

@@ -1,9 +1,9 @@
 import { mount } from "@vue/test-utils";
-import { defineComponent } from "vue";
 import { describe, expect, it, vi } from "vitest";
+import { defineComponent } from "vue";
 import * as XLSX from "xlsx";
-import { useFile } from "./file";
 import { z } from "zod";
+import { useFile } from "./file";
 
 function withSetup<T>(composable: () => T) {
   let result: T;
@@ -48,7 +48,10 @@ describe("useFile", () => {
     it("parses CSV without header", () => {
       const { result } = withSetup(() => useFile());
 
-      const parsed = result.parse("a,b,c\n1,2,3", { format: "csv", header: false });
+      const parsed = result.parse("a,b,c\n1,2,3", {
+        format: "csv",
+        header: false,
+      });
 
       expect(parsed.data).toEqual([
         ["a", "b", "c"],
@@ -102,13 +105,14 @@ describe("useFile", () => {
         dynamicTyping: true,
         transform: (row) =>
           typeof row === "object" && row !== null && "name" in row
-            ? { ...(row as object), upper: (row as { name: string }).name.toUpperCase() }
+            ? {
+                ...(row as object),
+                upper: (row as { name: string }).name.toUpperCase(),
+              }
             : null,
       });
 
-      expect(parsed.data).toEqual([
-        { name: "Alice", age: 30, upper: "ALICE" },
-      ]);
+      expect(parsed.data).toEqual([{ name: "Alice", age: 30, upper: "ALICE" }]);
     });
 
     it("applies schema validation for JSON", () => {
@@ -145,9 +149,9 @@ describe("useFile", () => {
     it("throws for Excel format in parse", () => {
       const { result } = withSetup(() => useFile());
 
-      expect(() =>
-        result.parse("data", { format: "xlsx" }),
-      ).toThrow("parse() does not support Excel format");
+      expect(() => result.parse("data", { format: "xlsx" })).toThrow(
+        "parse() does not support Excel format",
+      );
     });
   });
 
@@ -165,13 +169,22 @@ describe("useFile", () => {
       const wb = XLSX.utils.book_new();
       const ws = XLSX.utils.json_to_sheet([{ a: 1, b: 2 }]);
       XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-      const xlsxBuffer = XLSX.write(wb, { type: "array", bookType: "xlsx" }) as ArrayBuffer;
+      const xlsxBuffer = XLSX.write(wb, {
+        type: "array",
+        bookType: "xlsx",
+      }) as ArrayBuffer;
       const file = new File([xlsxBuffer], "sheet.xlsx", {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
 
-      const parsed = await result.parseFile(file, { format: "xlsx", header: false });
-      expect(parsed.data).toEqual([["a", "b"], [1, 2]]);
+      const parsed = await result.parseFile(file, {
+        format: "xlsx",
+        header: false,
+      });
+      expect(parsed.data).toEqual([
+        ["a", "b"],
+        [1, 2],
+      ]);
     });
 
     it("parseFile with schema validation error returns validationError", async () => {
@@ -197,7 +210,10 @@ describe("useFile", () => {
         dynamicTyping: true,
         transform: (row) =>
           typeof row === "object" && row !== null && "name" in row
-            ? { ...(row as object), upper: (row as { name: string }).name.toUpperCase() }
+            ? {
+                ...(row as object),
+                upper: (row as { name: string }).name.toUpperCase(),
+              }
             : null,
       });
 
@@ -241,12 +257,38 @@ describe("useFile", () => {
       expect(parsed.data).toEqual([{ x: 1 }]);
     });
 
+    it("parses Blob with CSV type detects format", async () => {
+      const { result } = withSetup(() => useFile());
+      const blob = new Blob(["a,b\n1,2"], { type: "text/csv" });
+
+      const parsed = await result.parseFile(blob);
+
+      expect(parsed.data).toEqual([["a", "b"], ["1", "2"]]);
+    });
+
+    it("parses Blob with spreadsheet type detects format", async () => {
+      const { result } = withSetup(() => useFile());
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet([{ x: 1 }]);
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      const blob = new Blob([XLSX.write(wb, { type: "array", bookType: "xlsx" }) as ArrayBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      const parsed = await result.parseFile(blob);
+
+      expect(parsed.data).toEqual([{ x: 1 }]);
+    });
+
     it("parses Excel file", async () => {
       const { result } = withSetup(() => useFile());
       const wb = XLSX.utils.book_new();
       const ws = XLSX.utils.json_to_sheet([{ a: 1, b: 2 }]);
       XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-      const xlsxBuffer = XLSX.write(wb, { type: "array", bookType: "xlsx" }) as ArrayBuffer;
+      const xlsxBuffer = XLSX.write(wb, {
+        type: "array",
+        bookType: "xlsx",
+      }) as ArrayBuffer;
       const file = new File([xlsxBuffer], "sheet.xlsx", {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
@@ -276,8 +318,10 @@ describe("useFile", () => {
       const file = new File([""], "data.xlsx");
 
       expect(() =>
-        result.parseStream(file, { format: "xlsx" }),
-      ).toThrow("parseStream does not support Excel format");
+        result.parseStream(file, { format: "xlsx" } as unknown as { format?: "csv" | "tsv" }),
+      ).toThrow(
+        "parseStream does not support Excel format",
+      );
     });
 
     it("calls chunk callback with transformed data", async () => {
@@ -303,7 +347,10 @@ describe("useFile", () => {
       const wb = XLSX.utils.book_new();
       const ws = XLSX.utils.json_to_sheet([{ a: 1 }, { a: 2 }, { a: 3 }]);
       XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-      const xlsxBuffer = XLSX.write(wb, { type: "array", bookType: "xlsx" }) as ArrayBuffer;
+      const xlsxBuffer = XLSX.write(wb, {
+        type: "array",
+        bookType: "xlsx",
+      }) as ArrayBuffer;
       const file = new File([xlsxBuffer], "sheet.xlsx", {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
@@ -361,11 +408,32 @@ describe("useFile", () => {
 
       const csv = result.create({
         fields: ["a", "b"],
-        data: [[1, 2], [3, 4]],
+        data: [
+          [1, 2],
+          [3, 4],
+        ],
       });
 
       expect(csv).toContain("a");
       expect(csv).toContain("b");
+    });
+
+    it("creates XLSX format", () => {
+      const { result } = withSetup(() => useFile());
+
+      const output = result.create([{ a: 1, b: 2 }], { format: "xlsx" });
+
+      expect(typeof output).toBe("string");
+      expect(output.length).toBeGreaterThan(0);
+    });
+
+    it("creates XLS format", () => {
+      const { result } = withSetup(() => useFile());
+
+      const output = result.create([{ a: 1 }], { format: "xls" });
+
+      expect(typeof output).toBe("string");
+      expect(output.length).toBeGreaterThan(0);
     });
 
     it("creates TSV with delimiter", () => {
@@ -426,8 +494,12 @@ describe("useFile", () => {
 
     it("downloads JSON with correct extension", () => {
       const { result } = withSetup(() => useFile());
-      const createSpy = vi.spyOn(URL, "createObjectURL").mockReturnValue("blob:test");
-      const revokeSpy = vi.spyOn(URL, "revokeObjectURL").mockImplementation(() => {});
+      const createSpy = vi
+        .spyOn(URL, "createObjectURL")
+        .mockReturnValue("blob:test");
+      const revokeSpy = vi
+        .spyOn(URL, "revokeObjectURL")
+        .mockImplementation(() => {});
 
       result.download([{ a: 1 }], "export", { format: "json" });
 
@@ -440,8 +512,12 @@ describe("useFile", () => {
 
     it("downloads xlsx with correct extension", () => {
       const { result } = withSetup(() => useFile());
-      const createSpy = vi.spyOn(URL, "createObjectURL").mockReturnValue("blob:test");
-      const revokeSpy = vi.spyOn(URL, "revokeObjectURL").mockImplementation(() => {});
+      const createSpy = vi
+        .spyOn(URL, "createObjectURL")
+        .mockReturnValue("blob:test");
+      const revokeSpy = vi
+        .spyOn(URL, "revokeObjectURL")
+        .mockImplementation(() => {});
 
       result.download([{ a: 1 }], "export", { format: "xlsx" });
 
@@ -451,8 +527,12 @@ describe("useFile", () => {
 
     it("download with filename that already has extension preserves it", () => {
       const { result } = withSetup(() => useFile());
-      const createSpy = vi.spyOn(URL, "createObjectURL").mockReturnValue("blob:test");
-      const revokeSpy = vi.spyOn(URL, "revokeObjectURL").mockImplementation(() => {});
+      const createSpy = vi
+        .spyOn(URL, "createObjectURL")
+        .mockReturnValue("blob:test");
+      const revokeSpy = vi
+        .spyOn(URL, "revokeObjectURL")
+        .mockImplementation(() => {});
 
       result.download([{ a: 1 }], "export.csv", { format: "csv" });
 

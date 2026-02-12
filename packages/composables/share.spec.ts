@@ -16,9 +16,6 @@ function withSetup<T>(composable: () => T) {
 }
 
 describe("useShare", () => {
-  const originalShare = navigator.share;
-  const originalCanShare = navigator.canShare;
-
   beforeEach(() => {
     vi.stubGlobal(
       "navigator",
@@ -27,6 +24,25 @@ describe("useShare", () => {
         canShare: vi.fn().mockReturnValue(true),
       }),
     );
+  });
+
+  it("canShare uses canShare with files when data has files", () => {
+    const files = [new File(["x"], "x.txt")];
+    const canShareMock = vi.fn().mockReturnValue(true);
+    vi.stubGlobal(
+      "navigator",
+      Object.assign({}, navigator, {
+        share: vi.fn().mockResolvedValue(undefined),
+        canShare: canShareMock,
+      }),
+    );
+
+    const { result } = withSetup(() =>
+      useShare({ data: { files } }),
+    );
+
+    expect(result.canShare.value).toBe(true);
+    expect(canShareMock).toHaveBeenCalledWith({ files });
   });
 
   afterEach(() => {
@@ -144,6 +160,21 @@ describe("useShare", () => {
     const ok = await result.share();
     expect(ok).toBe(false);
     expect(result.error.value).toBeNull();
+  });
+
+  it("canShare with files when canShare returns false", () => {
+    vi.stubGlobal("navigator", {
+      ...navigator,
+      share: vi.fn().mockResolvedValue(undefined),
+      canShare: vi.fn().mockReturnValue(false),
+    });
+    const file = new File(["x"], "test.txt");
+    const { result } = withSetup(() =>
+      useShare({ data: { files: [file] } }),
+    );
+
+    expect(result.canShare.value).toBe(false);
+    vi.unstubAllGlobals();
   });
 
   it("canShare with files when canShare returns true", async () => {

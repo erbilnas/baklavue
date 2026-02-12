@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { defineComponent } from "vue";
 import { describe, expect, it, vi } from "vitest";
+import { defineComponent, ref } from "vue";
 import { useQuery, useQueryClient } from "./query";
 
 function withSetup<T>(composable: () => T) {
@@ -238,5 +238,110 @@ describe("useQuery advanced", () => {
     await new Promise((r) => setTimeout(r, 50));
     expect(result.data.value).toEqual({ value: 42 });
     expect(queryFn).not.toHaveBeenCalled();
+  });
+
+  it("does not refetch on focus when staleTime is set and cache is fresh", async () => {
+    const client = useQueryClient();
+    client.setQueryData(["fresh-focus"], { value: 1 });
+
+    const queryFn = vi.fn().mockResolvedValue({ value: 2 });
+
+    withSetup(() =>
+      useQuery({
+        queryKey: ["fresh-focus"],
+        queryFn: queryFn as () => Promise<unknown>,
+        staleTime: 60_000,
+        refetchOnWindowFocus: true,
+        refetchOnReconnect: false,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    const callCountAfterMount = queryFn.mock.calls.length;
+
+    window.dispatchEvent(new Event("focus"));
+    await new Promise((r) => setTimeout(r, 50));
+    expect(queryFn.mock.calls.length).toBe(callCountAfterMount);
+  });
+
+  it("refetches on reconnect when enabled", async () => {
+    const queryFn = vi.fn().mockResolvedValue({ id: 1 });
+
+    withSetup(() =>
+      useQuery({
+        queryKey: ["reconnect-test"],
+        queryFn: queryFn as () => Promise<unknown>,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: true,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    const callCountBefore = queryFn.mock.calls.length;
+
+    window.dispatchEvent(new Event("online"));
+    await new Promise((r) => setTimeout(r, 100));
+    expect(queryFn.mock.calls.length).toBeGreaterThan(callCountBefore);
+  });
+
+  it("uses retryDelay as number when provided", async () => {
+    const err = new Error("fail");
+    const queryFn = vi.fn().mockRejectedValue(err);
+
+    const { result } = withSetup(() =>
+      useQuery({
+        queryKey: ["retry-num"],
+        queryFn: queryFn as () => Promise<unknown>,
+        retry: 1,
+        retryDelay: 5,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 100));
+    expect(result.error.value).toEqual(err);
+  });
+
+  it("refetchInterval polls when set", async () => {
+    const queryFn = vi.fn().mockResolvedValue({ id: 1 });
+
+    withSetup(() =>
+      useQuery({
+        queryKey: ["poll-test"],
+        queryFn: queryFn as () => Promise<unknown>,
+        refetchInterval: 100,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    expect(queryFn).toHaveBeenCalledTimes(1);
+
+    await new Promise((r) => setTimeout(r, 150));
+    expect(queryFn.mock.calls.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("restores initialData when enabled becomes false", async () => {
+    const initialData = { id: 0 };
+    const queryFn = vi.fn().mockResolvedValue({ id: 1 });
+    const enabledRef = ref(true);
+
+    const { result } = withSetup(() =>
+      useQuery({
+        queryKey: ["enabled-toggle"],
+        queryFn: queryFn as () => Promise<unknown>,
+        initialData,
+        enabled: enabledRef,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      }),
+    );
+
+    await new Promise((r) => setTimeout(r, 50));
+    expect(result.data.value).toEqual({ id: 1 });
+
+    enabledRef.value = false;
+    await new Promise((r) => setTimeout(r, 50));
+    expect(result.data.value).toEqual(initialData);
   });
 });

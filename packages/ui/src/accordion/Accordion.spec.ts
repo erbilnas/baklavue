@@ -40,4 +40,36 @@ describe("BvAccordion", () => {
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted("toggle")).toEqual([[true]]);
   });
+
+  it("emits toggle false when detail is false", async () => {
+    const wrapper = mount(BvAccordion, {
+      props: { caption: "Test" },
+      slots: { default: "Content" },
+    });
+    wrapper.find("bl-accordion").element.dispatchEvent(
+      new CustomEvent("bl-toggle", { bubbles: true, detail: false }),
+    );
+    await wrapper.vm.$nextTick();
+    expect(wrapper.emitted("toggle")).toEqual([[false]]);
+  });
+
+  it("passes disabled to bl-accordion in single mode", () => {
+    const wrapper = mount(BvAccordion, {
+      props: { caption: "Test", disabled: true },
+      slots: { default: "Content" },
+    });
+    expect(wrapper.find("bl-accordion").element.hasAttribute("disabled")).toBe(true);
+  });
+
+  it("exposes expand and collapse methods", () => {
+    const wrapper = mount(BvAccordion, {
+      props: { caption: "Test" },
+      slots: { default: "Content" },
+    });
+    const vm = wrapper.vm as unknown as { expand: () => void; collapse: () => void };
+    expect(typeof vm.expand).toBe("function");
+    expect(typeof vm.collapse).toBe("function");
+    vm.expand();
+    vm.collapse();
+  });
 });

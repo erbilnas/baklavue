@@ -125,7 +125,7 @@ describe("usePolling", () => {
 
     const handler = addSpy.mock.calls.find(
       (c) => c[0] === "visibilitychange",
-    )?.[1];
+    )?.[1] as (() => void) | undefined;
 
     Object.defineProperty(document, "hidden", {
       value: true,

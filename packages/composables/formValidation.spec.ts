@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { defineComponent, ref } from "vue";
 import { describe, expect, it, vi } from "vitest";
+import { defineComponent, ref } from "vue";
 import { z } from "zod";
 import { useZodForm } from "./formValidation";
 
@@ -149,7 +149,7 @@ describe("useZodForm", () => {
     result.setFieldValue("email", "new@example.com");
     await wrapper.vm.$nextTick();
 
-    expect(form.value.email).toBe("new@example.com");
+    expect(form.value["email"]).toBe("new@example.com");
   });
 
   it("reset clears state and optionally sets new initial values", async () => {
@@ -166,7 +166,7 @@ describe("useZodForm", () => {
     expect(result.errors.value).toBeNull();
     expect(result.isSubmitted.value).toBe(false);
     expect(result.submitCount.value).toBe(0);
-    expect(form.value.email).toBe("reset@example.com");
+    expect(form.value["email"]).toBe("reset@example.com");
   });
 
   it("handleSubmit validates and calls onSubmit when valid", async () => {
@@ -296,7 +296,10 @@ describe("useZodForm", () => {
     result.setFieldError("email", "err");
     result.reset();
     await wrapper.vm.$nextTick();
-    expect(result.initialValues.value).toEqual({ email: "a@b.com", password: "password123" });
+    expect(result.initialValues.value).toEqual({
+      email: "a@b.com",
+      password: "password123",
+    });
   });
 
   it("getError returns undefined when no errors", () => {
@@ -339,5 +342,43 @@ describe("useZodForm", () => {
 
     result.setFieldValue("email", "new@example.com");
     expect(reactiveForm.value.email).toBe("new@example.com");
+  });
+
+  it("eager mode with debounce debounces validation", async () => {
+    const form = ref({ email: "invalid", password: "short" });
+    const { result, wrapper } = withSetup(() =>
+      useZodForm(testSchema, form, { mode: "eager", debounce: 50 }),
+    );
+
+    form.value.email = "still-invalid";
+    await wrapper.vm.$nextTick();
+    await new Promise((r) => setTimeout(r, 30));
+    form.value.email = "another-invalid";
+    await wrapper.vm.$nextTick();
+    await new Promise((r) => setTimeout(r, 60));
+    expect(result.errors.value).not.toBeNull();
+  });
+
+  it("scrollToFirstError returns success false when no errors", () => {
+    const form = ref({ email: "test@example.com", password: "password123" });
+    const { result } = withSetup(() =>
+      useZodForm(testSchema, form, { mode: "lazy" }),
+    );
+
+    const r = result.scrollToFirstError();
+    expect(r.success).toBe(false);
+  });
+
+  it("validateField mergeFieldErrors removes path when field valid", async () => {
+    const form = ref({ email: "invalid", password: "password123" });
+    const { result } = withSetup(() =>
+      useZodForm(testSchema, form, { mode: "lazy" }),
+    );
+
+    await result.validate();
+    expect(result.errors.value).toHaveProperty("email");
+    form.value.email = "valid@example.com";
+    await result.validateField("email");
+    expect(result.errors.value?.["email"]).toBeUndefined();
   });
 });

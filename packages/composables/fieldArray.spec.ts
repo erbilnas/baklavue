@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { defineComponent, ref } from "vue";
 import { describe, expect, it } from "vitest";
+import { defineComponent, ref } from "vue";
 import { useFieldArray } from "./fieldArray";
 
 function withSetup<T>(composable: () => T) {
@@ -114,11 +114,57 @@ describe("useFieldArray", () => {
 
   it("keyName option supports custom key extractor", () => {
     const arr = ref([{ id: "1", name: "a" }]);
-    const { result } = withSetup(() =>
-      useFieldArray(arr, { keyName: "id" }),
-    );
+    const { result } = withSetup(() => useFieldArray(arr, { keyName: "id" }));
 
     expect(result.fields.value[0]?.value).toEqual({ id: "1", name: "a" });
+    expect(result.fields.value[0]?.key).toBe("1");
+  });
+
+  it("keyName property falls back to generated key when value is null", () => {
+    const arr = ref([{ id: null as unknown as string, name: "a" }]);
+    const { result } = withSetup(() => useFieldArray(arr, { keyName: "id" }));
+
     expect(result.fields.value[0]?.key).toBeTruthy();
+    expect(typeof result.fields.value[0]?.key).toBe("string");
+  });
+
+  it("keyName as function returns custom key from item and index", () => {
+    const arr = ref([
+      { name: "a", slug: "item-a" },
+      { name: "b", slug: "item-b" },
+    ]);
+    const { result } = withSetup(() =>
+      useFieldArray(arr, {
+        keyName: (item, index) =>
+          `${(item as { slug: string }).slug}-${index}`,
+      }),
+    );
+
+    expect(result.fields.value[0]?.key).toBe("item-a-0");
+    expect(result.fields.value[1]?.key).toBe("item-b-1");
+  });
+
+  it("syncKeys removes keys when array shrinks", async () => {
+    const arr = ref(["a", "b", "c"]);
+    const { result, wrapper } = withSetup(() => useFieldArray(arr));
+
+    expect(result.fields.value).toHaveLength(3);
+
+    arr.value = ["a", "b"];
+    await wrapper.vm.$nextTick();
+    expect(result.fields.value).toHaveLength(2);
+  });
+
+  it("syncKeys adds keys when array grows", async () => {
+    const arr = ref<string[]>([]);
+    const { result, wrapper } = withSetup(() => useFieldArray(arr));
+
+    result.push("a");
+    await wrapper.vm.$nextTick();
+    result.push("b");
+    await wrapper.vm.$nextTick();
+
+    expect(result.fields.value).toHaveLength(2);
+    expect(result.fields.value[0]?.key).not.toBe(result.fields.value[1]?.key);
   });
 });

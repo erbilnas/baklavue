@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { defineComponent } from "vue";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { defineComponent } from "vue";
 import { useBreakpoints, useMediaQuery, useWindowSize } from "./breakpoints";
 
 function withSetup<T>(composable: () => T) {
@@ -51,6 +51,37 @@ describe("useBreakpoints", () => {
     expect(result.isMobile.value).toBe(true);
   });
 
+  it("detects tablet at boundary width", async () => {
+    const { result, wrapper } = withSetup(() => useBreakpoints());
+
+    Object.defineProperty(window, "innerWidth", {
+      writable: true,
+      configurable: true,
+      value: 900,
+    });
+    window.dispatchEvent(new Event("resize"));
+    await wrapper.vm.$nextTick();
+
+    expect(result.isMobile.value).toBe(false);
+    expect(result.isTablet.value).toBe(true);
+    expect(result.isDesktop.value).toBe(false);
+  });
+
+  it("detects desktop at and above tablet max", async () => {
+    const { result, wrapper } = withSetup(() => useBreakpoints());
+
+    Object.defineProperty(window, "innerWidth", {
+      writable: true,
+      configurable: true,
+      value: 1100,
+    });
+    window.dispatchEvent(new Event("resize"));
+    await wrapper.vm.$nextTick();
+
+    expect(result.isDesktop.value).toBe(true);
+    expect(result.isTablet.value).toBe(false);
+  });
+
   it("removes resize listener on unmount", () => {
     const removeSpy = vi.spyOn(window, "removeEventListener");
     const { wrapper } = withSetup(() => useBreakpoints());
@@ -67,14 +98,20 @@ describe("useMediaQuery", () => {
   });
 
   it("updates when media query changes", async () => {
-    const mediaQuery = { matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() };
+    const mediaQuery = {
+      matches: false,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    };
     const originalMatchMedia = window.matchMedia;
     Object.defineProperty(window, "matchMedia", {
       value: () => mediaQuery,
       configurable: true,
     });
 
-    const { result, wrapper } = withSetup(() => useMediaQuery("(max-width: 768px)"));
+    const { result, wrapper } = withSetup(() =>
+      useMediaQuery("(max-width: 768px)"),
+    );
     expect(result.value).toBe(false);
 
     const handler = mediaQuery.addEventListener.mock.calls[0][1];

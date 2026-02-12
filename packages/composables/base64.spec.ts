@@ -37,7 +37,7 @@ describe("useBase64", () => {
   });
 
   it("encodes string to raw base64 when dataUrl is false", async () => {
-    const { result, wrapper } = withSetup(() =>
+    const { result } = withSetup(() =>
       useBase64("AB", { dataUrl: false }),
     );
 
@@ -197,6 +197,86 @@ describe("useBase64", () => {
     const encoded = await result.execute();
     expect(encoded).toBe("");
     expect(result.base64.value).toBe("");
+  });
+
+  it("handles blob readAsDataURL result without comma in split fallback", async () => {
+    const blob = new Blob(["test"], { type: "text/plain" });
+    vi.spyOn(FileReader.prototype, "readAsDataURL").mockImplementation(function (this: FileReader) {
+      queueMicrotask(() => {
+        Object.defineProperty(this, "result", { value: "no-comma-here", configurable: true });
+        (this as unknown as { onload: () => void }).onload?.();
+      });
+    });
+
+    const { result } = withSetup(() => useBase64(blob, { dataUrl: false }));
+    const encoded = await result.execute();
+    expect(encoded).toBe("");
+    vi.restoreAllMocks();
+  });
+
+  it("handles canvas toDataURL result without comma in split fallback", async () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 10;
+    canvas.height = 10;
+    vi.spyOn(HTMLCanvasElement.prototype, "toDataURL").mockReturnValue("invalid-no-comma");
+
+    const { result } = withSetup(() =>
+      useBase64(canvas, { type: "image/png", dataUrl: false }),
+    );
+    const encoded = await result.execute();
+    expect(encoded).toBe("");
+    vi.restoreAllMocks();
+  });
+
+  it("rejects when canvas getContext returns null", async () => {
+    const img = document.createElement("img") as HTMLImageElement;
+    Object.defineProperties(img, {
+      complete: { value: false, configurable: true },
+      naturalWidth: { value: 0, configurable: true },
+      naturalHeight: { value: 0, configurable: true },
+    });
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
+
+    const { result } = withSetup(() => useBase64(img));
+
+    const loadPromise = result.execute();
+    Object.defineProperties(img, {
+      complete: { value: true, configurable: true },
+      naturalWidth: { value: 1, configurable: true },
+      naturalHeight: { value: 1, configurable: true },
+    });
+    img.dispatchEvent(new Event("load"));
+
+    await expect(loadPromise).rejects.toThrow("Could not get canvas context");
+    vi.restoreAllMocks();
+  });
+
+  it("encodes HTMLImageElement when not yet loaded waits for onload", async () => {
+    const img = document.createElement("img") as HTMLImageElement;
+    Object.defineProperties(img, {
+      complete: { value: false, configurable: true },
+      naturalWidth: { value: 0, configurable: true },
+      naturalHeight: { value: 0, configurable: true },
+    });
+
+    const mockDataUrl = "data:image/png;base64,mockImageBase64==";
+    vi.spyOn(HTMLCanvasElement.prototype, "toDataURL").mockReturnValue(mockDataUrl);
+    const mockCtx = { drawImage: vi.fn() };
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(mockCtx as unknown as CanvasRenderingContext2D);
+
+    const { result } = withSetup(() => useBase64(img));
+    const loadPromise = result.execute();
+
+    Object.defineProperties(img, {
+      complete: { value: true, configurable: true },
+      naturalWidth: { value: 1, configurable: true },
+      naturalHeight: { value: 1, configurable: true },
+    });
+    img.dispatchEvent(new Event("load"));
+
+    const encoded = await loadPromise;
+    expect(encoded).toMatch(/^data:image\/png;base64,/);
+    vi.restoreAllMocks();
   });
 
   afterEach(() => {

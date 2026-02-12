@@ -112,6 +112,23 @@ describe("useBaklavaTheme", () => {
     expect(styleEl?.textContent).toContain("--bl-font-family");
   });
 
+  it("applyTheme with typography fontSize and fontWeight", () => {
+    const { result } = withSetup(() => useBaklavaTheme());
+
+    result.applyTheme({
+      typography: {
+        fontSize: { base: "16px", large: "20px" },
+        fontWeight: { regular: 400, bold: 700 },
+      },
+    });
+
+    const styleEl = document.getElementById("baklavue-theme-overrides");
+    expect(styleEl?.textContent).toContain("--bl-font-size-base");
+    expect(styleEl?.textContent).toContain("--bl-font-size-large");
+    expect(styleEl?.textContent).toContain("--bl-font-weight-regular");
+    expect(styleEl?.textContent).toContain("--bl-font-weight-bold");
+  });
+
   it("applyTheme with zIndex override", () => {
     const { result } = withSetup(() => useBaklavaTheme());
 

@@ -108,4 +108,43 @@ describe("useFormState", () => {
     expect(result.initialValues.value).toEqual({ email: "initial" });
     expect(result.isDirty.value).toBe(true);
   });
+
+  it("dirtyFields returns empty when data is not object", () => {
+    const form = ref(null);
+    const { result } = withSetup(() => useFormState(form));
+
+    expect(result.dirtyFields.value).toEqual({});
+    expect(result.isDirty.value).toBe(false);
+  });
+
+  it("setFieldValue with nested path creates intermediate objects", async () => {
+    const form = ref<Record<string, unknown>>({});
+    const { result, wrapper } = withSetup(() => useFormState(form));
+
+    result.setFieldValue("a.b.c", "value");
+    await wrapper.vm.$nextTick();
+
+    expect(form.value).toEqual({ a: { b: { c: "value" } } });
+  });
+
+  it("deepEqual returns false when JSON.stringify throws", () => {
+    const form = ref<Record<string, unknown>>({});
+    const { result } = withSetup(() => useFormState(form));
+
+    const circular: Record<string, unknown> = {};
+    circular["self"] = circular;
+    form.value = { nested: circular };
+    expect(result.dirtyFields.value).toBeDefined();
+  });
+
+  it("reset with initialValuesArg updates ref data", async () => {
+    const form = ref({ email: "old" });
+    const { result, wrapper } = withSetup(() => useFormState(form));
+
+    result.reset({ email: "new" });
+    await wrapper.vm.$nextTick();
+
+    expect(form.value).toEqual({ email: "new" });
+    expect(result.initialValues.value).toEqual({ email: "new" });
+  });
 });

@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import { defineComponent } from "vue";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { defineComponent } from "vue";
 import { useScrollToError } from "./scrollToError";
 
 function withSetup<T>(composable: () => T) {
@@ -117,7 +117,9 @@ describe("useScrollToError", () => {
     container.appendChild(child);
     document.body.appendChild(container);
 
-    const scrollToSpy = vi.spyOn(container, "scrollTo").mockImplementation(() => {});
+    const scrollToSpy = vi
+      .spyOn(container, "scrollTo")
+      .mockImplementation(() => {});
 
     const { result } = withSetup(() => useScrollToError());
 
@@ -174,7 +176,9 @@ describe("useScrollToError", () => {
     div.id = "offset-target";
     document.body.appendChild(div);
 
-    const scrollIntoViewSpy = vi.spyOn(div, "scrollIntoView").mockImplementation(() => {});
+    const scrollIntoViewSpy = vi
+      .spyOn(div, "scrollIntoView")
+      .mockImplementation(() => {});
 
     const { result } = withSetup(() => useScrollToError());
 
@@ -185,5 +189,156 @@ describe("useScrollToError", () => {
     expect(r.success).toBe(true);
     expect(scrollIntoViewSpy).toHaveBeenCalled();
     scrollIntoViewSpy.mockRestore();
+  });
+
+  it("scrolls with block end", () => {
+    const div = document.createElement("div");
+    div.id = "block-end-target";
+    document.body.appendChild(div);
+
+    const scrollIntoViewSpy = vi
+      .spyOn(div, "scrollIntoView")
+      .mockImplementation(() => {});
+
+    const { result } = withSetup(() => useScrollToError());
+
+    result.scrollToError("#block-end-target", { block: "end" });
+
+    expect(scrollIntoViewSpy).toHaveBeenCalledWith({
+      behavior: "smooth",
+      block: "end",
+    });
+    scrollIntoViewSpy.mockRestore();
+  });
+
+  it("scrolls container with block start", () => {
+    const container = document.createElement("div");
+    container.id = "block-container";
+    const child = document.createElement("div");
+    child.id = "block-child";
+    container.appendChild(child);
+    document.body.appendChild(container);
+
+    const scrollToSpy = vi
+      .spyOn(container, "scrollTo")
+      .mockImplementation(() => {});
+
+    const { result } = withSetup(() => useScrollToError());
+
+    const r = result.scrollToError("#block-child", {
+      scrollContainer: container,
+      block: "start",
+    });
+
+    expect(r.success).toBe(true);
+    expect(scrollToSpy).toHaveBeenCalled();
+    scrollToSpy.mockRestore();
+  });
+
+  it("uses block nearest when element above viewport", () => {
+    const container = document.createElement("div");
+    container.id = "nearest-container";
+    container.style.height = "200px";
+    container.style.overflow = "auto";
+    const child = document.createElement("div");
+    child.id = "nearest-child";
+    child.style.height = "50px";
+    container.appendChild(child);
+    document.body.appendChild(container);
+
+    Object.defineProperty(container, "scrollTop", {
+      value: 100,
+      writable: true,
+    });
+    Object.defineProperty(container, "clientHeight", {
+      value: 200,
+      writable: true,
+    });
+    child.getBoundingClientRect = () =>
+      ({ top: -50, bottom: 0 } as DOMRect);
+    container.getBoundingClientRect = () =>
+      ({ top: 0, bottom: 200 } as DOMRect);
+
+    const scrollToSpy = vi
+      .spyOn(container, "scrollTo")
+      .mockImplementation(() => {});
+
+    const { result } = withSetup(() => useScrollToError());
+
+    result.scrollToError("#nearest-child", {
+      scrollContainer: container,
+      block: "nearest",
+    });
+
+    expect(scrollToSpy).toHaveBeenCalled();
+    scrollToSpy.mockRestore();
+  });
+
+  it("announce false skips screen reader announcement", () => {
+    const div = document.createElement("div");
+    div.id = "no-announce";
+    document.body.appendChild(div);
+
+    const { result } = withSetup(() => useScrollToError());
+
+    result.scrollToError("#no-announce", { announce: false });
+
+    const announcer = document.getElementById("scroll-to-error-announcer");
+    expect(announcer?.textContent ?? "").toBe("");
+  });
+
+  it("scrolls container with block end", () => {
+    const container = document.createElement("div");
+    container.id = "block-end-container";
+    const child = document.createElement("div");
+    child.id = "block-end-child";
+    container.appendChild(child);
+    document.body.appendChild(container);
+
+    const scrollToSpy = vi
+      .spyOn(container, "scrollTo")
+      .mockImplementation(() => {});
+
+    const { result } = withSetup(() => useScrollToError());
+
+    result.scrollToError("#block-end-child", {
+      scrollContainer: container,
+      block: "end",
+    });
+
+    expect(scrollToSpy).toHaveBeenCalled();
+    scrollToSpy.mockRestore();
+  });
+
+  it("focuses inner input when element has nested input", async () => {
+    const div = document.createElement("div");
+    div.id = "nested-input";
+    const customEl = document.createElement("div");
+    customEl.className = "bl-form-control";
+    const input = document.createElement("input");
+    input.type = "text";
+    customEl.appendChild(input);
+    div.appendChild(customEl);
+    document.body.appendChild(div);
+
+    const focusSpy = vi.spyOn(input, "focus").mockImplementation(() => {});
+
+    const { result } = withSetup(() => useScrollToError());
+
+    result.scrollToError("#nested-input", { focusDelay: 10 });
+
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(focusSpy).toHaveBeenCalled();
+    focusSpy.mockRestore();
+  });
+
+  it("returns success false for object with non-string scrollTarget", () => {
+    const { result } = withSetup(() => useScrollToError());
+
+    const r = result.scrollToError({
+      scrollTarget: 123 as unknown as string,
+    } as { scrollTarget: string });
+    expect(r.success).toBe(false);
   });
 });

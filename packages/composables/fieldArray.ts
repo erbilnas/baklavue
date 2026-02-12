@@ -83,7 +83,9 @@ export function useFieldArray<T>(
         return String(options.keyName(item, index));
       }
       const val = (item as Record<string, unknown>)[options.keyName as string];
-      return val != null ? String(val) : keys.value[index] ?? generateFieldKey();
+      return val != null
+        ? String(val)
+        : (keys.value[index] ?? generateFieldKey());
     }
     return keys.value[index] ?? generateFieldKey();
   };
@@ -92,7 +94,7 @@ export function useFieldArray<T>(
     const arr = arrayRef.value;
     syncKeys();
     return arr.map((value, index) => ({
-      key: keys.value[index] ?? getKey(value, index),
+      key: options.keyName ? getKey(value, index) : (keys.value[index] ?? generateFieldKey()),
       value,
       index,
     }));

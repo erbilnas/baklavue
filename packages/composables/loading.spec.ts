@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { defineComponent } from "vue";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useLoading } from "./loading";
 
 function withSetup<T>(composable: () => T) {

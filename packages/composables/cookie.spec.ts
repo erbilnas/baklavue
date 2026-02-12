@@ -153,4 +153,96 @@ describe("useCookie", () => {
 
     expect(result.get()).toBe("default");
   });
+
+  it("get calls onError and returns current value when serializer read throws", async () => {
+    const key2 = "test-get-error-" + Math.random();
+    document.cookie = `${key2}=invalid; path=/`;
+    const onError = vi.fn();
+
+    const { result, wrapper } = withSetup(() =>
+      useCookie<string>(key2, "default", {
+        serializer: {
+          read: () => {
+            throw new Error("parse error");
+          },
+          write: (v) => JSON.stringify(v),
+        },
+        onError,
+      }),
+    );
+
+    result.set("x");
+    await wrapper.vm.$nextTick();
+    const got = result.get();
+    expect(onError).toHaveBeenCalled();
+    expect(got).toBe("x");
+
+    document.cookie = `${key2}=; path=/; max-age=0`;
+  });
+
+  it("uses expires when maxAge is not set", async () => {
+    const key2 = "test-expires-" + Math.random();
+    const expires = new Date(Date.now() + 86400000);
+    const { result, wrapper } = withSetup(() =>
+      useCookie(key2, "default", { path: "/", expires }),
+    );
+
+    result.set("with-expires");
+    await wrapper.vm.$nextTick();
+
+    expect(result.value.value).toBe("with-expires");
+    expect(document.cookie).toContain(key2);
+    document.cookie = `${key2}=; path=/; max-age=0`;
+  });
+
+  it("uses domain in removeItem when set", async () => {
+    const key2 = "test-domain-remove-" + Math.random();
+    const { result, wrapper } = withSetup(() =>
+      useCookie(key2, "default", { path: "/", domain: "example.com" }),
+    );
+
+    result.set("value");
+    await wrapper.vm.$nextTick();
+    result.remove();
+    await wrapper.vm.$nextTick();
+
+    expect(result.value.value).toBe("default");
+  });
+
+  it("skips cookie entries without equals sign in getItem loop", () => {
+    const key2 = "test-malformed-" + Math.random();
+    document.cookie = `${key2}=${encodeURIComponent(JSON.stringify("ok"))}; path=/`;
+
+    const { result } = withSetup(() => useCookie(key2, "default"));
+
+    expect(result.value.value).toBe("ok");
+    document.cookie = `${key2}=; path=/; max-age=0`;
+  });
+
+  it("returns defaultValue when document is undefined (SSR)", () => {
+    const key2 = "test-ssr-" + Math.random();
+    const originalDocument = globalThis.document;
+    Object.defineProperty(globalThis, "document", {
+      value: undefined,
+      configurable: true,
+      writable: true,
+    });
+
+    const result = useCookie(key2, "ssr-default");
+
+    expect(result.value.value).toBe("ssr-default");
+    expect(result.get()).toBe("ssr-default");
+
+    result.set("updated" as string);
+    expect(result.value.value).toBe("updated");
+
+    result.remove();
+    expect(result.value.value).toBe("ssr-default");
+
+    Object.defineProperty(globalThis, "document", {
+      value: originalDocument,
+      configurable: true,
+      writable: true,
+    });
+  });
 });

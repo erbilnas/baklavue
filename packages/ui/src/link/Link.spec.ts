@@ -33,4 +33,37 @@ describe("BvLink", () => {
     });
     expect(wrapper.text()).toContain("Link text");
   });
+
+  it("omits href and sets aria-disabled and tabindex when disabled", () => {
+    const wrapper = mount(BvLink, {
+      props: { href: "/disabled-page", disabled: true },
+    });
+    const el = wrapper.find("bl-link").element;
+    expect(el.getAttribute("href")).toBeNull();
+    expect(el.getAttribute("aria-disabled")).toBe("true");
+    expect(el.getAttribute("tabindex")).toBe("-1");
+    expect(wrapper.find(".bv-link--disabled").exists()).toBe(true);
+  });
+
+  it("prevents click and does not emit when disabled", async () => {
+    const wrapper = mount(BvLink, {
+      props: { href: "/test", disabled: true },
+    });
+    const event = new CustomEvent("bl-click", { bubbles: true, cancelable: true });
+    wrapper.find("bl-link").element.dispatchEvent(event);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.emitted("click")).toBeUndefined();
+  });
+
+  it("renders icon slot content", () => {
+    const wrapper = mount(BvLink, {
+      props: { href: "/" },
+      slots: {
+        icon: '<span class="test-icon">icon</span>',
+        default: "With icon",
+      },
+    });
+    expect(wrapper.find(".test-icon").exists()).toBe(true);
+    expect(wrapper.text()).toContain("With icon");
+  });
 });

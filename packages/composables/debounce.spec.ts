@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { defineComponent, ref } from "vue";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useDebounceFn, useDebouncedRef } from "./debounce";
 
 function withSetup<T>(composable: () => T) {
@@ -116,6 +116,19 @@ describe("useDebouncedRef", () => {
     wrapper.unmount();
     vi.advanceTimersByTime(200);
     expect(result.value).toBe("initial");
+  });
+
+  it("clears timeout in onUnmounted when pending", async () => {
+    const source = ref("a");
+    const clearSpy = vi.spyOn(globalThis, "clearTimeout");
+    const { wrapper } = withSetup(() => useDebouncedRef(source, 200));
+
+    source.value = "b";
+    await wrapper.vm.$nextTick();
+    wrapper.unmount();
+
+    expect(clearSpy).toHaveBeenCalled();
+    clearSpy.mockRestore();
   });
 
   it("clears previous timeout when scheduleUpdate runs with pending timeout", async () => {
