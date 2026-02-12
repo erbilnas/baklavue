@@ -15,6 +15,10 @@ export default defineConfig({
   description: "Vue 3 UI kit for Trendyol Baklava Design System",
   base: "/baklavue/",
 
+  sitemap: {
+    hostname: "https://erbilnas.github.io/baklavue/",
+  },
+
   head: [
     ["link", { rel: "icon", href: "/baklavue/logo.png" }],
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
@@ -27,6 +31,58 @@ export default defineConfig({
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap",
+      },
+    ],
+    ["meta", { property: "og:type", content: "website" }],
+    [
+      "meta",
+      {
+        property: "og:title",
+        content: "BaklaVue - Vue 3 UI Kit for Baklava Design System",
+      },
+    ],
+    [
+      "meta",
+      {
+        property: "og:description",
+        content: "Vue 3 UI kit for Trendyol Baklava Design System",
+      },
+    ],
+    [
+      "meta",
+      {
+        property: "og:image",
+        content: "https://erbilnas.github.io/baklavue/logo.png",
+      },
+    ],
+    [
+      "meta",
+      {
+        property: "og:url",
+        content: "https://erbilnas.github.io/baklavue/",
+      },
+    ],
+    ["meta", { property: "og:site_name", content: "BaklaVue" }],
+    ["meta", { name: "twitter:card", content: "summary" }],
+    [
+      "meta",
+      {
+        name: "twitter:title",
+        content: "BaklaVue - Vue 3 UI Kit for Baklava Design System",
+      },
+    ],
+    [
+      "meta",
+      {
+        name: "twitter:description",
+        content: "Vue 3 UI kit for Trendyol Baklava Design System",
+      },
+    ],
+    [
+      "meta",
+      {
+        name: "twitter:image",
+        content: "https://erbilnas.github.io/baklavue/logo.png",
       },
     ],
   ],
