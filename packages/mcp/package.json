@@ -1,6 +1,6 @@
 {
   "name": "@baklavue/mcp",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "MCP server for Baklavue - Vue 3 UI kit for Baklava Design System",
   "type": "module",
   "main": "dist/index.js",
@@ -24,7 +24,13 @@
     "@types/node": "^22.0.0",
     "typescript": "^5.9.2"
   },
-  "keywords": ["mcp", "baklavue", "vue", "baklava", "design-system"],
+  "keywords": [
+    "mcp",
+    "baklavue",
+    "vue",
+    "baklava",
+    "design-system"
+  ],
   "license": "MIT",
   "author": "erbilnas",
   "homepage": "https://github.com/erbilnas/baklavue/tree/main/packages/mcp#readme",
