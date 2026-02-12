@@ -1,3 +1,13 @@
+# [@baklavue/composables-v1.0.0-preview.3](https://github.com/erbilnas/baklavue/compare/@baklavue/composables-v1.0.0-preview.2...@baklavue/composables-v1.0.0-preview.3) (2026-02-12)
+
+
+### Features
+
+* add new composables ([8e5cb7e](https://github.com/erbilnas/baklavue/commit/8e5cb7eb49ed6079748d7e5e282a51042a6ee2af))
+* add new composables ([fe130be](https://github.com/erbilnas/baklavue/commit/fe130be0123821e5cae0d9330f2e6709753a40b9))
+* add query composable ([28101d0](https://github.com/erbilnas/baklavue/commit/28101d03b747a0b737f889e0310856c779699844))
+* add zod form validation composable ([839a77f](https://github.com/erbilnas/baklavue/commit/839a77f1c42077fd2bdcf3b374f53d819a5cfa6b))
+
 # [Unreleased]
 
 ### Features
