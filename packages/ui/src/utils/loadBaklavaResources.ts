@@ -1,4 +1,4 @@
-const BAKLAVA_VERSION = "3.3.0";
+const BAKLAVA_VERSION = "3.4.2";
 
 export const loadBaklavaResources = () => {
   const loadScript = () => {

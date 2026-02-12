@@ -12,7 +12,7 @@ interface NotificationOptions extends Omit<NotificationProps, "variant"> {
 export const useNotification = () => {
   const getNotificationElement = (): NotificationElement | null => {
     return document.querySelector(
-      "bl-notification"
+      "bl-notification",
     ) as NotificationElement | null;
   };
 
@@ -21,7 +21,7 @@ export const useNotification = () => {
 
     if (!notificationElement) {
       console.warn(
-        "Notification element not found. Make sure <bl-notification> is present in the DOM."
+        "Notification element not found. Make sure <bl-notification> is present in the DOM.",
       );
       return;
     }

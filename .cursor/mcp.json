@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "Baklavue": {
+      "command": "bun",
+      "args": ["run", "mcp"]
+    }
+  }
+}

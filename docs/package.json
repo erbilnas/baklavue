@@ -1,0 +1,22 @@
+{
+  "name": "@baklavue/docs",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "^1.5.0",
+    "vitepress-plugin-tabs": "^0.7.3",
+    "vue": "^3.5.21"
+  },
+  "dependencies": {
+    "@baklavue/composables": "workspace:*",
+    "@baklavue/ui": "workspace:*",
+    "@trendyol/baklava": "^3.4.2",
+    "@trendyol/baklava-icons": "^1.1.0",
+    "zod": "^4.3.6"
+  }
+}

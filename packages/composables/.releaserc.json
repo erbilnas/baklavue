@@ -1,10 +1,13 @@
 {
-  "branches": ["main"],
+  "extends": "semantic-release-monorepo",
+  "tagFormat": "@baklavue/composables-v${version}",
+  "branches": ["main", { "name": "preview", "prerelease": true, "channel": "beta" }],
+  "repositoryUrl": "https://github.com/erbilnas/baklavue",
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
-    "@semantic-release/npm",
+    ["@semantic-release/npm", { "npmPublish": true }],
     "@semantic-release/github",
     "@semantic-release/git"
   ]

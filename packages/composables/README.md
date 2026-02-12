@@ -34,6 +34,93 @@ bun add @baklavue/composables
 
 ## 📚 Available Composables
 
+### `useFile`
+
+A composable for file parsing, creating, and downloading. Supports CSV, TSV, and JSON formats with streaming, Zod validation, transforms, and preview. Uses PapaParse for RFC 4180-compliant CSV/TSV handling.
+
+#### Basic Usage
+
+```vue
+<script setup lang="ts">
+import { useFile } from "@baklavue/composables";
+
+const { parse, parseFile, create, download } = useFile();
+
+// Parse CSV string
+const result = parse("name,age\nAlice,30\nBob,25", { format: "csv", header: true });
+console.log(result.data); // [{ name: "Alice", age: "30" }, ...]
+
+// Parse file (async), format auto-detected from filename
+const handleFileUpload = async (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    const fileResult = await parseFile(file, { header: true });
+    console.log(fileResult.data);
+  }
+};
+
+// Create CSV from array of objects
+const csv = create(
+  [
+    { name: "Alice", age: 30 },
+    { name: "Bob", age: 25 },
+  ]
+);
+
+// Download CSV file
+const exportData = () => {
+  download(
+    [{ name: "Alice", age: 30 }, { name: "Bob", age: 25 }],
+    "export.csv"
+  );
+};
+</script>
+```
+
+#### API Reference
+
+The `useFile` composable returns an object with the following methods:
+
+##### `parse(content: string, options?: FileParseOptions<T>)`
+
+Parses a string (CSV, TSV, or JSON) and returns `{ data, errors, meta }`. Synchronous.
+
+##### `parseFile(file: File, options?: FileParseOptions<T>)`
+
+Parses a File asynchronously. Format auto-detected from filename when omitted.
+
+##### `parseStream(file: File, options)` 
+
+Chunked parsing for large CSV/TSV files. Returns `{ abort }`. Use `step` or `chunk` callbacks.
+
+##### `preview(file: File, options?)`
+
+Parses only the first N rows. Returns `Promise<{ data, meta?, truncated }>`.
+
+##### `create(data: FileData, options?: FileCreateOptions)`
+
+Creates a string from an array of objects, array of arrays, or `{ fields, data }` object. Supports CSV, TSV, JSON.
+
+##### `download(data: FileData, filename?: string, options?: FileCreateOptions)`
+
+Creates a string and triggers a browser download. Adds UTF-8 BOM for CSV/TSV (Excel compatibility).
+
+#### Options
+
+**CsvParseOptions:**
+
+- `delimiter` – Delimiter character (default: auto-detect)
+- `header` – If true, first row is header (returns array of objects)
+- `dynamicTyping` – If true, numbers and booleans are converted
+- `skipEmptyLines` – Skip empty lines (`true` or `'greedy'`)
+
+**CsvCreateOptions:**
+
+- `delimiter` – Delimiter character (default: comma)
+- `header` – Include header row (default: true)
+- `columns` – Column order for array of objects
+- `escapeFormulae` – Escape leading `=`, `+`, `-`, `@` to prevent CSV injection
+
 ### `useNotification`
 
 A composable for managing Baklava notification system with a simple and intuitive API.
@@ -60,33 +147,33 @@ const { success, error, warning, info } = useNotification();
 
 const showSuccess = () => {
   success({
-    title: "Success!",
-    message: "Operation completed successfully.",
-    duration: 5000,
+    caption: "Success!",
+    description: "Operation completed successfully.",
+    duration: 5,
   });
 };
 
 const showError = () => {
   error({
-    title: "Error!",
-    message: "Something went wrong. Please try again.",
-    duration: 8000,
+    caption: "Error!",
+    description: "Something went wrong. Please try again.",
+    duration: 8,
   });
 };
 
 const showWarning = () => {
   warning({
-    title: "Warning!",
-    message: "Please review your input before proceeding.",
-    duration: 6000,
+    caption: "Warning!",
+    description: "Please review your input before proceeding.",
+    duration: 6,
   });
 };
 
 const showInfo = () => {
   info({
-    title: "Information",
-    message: "Here is some useful information for you.",
-    duration: 4000,
+    caption: "Information",
+    description: "Here is some useful information for you.",
+    duration: 4,
   });
 };
 </script>
@@ -118,10 +205,10 @@ All notification methods accept a `NotificationProps` object with the following 
 
 ```typescript
 interface NotificationProps {
-  title: string; // Notification title
-  message: string; // Notification message/content
-  duration?: number; // Duration in milliseconds (optional)
-  icon?: boolean; // Whether to show an icon (default: true)
+  caption?: string;    // Notification title
+  description: string; // Notification message (required)
+  duration?: number;  // Duration in seconds (optional)
+  permanent?: boolean; // Prevent auto-close
   // ... other Baklava notification properties
 }
 ```
@@ -133,15 +220,172 @@ interface NotificationProps {
 - **Duration**: If no duration is specified, notifications will use Baklava's default duration
 - **Error Handling**: The composable includes built-in error handling and will warn if the notification element is not found
 
+### `useScrollToError`
+
+Scroll to an element with validation error. Scrolls into view, optionally applies a highlight effect, and focuses the first focusable control. Works with `input`, `select`, `textarea`, `bl-select`, `bl-input`.
+
+```ts
+const { scrollToError } = useScrollToError();
+scrollToError('[data-field="tags"]');
+scrollToError(validationError); // when error has scrollTarget
+```
+
+### `useBaklavaTheme`
+
+Overwrite Baklava design system colors and tokens. Use the Vue preset, pass a custom preset object, or override specific colors, border radius, size, typography, or z-index.
+
+```ts
+const { applyTheme } = useBaklavaTheme();
+applyTheme({ preset: 'vue' });
+applyTheme({ colors: { primary: '#41B883' } });
+```
+
+### `useDisclosure`
+
+Open/close state for Dialog, Drawer, Dropdown, Accordion, and Tooltip. Avoids repetitive `ref(false)`, `open()`, `close()`, `toggle()`.
+
+```ts
+const { isOpen, open, close, toggle } = useDisclosure(false);
+// Use with v-model:open on BvDialog, BvDrawer, BvDropdown
+```
+
+### `usePagination`
+
+Pagination state for tables and lists. Provides `currentPage`, `pageSize`, `totalItems`, `totalPages`, `offset`, `slice` helper.
+
+```ts
+const { currentPage, pageSize, totalItems, totalPages, setPage, setPageSize, slice } = usePagination({ totalItems: 100, pageSize: 10 });
+```
+
+### `useConfirmDialog`
+
+Drive BvDialog for confirm/cancel flows. Returns a promise that resolves to `true` when confirmed, `false` when cancelled.
+
+```ts
+const { confirm, isOpen, caption, description, handleConfirm, handleCancel } = useConfirmDialog();
+const ok = await confirm({ caption: "Delete?", description: "Sure?" });
+```
+
+### `useClipboard`
+
+Copy text to clipboard. Integrates well with `useNotification`.
+
+```ts
+const { copy, copied } = useClipboard();
+await copy("token");
+```
+
+### `useBreakpoints` / `useMediaQuery`
+
+Responsive breakpoints. `useBreakpoints` provides `isMobile`, `isTablet`, `isDesktop`. `useMediaQuery` for custom queries.
+
+```ts
+const { isMobile, isTablet, isDesktop } = useBreakpoints();
+const matches = useMediaQuery("(max-width: 768px)");
+```
+
+### `useLocalStorage` / `useSessionStorage`
+
+Reactive sync with `localStorage` and `sessionStorage`. Works well with `useBaklavaTheme` and `usePagination` for persisting preferences.
+
+```ts
+const pageSize = useLocalStorage("table-page-size", 10);
+const draft = useSessionStorage("form-draft", null);
+```
+
+### `useCookie`
+
+Reactive sync with `document.cookie`. Returns `{ value, get, set, remove }`. Use for auth tokens or when values must be sent to the server.
+
+```ts
+const { value: token, set, remove } = useCookie("auth-token", "", { path: "/", maxAge: 86400 });
+set("new-token");
+remove();
+```
+
+### `useDebounceFn` / `useDebouncedRef`
+
+Debounce function execution or ref value. `useDebounceFn` returns a debounced function. `useDebouncedRef` returns a ref that updates after the delay. Useful for search inputs, autocomplete.
+
+```ts
+const debouncedSearch = useDebounceFn((q: string) => fetchResults(q), 300);
+const searchQuery = ref("");
+const debouncedQuery = useDebouncedRef(searchQuery, 300);
+```
+
+### `useThrottleFn` / `useThrottledRef`
+
+Throttle function execution or ref value. Useful for scroll, resize, mousemove handlers.
+
+```ts
+const throttledHandler = useThrottleFn(() => updateScroll(), 100);
+const throttledScrollY = useThrottledRef(scrollY, 100);
+```
+
+### `useIntervalFn` / `useTimeoutFn`
+
+Pausable interval and cancellable timeout. `useIntervalFn` returns `{ pause, resume, isActive }`. `useTimeoutFn` returns `{ run, cancel, isPending }`.
+
+```ts
+const { pause, resume } = useIntervalFn(() => fetchData(), 5000);
+const { run, cancel } = useTimeoutFn(() => showToast("Saved!"), 2000);
+```
+
+### `useFetch`
+
+Reactive fetch with loading/error/data. Supports abort, timeout, and manual execute.
+
+```ts
+const { data, error, isFetching, execute } = useFetch<User>(
+  () => `https://api.example.com/users/${id.value}`,
+  { immediate: true }
+);
+```
+
+### `useIntersectionObserver`
+
+Detects when a target element enters or leaves the viewport. Useful for lazy loading, scroll-triggered animations.
+
+```ts
+const target = ref<HTMLElement | null>(null);
+const isVisible = useIntersectionObserver(target, { threshold: 0.5 });
+```
+
+### `useRafFn`
+
+Calls a function on every requestAnimationFrame. Returns `{ pause, resume, isActive }`. Useful for animation loops.
+
+```ts
+const { pause, resume } = useRafFn(({ delta }) => {
+  position.value += velocity * (delta / 1000);
+});
+```
+
 ## 🏗️ Project Structure
 
 ```
 packages/composables/
 ├── index.ts              # Main export file
+├── file.ts               # File parsing, creating, download (CSV, TSV, JSON) composable
 ├── notification.ts       # Notification composable
+├── scrollToError.ts      # Scroll to validation error composable
+├── theme.ts              # Baklava theme composable
+├── disclosure.ts         # Open/close state composable
+├── pagination.ts         # Pagination state composable
+├── confirmDialog.ts      # Confirm dialog composable
+├── clipboard.ts          # Clipboard composable
+├── cookie.ts             # useCookie composable
+├── breakpoints.ts        # Responsive breakpoints composable
+├── storage.ts            # useLocalStorage, useSessionStorage composables
+├── debounce.ts           # useDebounceFn, useDebouncedRef
+├── throttle.ts           # useThrottleFn, useThrottledRef
+├── timer.ts              # useIntervalFn, useTimeoutFn
+├── fetch.ts              # useFetch composable
+├── intersectionObserver.ts  # useIntersectionObserver
+├── raf.ts                # useRafFn composable
 ├── package.json          # Package configuration
 ├── tsconfig.json         # TypeScript configuration
-└── README.md            # This file
+└── README.md             # This file
 ```
 
 ## 🔧 Development

@@ -1,0 +1,369 @@
+/* Custom styles for BaklaVue documentation */
+
+:root {
+  /* Map VitePress brand colors from Baklava theme (set by useBaklavaTheme) */
+  --vp-c-brand: var(--bl-color-primary);
+  --vp-c-brand-light: color-mix(in srgb, var(--bl-color-primary) 75%, white);
+  --vp-c-brand-lighter: color-mix(in srgb, var(--bl-color-primary) 50%, white);
+  --vp-c-brand-dark: var(--bl-color-neutral-darker);
+  --vp-c-brand-darker: var(--bl-color-neutral-darkest);
+
+  --vp-c-brand-1: var(--bl-color-primary);
+  --vp-c-brand-2: color-mix(in srgb, var(--bl-color-primary) 75%, white);
+  --vp-c-brand-3: color-mix(in srgb, var(--bl-color-primary) 50%, white);
+
+  /* Hero name gradient */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(
+    120deg,
+    var(--vp-c-brand-1),
+    var(--vp-c-brand-3)
+  );
+}
+
+/* Component demo preview container */
+.component-demo {
+  padding: 1.5rem;
+  margin: 1rem 0;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+}
+
+/* Table demos: ensure table fills width and has proper overflow */
+.component-demo .table,
+.component-demo .table-content {
+  width: 100%;
+}
+
+.component-demo .table-content {
+  overflow-x: auto;
+}
+
+.component-demo + pre {
+  margin-top: 1rem;
+}
+
+/* Ensure Baklava components render correctly */
+bl-button,
+bl-input,
+bl-checkbox,
+bl-checkbox-group,
+bl-radio,
+bl-radio-group,
+bl-switch,
+bl-select,
+bl-textarea,
+bl-alert,
+bl-badge,
+bl-tag,
+bl-datepicker,
+bl-dialog,
+bl-drawer,
+bl-dropdown,
+bl-dropdown-group,
+bl-dropdown-item,
+bl-tooltip,
+bl-notification,
+bl-spinner,
+bl-icon,
+bl-link,
+bl-pagination,
+bl-split-button,
+bl-stepper,
+bl-stepper-item,
+bl-tab,
+bl-tab-group,
+bl-tab-panel,
+bl-accordion {
+  display: block;
+}
+
+/* Table elements: do NOT use display:block - Baklava uses table layout
+   (table-header-group, table-row-group, table-row, table-cell) */
+
+/* Sidebar badge alignment */
+.VPSidebarItem .text .VPBadge {
+  margin-left: 0.25rem;
+  border-radius: 0.25rem;
+  padding: 0.0625rem 0.25rem;
+  min-height: unset;
+  font-size: 0.625rem;
+  line-height: 1.2;
+}
+
+/* Home page animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Hero section - fancy polish */
+.home .VPHomeHero {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  background: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    color-mix(in srgb, var(--vp-c-brand-1) 8%, transparent),
+    transparent
+  );
+  letter-spacing: 0.02em;
+}
+
+.home .VPHomeHero .name,
+.home .VPHomeHero h1 {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.home .VPHomeHero .text,
+.home .VPHomeHero .vp-doc h1 {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  letter-spacing: 0.01em;
+}
+
+.home .VPHomeHero .tagline,
+.home .VPHomeHero p {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.home .VPHomeHero .image,
+.home .VPHomeHero img {
+  animation:
+    scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both,
+    float 4s ease-in-out 1.2s infinite;
+}
+
+.home .VPHomeHero .actions {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+/* Features section animations - targeting VitePress structure */
+.home .VPHomeFeatures {
+  animation: fadeIn 0.6s ease-out 0.6s both;
+}
+
+/* Target feature items with staggered slide-in (alternating left/right) */
+.home .VPHomeFeatures .item,
+.home .VPHomeFeatures .vp-doc .feature,
+.home .vp-doc .feature {
+  opacity: 0;
+}
+
+.home .VPHomeFeatures .item:nth-child(odd),
+.home .VPHomeFeatures .vp-doc .feature:nth-child(odd),
+.home .vp-doc .feature:nth-child(odd) {
+  animation: fadeInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.home .VPHomeFeatures .item:nth-child(even),
+.home .VPHomeFeatures .vp-doc .feature:nth-child(even),
+.home .vp-doc .feature:nth-child(even) {
+  animation: fadeInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.home .VPHomeFeatures .item:nth-child(1),
+.home .VPHomeFeatures .vp-doc .feature:nth-child(1),
+.home .vp-doc .feature:nth-child(1) {
+  animation-delay: 0.7s;
+  animation-fill-mode: both;
+}
+
+.home .VPHomeFeatures .item:nth-child(2),
+.home .VPHomeFeatures .vp-doc .feature:nth-child(2),
+.home .vp-doc .feature:nth-child(2) {
+  animation-delay: 0.8s;
+  animation-fill-mode: both;
+}
+
+.home .VPHomeFeatures .item:nth-child(3),
+.home .VPHomeFeatures .vp-doc .feature:nth-child(3),
+.home .vp-doc .feature:nth-child(3) {
+  animation-delay: 0.9s;
+  animation-fill-mode: both;
+}
+
+.home .VPHomeFeatures .item:nth-child(4),
+.home .VPHomeFeatures .vp-doc .feature:nth-child(4),
+.home .vp-doc .feature:nth-child(4) {
+  animation-delay: 1s;
+  animation-fill-mode: both;
+}
+
+/* Feature cards - refined fancy style */
+.home .VPHomeFeatures .item,
+.home .VPHomeFeatures .vp-doc .feature,
+.home .vp-doc .feature {
+  border-radius: 12px;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.home .VPHomeFeatures .item:hover,
+.home .VPHomeFeatures .vp-doc .feature:hover,
+.home .vp-doc .feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px
+    color-mix(in srgb, var(--vp-c-brand-1) 12%, transparent);
+}
+
+/* Action buttons hover animation */
+.home .VPHomeHero .actions .VPButton,
+.home .VPHomeHero .actions a,
+.home .VPHomeHero .actions button {
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s ease;
+}
+
+.home .VPHomeHero .actions .VPButton:hover,
+.home .VPHomeHero .actions a:hover,
+.home .VPHomeHero .actions button:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* Logo/image – float + hover */
+.home .VPHomeHero .image img,
+.home .VPHomeHero img {
+  transition: transform 0.3s ease;
+}
+
+.home .VPHomeHero .image:hover img {
+  animation-play-state: paused;
+}
+
+.home .VPHomeHero .image:hover img,
+.home .VPHomeHero .image:hover {
+  transform: scale(1.05) rotate(2deg);
+}
+
+/* Content sections – staggered reveal */
+.home .vp-doc h2 {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both;
+}
+
+.home .vp-doc h3 {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.4s both;
+}
+
+.home .vp-doc p {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.45s both;
+}
+
+.home .vp-doc ul,
+.home .vp-doc ol {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.5s both;
+}
+
+.home .vp-doc .code-group {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.6s both;
+}
+
+.home .vp-doc pre {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.7s both;
+}
+
+/* Link hover animation */
+.home .vp-doc a {
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.home .vp-doc a:hover {
+  transform: translateX(2px);
+}
+
+/* General page fade-in */
+.home {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .home .VPHomeHero,
+  .home .VPHomeHero .name,
+  .home .VPHomeHero .text,
+  .home .VPHomeHero .tagline,
+  .home .VPHomeHero .image,
+  .home .VPHomeHero .image img,
+  .home .VPHomeHero .actions,
+  .home .VPHomeFeatures,
+  .home .VPHomeFeatures .item,
+  .home .vp-doc h2,
+  .home .vp-doc h3,
+  .home .vp-doc p,
+  .home .vp-doc ul,
+  .home .vp-doc ol,
+  .home .vp-doc .code-group,
+  .home .vp-doc pre,
+  .home .vp-doc .feature {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  .home .VPHomeFeatures .item,
+  .home .VPHomeHero .actions .VPButton,
+  .home .VPHomeHero .image img,
+  .home .vp-doc .feature,
+  .home .vp-doc a {
+    transition: none !important;
+  }
+}

@@ -1,21 +1,53 @@
 {
   "name": "@baklavue/ui",
-  "version": "0.0.0-development",
+  "version": "1.0.0-preview.4",
+  "description": "Vue 3 UI kit for Trendyol Baklava Design System",
+  "author": "erbilnas",
+  "license": "MIT",
+  "homepage": "https://github.com/erbilnas/baklavue/tree/main/packages/ui#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erbilnas/baklavue.git",
+    "directory": "packages/ui"
+  },
+  "bugs": {
+    "url": "https://github.com/erbilnas/baklavue/issues"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "baklava",
+    "trendyol",
+    "design-system",
+    "components",
+    "ui"
+  ],
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "release": "semantic-release",
-    "release:dry-run": "semantic-release --dry-run"
+    "release": "semantic-release -e semantic-release-monorepo",
+    "release:dry-run": "semantic-release --dry-run -e semantic-release-monorepo",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "@vitest/coverage-v8": "^4.0.18",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^20.6.1",
+    "vitest": "^4.0.18"
   },
   "peerDependencies": {
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@trendyol/baklava": "^3.3.1",
+    "@trendyol/baklava": "^3.4.2",
     "@trendyol/baklava-icons": "^1.1.0",
     "vue": "^3.5.21"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

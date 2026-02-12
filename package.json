@@ -1,31 +1,44 @@
 {
   "name": "baklavue",
-  "version": "0.0.0-development",
+  "version": "0.0.0",
   "module": "index.ts",
   "type": "module",
   "scripts": {
     "release": "semantic-release",
     "release:dry-run": "semantic-release --dry-run",
-    "commit": "./scripts/commit.sh"
+    "commit": "./scripts/commit.sh",
+    "docs:dev": "cd docs && bun run dev",
+    "docs:build": "cd docs && bun run build",
+    "docs:preview": "cd docs && bun run preview",
+    "mcp": "bun run --cwd packages/mcp start",
+    "test": "bun run --cwd packages/composables test && bun run --cwd packages/ui test",
+    "test:run": "bun run --cwd packages/composables test:run && bun run --cwd packages/ui test:run",
+    "test:coverage": "bun run --cwd packages/composables test:coverage && bun run --cwd packages/ui test:coverage",
+    "test:ui": "bun run --cwd packages/ui test",
+    "prepare": "husky"
   },
   "dependencies": {
     "@baklavue/ui": "workspace:*",
     "@baklavue/composables": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "semantic-release": "^24.2.7",
     "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^11.0.5",
-    "@semantic-release/npm": "^12.0.2",
     "@semantic-release/commit-analyzer": "^13.0.1",
-    "@semantic-release/release-notes-generator": "^14.0.3"
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^12.0.5",
+    "@semantic-release/npm": "^13.1.4",
+    "@semantic-release/release-notes-generator": "^14.0.3",
+    "@types/bun": "latest",
+    "husky": "^9.1.7",
+    "semantic-release": "^24.2.7",
+    "semantic-release-monorepo": "^8.0.2"
   },
   "peerDependencies": {
     "typescript": "^5.9.2"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "docs"
   ]
 }
