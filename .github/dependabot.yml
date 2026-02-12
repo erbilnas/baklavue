@@ -1,0 +1,43 @@
+version: 2
+updates:
+  # Root dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "preview"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "preview"
+
+  # Workspace: packages/ui
+  - package-ecosystem: "npm"
+    directory: "/packages/ui"
+    schedule:
+      interval: "weekly"
+    target-branch: "preview"
+
+  # Workspace: packages/composables
+  - package-ecosystem: "npm"
+    directory: "/packages/composables"
+    schedule:
+      interval: "weekly"
+    target-branch: "preview"
+
+  # Workspace: packages/mcp
+  - package-ecosystem: "npm"
+    directory: "/packages/mcp"
+    schedule:
+      interval: "weekly"
+    target-branch: "preview"
+
+  # Workspace: docs
+  - package-ecosystem: "npm"
+    directory: "/docs"
+    schedule:
+      interval: "weekly"
+    target-branch: "preview"
