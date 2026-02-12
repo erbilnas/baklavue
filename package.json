@@ -14,7 +14,8 @@
     "test": "bun run --cwd packages/composables test && bun run --cwd packages/ui test",
     "test:run": "bun run --cwd packages/composables test:run && bun run --cwd packages/ui test:run",
     "test:coverage": "bun run --cwd packages/composables test:coverage && bun run --cwd packages/ui test:coverage",
-    "test:ui": "bun run --cwd packages/ui test"
+    "test:ui": "bun run --cwd packages/ui test",
+    "prepare": "husky"
   },
   "dependencies": {
     "@baklavue/ui": "workspace:*",
@@ -29,6 +30,7 @@
     "@semantic-release/npm": "^13.1.4",
     "@semantic-release/release-notes-generator": "^14.0.3",
     "@types/bun": "latest",
+    "husky": "^9.1.7",
     "semantic-release": "^24.2.7",
     "semantic-release-monorepo": "^8.0.2"
   },
