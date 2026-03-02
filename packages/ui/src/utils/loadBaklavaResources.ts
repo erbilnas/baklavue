@@ -1,6 +1,13 @@
 const BAKLAVA_VERSION = "3.4.2";
 
+/** Key Baklava element used to detect if the library is already loaded (e.g. by host app) */
+const BAKLAVA_DETECTION_ELEMENT = "bl-table";
+
 export const loadBaklavaResources = () => {
+  if (customElements.get(BAKLAVA_DETECTION_ELEMENT)) {
+    return;
+  }
+
   const loadScript = () => {
     if (!document.querySelector('script[src*="baklava.js"]')) {
       const script = document.createElement("script");
