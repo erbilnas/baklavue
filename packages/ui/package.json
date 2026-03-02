@@ -22,18 +22,32 @@
     "components",
     "ui"
   ],
-  "module": "index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "type": "module",
   "scripts": {
+    "build": "vite build",
+    "prepublishOnly": "bun run build",
     "release": "semantic-release -e semantic-release-monorepo",
     "release:dry-run": "semantic-release --dry-run -e semantic-release-monorepo",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"
   },
+  "files": ["dist"],
   "devDependencies": {
     "@types/bun": "latest",
     "@vitejs/plugin-vue": "^5.2.4",
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.3.0",
     "@vitest/coverage-v8": "^4.0.18",
     "@vue/test-utils": "^2.4.6",
     "happy-dom": "^20.6.1",
