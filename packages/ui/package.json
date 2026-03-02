@@ -34,7 +34,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "vite build",
+    "build": "bunx vite build",
     "prepublishOnly": "bun run build",
     "release": "semantic-release -e semantic-release-monorepo",
     "release:dry-run": "semantic-release --dry-run -e semantic-release-monorepo",
