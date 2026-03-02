@@ -1,3 +1,10 @@
+# [@baklavue/ui-v1.0.1-preview.2](https://github.com/erbilnas/baklavue/compare/@baklavue/ui-v1.0.1-preview.1...@baklavue/ui-v1.0.1-preview.2) (2026-03-02)
+
+
+### Bug Fixes
+
+* fix building issue ([e9292e5](https://github.com/erbilnas/baklavue/commit/e9292e5114ac3914d8bae4b7e4ef9abbca936b78))
+
 # [@baklavue/ui-v1.0.1-preview.1](https://github.com/erbilnas/baklavue/compare/@baklavue/ui-v1.0.0...@baklavue/ui-v1.0.1-preview.1) (2026-03-02)
 
 
