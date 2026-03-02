@@ -1,6 +1,6 @@
 {
   "name": "@baklavue/ui",
-  "version": "1.0.0",
+  "version": "1.0.1-preview.1",
   "description": "Vue 3 UI kit for Trendyol Baklava Design System",
   "author": "erbilnas",
   "license": "MIT",
@@ -42,7 +42,9 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@types/bun": "latest",
     "@vitejs/plugin-vue": "^5.2.4",
