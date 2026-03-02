@@ -42,9 +42,6 @@ jobs:
         run: bun run build
         working-directory: packages/ui
 
-      - name: Clean package node_modules before release
-        run: rm -rf packages/ui/node_modules
-
       - name: Remove workspace protocol references from root package.json
         run: |
           cp package.json package.json.bak
