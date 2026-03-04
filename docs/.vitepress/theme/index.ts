@@ -5,6 +5,7 @@ import { enhanceAppWithTabs } from "vitepress-plugin-tabs/client";
 import "./style.css";
 
 import Layout from "./Layout.vue";
+import PlaygroundPage from "./playground/PlaygroundPage.vue";
 
 // Auto-register all demo components from subfolders
 const demos = import.meta.glob<{ default: object }>("./components/**/*Demo.vue", {
@@ -16,6 +17,8 @@ export default {
   Layout,
   enhanceApp({ app }) {
     enhanceAppWithTabs(app);
+
+    app.component("PlaygroundPage", PlaygroundPage);
 
     // Register demo components
     for (const [path, module] of Object.entries(demos)) {
