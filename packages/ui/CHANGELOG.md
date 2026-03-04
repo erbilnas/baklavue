@@ -1,3 +1,11 @@
+# [@baklavue/ui-v1.0.2](https://github.com/erbilnas/baklavue/compare/@baklavue/ui-v1.0.1...@baklavue/ui-v1.0.2) (2026-03-04)
+
+
+### Bug Fixes
+
+* fix missing import of baklavue styling ([b37d084](https://github.com/erbilnas/baklavue/commit/b37d084e996a360b9e2c4747fe3f898cf76185d9))
+* **table:** fix pagination per page options cant be setted issue ([027b027](https://github.com/erbilnas/baklavue/commit/027b0271b247f182884014bd970120216993d8fe))
+
 # [@baklavue/ui-v1.0.2-preview.2](https://github.com/erbilnas/baklavue/compare/@baklavue/ui-v1.0.2-preview.1...@baklavue/ui-v1.0.2-preview.2) (2026-03-04)
 
 
