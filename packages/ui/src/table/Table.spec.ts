@@ -78,7 +78,10 @@ describe("BvTable", () => {
       props: { columns, data, sortable: true },
     });
     wrapper.find("bl-table").element.dispatchEvent(
-      new CustomEvent("bl-sort", { bubbles: true, detail: { sortKey: "name", sortDirection: "asc" } }),
+      new CustomEvent("bl-sort", {
+        bubbles: true,
+        detail: { sortKey: "name", sortDirection: "asc" },
+      }),
     );
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted("sort")).toHaveLength(1);
@@ -89,7 +92,10 @@ describe("BvTable", () => {
       props: { columns, data, selectable: true, selected: [1] },
     });
     wrapper.find("bl-table").element.dispatchEvent(
-      new CustomEvent("bl-row-select", { bubbles: true, detail: { selectedRows: [1, 2] } }),
+      new CustomEvent("bl-row-select", {
+        bubbles: true,
+        detail: { selectedRows: [1, 2] },
+      }),
     );
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted("select")).toHaveLength(1);
@@ -115,10 +121,39 @@ describe("BvTable", () => {
     const blPagination = wrapper.find("bl-pagination");
     expect(blPagination.exists()).toBe(true);
     blPagination.element.dispatchEvent(
-      new CustomEvent("bl-change", { bubbles: true, detail: { selectedPage: 2 } }),
+      new CustomEvent("bl-change", {
+        bubbles: true,
+        detail: { selectedPage: 2 },
+      }),
     );
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted("change")).toHaveLength(1);
+  });
+
+  it("applies custom itemsPerPageOptions to bl-pagination", async () => {
+    const itemsPerPageOptions = [
+      { text: "5", value: 5 },
+      { text: "20", value: 20 },
+    ];
+    const wrapper = mount(BvTable, {
+      props: {
+        columns,
+        data,
+        pagination: {
+          currentPage: 1,
+          totalItems: 50,
+          itemsPerPage: 10,
+          hasSelect: true,
+          itemsPerPageOptions,
+        },
+      },
+    });
+    await wrapper.vm.$nextTick();
+    const blPagination = wrapper.find("bl-pagination")
+      .element as HTMLElement & {
+      itemsPerPageOptions?: Array<{ text: string; value: number }>;
+    };
+    expect(blPagination.itemsPerPageOptions).toEqual(itemsPerPageOptions);
   });
 
   it("uses getColumnLabel fallbacks: name > label > key", () => {
