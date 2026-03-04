@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed } from "vue";
 import { BvTable } from "@baklavue/ui";
+import { computed, ref } from "vue";
 
 const columns = [
   { key: "name", label: "Name" },
@@ -28,9 +28,9 @@ const pagination = computed(() => ({
   hasSelect: true,
   selectLabel: "Items per page",
   itemsPerPageOptions: [
-    { text: "5 Items", value: 5 },
-    { text: "10 Items", value: 10 },
-    { text: "25 Items", value: 25 },
+    { text: "5 Result", value: 5 },
+    { text: "10 Result", value: 10 },
+    { text: "25 Result", value: 25 },
   ],
 }));
 

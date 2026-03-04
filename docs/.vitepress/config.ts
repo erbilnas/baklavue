@@ -97,6 +97,7 @@ export default defineConfig({
           { text: "Design Tokens", link: "/guide/design-tokens" },
           { text: "Localization", link: "/guide/localization" },
           { text: "MCP Support", link: "/guide/mcp" },
+          { text: "Playground", link: "/playground" },
           { text: "Changelog", link: "/changelog" },
           { text: "Release", link: "/release/guide" },
         ],
@@ -117,6 +118,7 @@ export default defineConfig({
             { text: "Localization", link: "/guide/localization" },
             { text: "MCP Support", link: "/guide/mcp" },
             { text: "Contributing", link: "/guide/contributing" },
+            { text: "Playground", link: "/playground" },
           ],
         },
         {
@@ -130,6 +132,9 @@ export default defineConfig({
             { text: "Z-Index", link: "/tokens/z-index" },
           ],
         },
+      ],
+      "/playground": [
+        { text: "Playground", link: "/playground" },
       ],
       "/tokens/": [
         {

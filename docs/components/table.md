@@ -160,9 +160,9 @@ const pagination = computed(() => ({
   hasSelect: true,
   selectLabel: "Items per page",
   itemsPerPageOptions: [
-    { text: "5 Items", value: 5 },
-    { text: "10 Items", value: 10 },
-    { text: "25 Items", value: 25 },
+    { text: "5 Result", value: 5 },
+    { text: "10 Result", value: 10 },
+    { text: "25 Result", value: 25 },
   ],
 }));
 
@@ -190,7 +190,10 @@ Use scoped slots named by column `key` to customize cell content. Each slot rece
     <template #status="{ value }">
       <span
         :style="{
-          color: value === 'active' ? 'var(--bl-color-success)' : 'var(--bl-color-neutral-600)',
+          color:
+            value === 'active'
+              ? 'var(--bl-color-success)'
+              : 'var(--bl-color-neutral-600)',
           fontWeight: 500,
         }"
       >
@@ -270,40 +273,40 @@ Use the `title` prop and `header-actions` slot for a header bar above the table.
 
 ## Props
 
-| Prop                | Type                   | Default     | Description                                |
-| ------------------- | ---------------------- | ----------- | ------------------------------------------ |
-| `title`             | `string`               | `undefined` | Optional title above the table             |
-| `headerOptions`     | `object`               | `undefined` | `{ sticky?: boolean; minCellWidth?: string }` |
-| `data`              | `TableRow[]`           | `[]`        | Table data rows                            |
-| `columns`           | `TableColumn[]`        | `undefined` | Column definitions                         |
-| `sortable`          | `boolean`              | `undefined` | Enable column sorting                      |
-| `selectable`        | `boolean`              | `undefined` | Enable row selection                       |
-| `multiple`          | `boolean`              | `undefined` | Enable multiple row selection              |
-| `selected`          | `(string \| number)[]` | `undefined` | Selected row keys (v-model:selected)       |
-| `sortKey`           | `string`               | `undefined` | Sort key for sorted column                 |
-| `sortDirection`     | `string`               | `undefined` | Sort direction: '' \| 'asc' \| 'desc'      |
-| `stickyFirstColumn` | `boolean`              | `undefined` | Make first column sticky                   |
-| `stickyLastColumn`  | `boolean`              | `undefined` | Make last column sticky                    |
-| `isLoading`         | `boolean`              | `undefined` | Show loading state                         |
-| `pagination`        | `TablePaginationProps` | `undefined` | Pagination configuration                   |
-| `loadingText`       | `string`               | `"Loading..."` | Text shown in loading state             |
+| Prop                | Type                   | Default        | Description                                   |
+| ------------------- | ---------------------- | -------------- | --------------------------------------------- |
+| `title`             | `string`               | `undefined`    | Optional title above the table                |
+| `headerOptions`     | `object`               | `undefined`    | `{ sticky?: boolean; minCellWidth?: string }` |
+| `data`              | `TableRow[]`           | `[]`           | Table data rows                               |
+| `columns`           | `TableColumn[]`        | `undefined`    | Column definitions                            |
+| `sortable`          | `boolean`              | `undefined`    | Enable column sorting                         |
+| `selectable`        | `boolean`              | `undefined`    | Enable row selection                          |
+| `multiple`          | `boolean`              | `undefined`    | Enable multiple row selection                 |
+| `selected`          | `(string \| number)[]` | `undefined`    | Selected row keys (v-model:selected)          |
+| `sortKey`           | `string`               | `undefined`    | Sort key for sorted column                    |
+| `sortDirection`     | `string`               | `undefined`    | Sort direction: '' \| 'asc' \| 'desc'         |
+| `stickyFirstColumn` | `boolean`              | `undefined`    | Make first column sticky                      |
+| `stickyLastColumn`  | `boolean`              | `undefined`    | Make last column sticky                       |
+| `isLoading`         | `boolean`              | `undefined`    | Show loading state                            |
+| `pagination`        | `TablePaginationProps` | `undefined`    | Pagination configuration                      |
+| `loadingText`       | `string`               | `"Loading..."` | Text shown in loading state                   |
 
 ## Events
 
-| Event       | Payload                    | Description                       |
-| ----------- | -------------------------- | --------------------------------- |
-| `row-click` | `CustomEvent`              | Emitted when a row is clicked     |
-| `sort`      | `CustomEvent`              | Emitted when sort options change  |
-| `select`    | `CustomEvent<string[]>`    | Emitted when selected rows change |
+| Event       | Payload                         | Description                                                            |
+| ----------- | ------------------------------- | ---------------------------------------------------------------------- |
+| `row-click` | `CustomEvent`                   | Emitted when a row is clicked                                          |
+| `sort`      | `CustomEvent`                   | Emitted when sort options change                                       |
+| `select`    | `CustomEvent<string[]>`         | Emitted when selected rows change                                      |
 | `change`    | `CustomEvent<PaginationDetail>` | Emitted when pagination changes (selectedPage, prevPage, itemsPerPage) |
 
 ## Slots
 
-| Slot             | Props            | Description                               |
-| ---------------- | ---------------- | ----------------------------------------- |
-| `header-actions` | -                | Right side of title bar                   |
-| `empty-state`    | -                | Content when `data.length === 0`          |
-| `[column.key]`   | `{ row, value }` | Per-column cell content (scoped)           |
+| Slot             | Props            | Description                      |
+| ---------------- | ---------------- | -------------------------------- |
+| `header-actions` | -                | Right side of title bar          |
+| `empty-state`    | -                | Content when `data.length === 0` |
+| `[column.key]`   | `{ row, value }` | Per-column cell content (scoped) |
 
 ## Types
 
