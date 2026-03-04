@@ -1,3 +1,10 @@
+# [@baklavue/ui-v1.0.2-preview.2](https://github.com/erbilnas/baklavue/compare/@baklavue/ui-v1.0.2-preview.1...@baklavue/ui-v1.0.2-preview.2) (2026-03-04)
+
+
+### Bug Fixes
+
+* fix missing import of baklavue styling ([b37d084](https://github.com/erbilnas/baklavue/commit/b37d084e996a360b9e2c4747fe3f898cf76185d9))
+
 # [@baklavue/ui-v1.0.2-preview.1](https://github.com/erbilnas/baklavue/compare/@baklavue/ui-v1.0.1...@baklavue/ui-v1.0.2-preview.1) (2026-03-04)
 
 
