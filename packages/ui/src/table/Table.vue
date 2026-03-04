@@ -31,42 +31,46 @@
  * </template>
  * ```
  */
-import { computed, onMounted, type PropType } from "vue";
-import { loadBaklavaResources } from "../utils/loadBaklavaResources";
+import { computed, nextTick, onMounted, ref, watch, type PropType } from "vue";
 import BvSpinner from "../spinner/Spinner.vue";
+import { loadBaklavaResources } from "../utils/loadBaklavaResources";
 import type {
   TableColumn,
-  TableRow,
   TablePaginationProps,
+  TableRow,
 } from "./table.types";
 
 defineOptions({ inheritAttrs: false });
 
+interface BlPagination extends Element {
+  itemsPerPageOptions: Array<{ text: string; value: number }>;
+}
+
 const props = defineProps({
-    title: { type: String, default: undefined },
-    headerOptions: {
-      type: Object as PropType<{ sticky?: boolean; minCellWidth?: string }>,
-      default: undefined,
-    },
-    data: { type: Array as PropType<TableRow[]>, default: () => [] },
-    columns: { type: Array as PropType<TableColumn[]>, default: undefined },
-    sortable: { type: Boolean, default: undefined },
-    selectable: { type: Boolean, default: undefined },
-    multiple: { type: Boolean, default: undefined },
-    selected: {
-      type: Array as PropType<(string | number)[]>,
-      default: undefined,
-    },
-    sortKey: { type: String, default: undefined },
-    sortDirection: { type: String, default: undefined },
-    stickyFirstColumn: { type: Boolean, default: undefined },
-    stickyLastColumn: { type: Boolean, default: undefined },
-    isLoading: { type: Boolean, default: undefined },
-    pagination: {
-      type: Object as PropType<TablePaginationProps>,
-      default: undefined,
-    },
-    loadingText: { type: String, default: "Loading..." },
+  title: { type: String, default: undefined },
+  headerOptions: {
+    type: Object as PropType<{ sticky?: boolean; minCellWidth?: string }>,
+    default: undefined,
+  },
+  data: { type: Array as PropType<TableRow[]>, default: () => [] },
+  columns: { type: Array as PropType<TableColumn[]>, default: undefined },
+  sortable: { type: Boolean, default: undefined },
+  selectable: { type: Boolean, default: undefined },
+  multiple: { type: Boolean, default: undefined },
+  selected: {
+    type: Array as PropType<(string | number)[]>,
+    default: undefined,
+  },
+  sortKey: { type: String, default: undefined },
+  sortDirection: { type: String, default: undefined },
+  stickyFirstColumn: { type: Boolean, default: undefined },
+  stickyLastColumn: { type: Boolean, default: undefined },
+  isLoading: { type: Boolean, default: undefined },
+  pagination: {
+    type: Object as PropType<TablePaginationProps>,
+    default: undefined,
+  },
+  loadingText: { type: String, default: "Loading..." },
 });
 
 const emit = defineEmits<{
@@ -107,11 +111,31 @@ const getColumnLabel = (col: { key: string; label?: string; name?: string }) =>
   col.name ?? col.label ?? col.key;
 
 /** Row key for :key and selection-key: prefer row.id, fallback to index */
-const getRowKey = (row: Record<string, unknown> & { id?: string | number }, index: number) =>
-  row.id != null ? String(row.id) : String(index);
+const getRowKey = (
+  row: Record<string, unknown> & { id?: string | number },
+  index: number,
+) => (row.id != null ? String(row.id) : String(index));
+
+const paginationRef = ref<HTMLElement | null>(null);
+
+const setPaginationOptions = () => {
+  nextTick(() => {
+    const options = props.pagination?.itemsPerPageOptions;
+    if (!options?.length) return;
+    const el = paginationRef.value?.querySelector(
+      "bl-pagination",
+    ) as BlPagination | null;
+    if (el) el.itemsPerPageOptions = options;
+  });
+};
 
 onMounted(() => {
   loadBaklavaResources();
+  setPaginationOptions();
+});
+
+watch(() => props.pagination?.itemsPerPageOptions, setPaginationOptions, {
+  deep: true,
 });
 </script>
 
@@ -160,7 +184,9 @@ onMounted(() => {
               v-for="column in props.columns"
               :key="column.key"
               :sort-key="
-                props.sortable && column.sortable !== false ? column.key : undefined
+                props.sortable && column.sortable !== false
+                  ? column.key
+                  : undefined
               "
               :style="{
                 '--bl-table-header-cell-min-width':
@@ -176,14 +202,12 @@ onMounted(() => {
           <bl-table-row
             v-for="(row, index) in props.data"
             :key="getRowKey(row, index)"
-            :selection-key="props.selectable ? getRowKey(row, index) : undefined"
+            :selection-key="
+              props.selectable ? getRowKey(row, index) : undefined
+            "
           >
             <bl-table-cell v-for="column in props.columns" :key="column.key">
-              <slot
-                :name="column.key"
-                :row="row"
-                :value="row[column.key]"
-              >
+              <slot :name="column.key" :row="row" :value="row[column.key]">
                 {{ row[column.key] }}
               </slot>
             </bl-table-cell>
@@ -192,7 +216,7 @@ onMounted(() => {
       </bl-table>
     </div>
 
-    <div v-if="props.pagination" class="pagination-wrapper">
+    <div v-if="props.pagination" ref="paginationRef" class="pagination-wrapper">
       <bl-pagination
         :current-page="props.pagination!.currentPage"
         :total-items="props.pagination!.totalItems"
